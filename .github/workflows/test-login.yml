@@ -1,0 +1,61 @@
+name: Test login to all cloud platforms.
+
+on:
+  push:
+    branches:
+      - xxx_main_xxx
+  workflow_dispatch:
+
+jobs:
+  deploy-to-aws:
+    name: Set up infrastructures and Kubernetes using Terraform.
+    environment: "dev"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository.
+        uses: actions/checkout@v4
+
+      - name: Set up Terraform.
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Configure AWS credentials.
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      # Make sure we are in the terraform folder where all the deployment tf files are.
+      # terraform -chdir=terraform/aws init
+      - run: |
+          cd ./terraform/aws
+
+      - name: Terraform init.
+        run: terraform init
+
+      - name: Terraform workspace list.
+        run: terraform workspace list
+
+      - name: Terraform workspace new environment and select.
+        run: |
+          terraform workspace select dev || terraform workspace new dev
+          terraform workspace list
+
+      - name: Terraform plan.
+        run: terraform -chdir=terraform/aws plan -var-file=dev.tfvars
+
+      - name: Terraform apply.
+        run: terraform -chdir=terraform/aws apply -var-file=dev.tfvars -auto-approve
+
+      - name: Pause 3min to verify bucket creation.
+        run: sleep 180
+
+      - name: Terraform destroy.
+        run: terraform -chdir=terraform/aws destroy -var-file=dev.tfvars -auto-approve
+
+      # - name: Download model???
+        # uses: actions/download-artifact@v2
+        # with:
+          # name: api
+      - run: |
+          echo "Deploy infrastructures using Terraform..."
