@@ -1,5 +1,6 @@
 # https://github.com/Azure/login/issues/112
 # Can add secret ACTIONS_STEP_DEBUG and set the value true to help debug the issue.
+# https://stackoverflow.com/questions/67426632/github-action-azure-loginv1-not-working-on-self-hosted-git-runner
 
 name: Test login to all cloud platforms.
 
@@ -81,7 +82,13 @@ jobs:
       # Google Cloud Platform
       # https://github.com/google-github-actions/auth
       # https://github.com/google-github-actions/get-gke-credentials
+      # https://github.com/google-github-actions/auth/blob/main/docs/EXAMPLES.md
       #######################################
+      - name: Configure Google Cloud credentials.
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
+        if: ${{ inputs.selected-platform == 'gcp' }}
 
       - name: Set up Terraform.
         uses: hashicorp/setup-terraform@v3
