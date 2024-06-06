@@ -5,6 +5,13 @@ on:
     branches:
       - xxx_main_xxx
   workflow_dispatch:
+    inputs:
+      choice:
+        type: choice
+        description: Select the environment
+        options:
+        - dev
+        - prod
 
 jobs:
   deploy-to-aws:
