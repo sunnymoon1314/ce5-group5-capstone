@@ -1,0 +1,15 @@
+Backup
+**/Backup/*
+argocd_helm
+**/secrets.tf/
+
+# Local .terraform directories
+**/.terraform/*
+**/terraform.tfstate.d/*
+**/.terraform.lock/hcl
+**/*tfstate*
+**/.terragrunt-cache/
+
+# .tfstate files
+*.tfstate
+*.tfstate.*

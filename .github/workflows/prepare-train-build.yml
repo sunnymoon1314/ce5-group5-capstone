@@ -1,0 +1,164 @@
+name: Run Python scripts to prepare the dataset, train, test, build the model (pkl format).
+# - How to Run Python Scripts in GitHub Action Workflows, Data Engineering With Nick, 1.43K subscribers
+#   https://www.youtube.com/watch?v=zk4bSTD8uWM
+
+on:
+  push:
+    branches:
+      - dev
+  workflow_dispatch:
+    # inputs:
+      # selected-environment:
+          # type: environment
+          # description: Select the environment.
+      # action:
+          # type: choice
+          # options:
+              # - prepare
+              # - train-build
+          # description: Select the action, whether to prepare or train-build the ML model.
+
+permissions:
+  security-events: write
+  
+jobs:
+  pre-action-step:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository.
+        uses: actions/checkout@v4
+      - name: Print selected-environment.
+        run: |
+          # echo "Environment selected is ${{ inputs.selected-environment }}."
+          echo ""
+  
+    # 25.05.2024 Soon: Added snyk-scan job.
+  snyk-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/python@master
+        continue-on-error: true # To make sure that SARIF upload gets called
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --sarif-file-output=snyk.sarif
+      - name: Upload result to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: snyk.sarif
+    if: 0 == 1
+
+  prepare-train-build:
+    needs: [pre-action-step, snyk-scan]
+    environment: "dev"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository.
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.12.
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12' 
+
+      - name: Install Python dependencies.
+        run: |
+          # python -m pip install --upgrade . botocore boto3 awscli
+          echo "Install Python dependencies."
+          python -m pip install -r requirements.txt
+
+      - name: Run Python scripts.
+        run: |
+          # if [ "${{ inputs.action }}" = "prepare" ]; then
+          # elif [ "${{ inputs.action }}" = "train-build" ]; then
+          # fi
+          echo "Running python scripts..."
+          python src/prepare.py
+          # This will create a *_model.pkl file in the model folder.
+          python src/train_build.py
+
+      # https://github.com/actions/upload-artifact/tree/v4
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Trained model artifact.
+          # You can use wildcard pattern to specify what files/folders to upload.
+          # path: ./model/*.pkl
+          path: ./model/*
+
+  train-build-multi:
+    needs: [pre-action-step, snyk-scan]
+    environment: "dev"
+    runs-on: ${{ matrix.os }}
+    strategy:
+      # By default, jobs are run in parallel. max-parallel=1 means the job will be run
+      # sequentially.
+      max-parallel: 1
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        # os: [ubuntu-latest]
+        python-version: ['3.9', '3.10', '3.11']
+        # python-version: ['3.10', '3.11']
+        # python-version: ['3.11']
+        # If false, that means we continue to run other versions even if one of the versions
+        # failed to run. If true, stop the job as soon as one of the run failed.
+        fail-fast: [false]
+    steps:
+      - name: Check out repository.
+        uses: actions/checkout@v4
+
+      - name: Setup Python version ${{ matrix.python-version }}.
+        uses: actions/setup-python@v5
+        id: setuppython
+        with:
+          python-version: ${{ matrix.python-version }}
+        
+      - uses: actions/cache@v4
+        id: cache
+        with:
+          path: ${{ env.pythonLocation }}
+          # runner.os will return Linux, Windows or macOS.
+          # env.pythonLocation will return:
+          # - /opt/hostedtoolcache/Python/3.11.9/x64 for Linux.
+          # - C:\hostedtoolcache\windows\Python\3.9.13\x64 for Windows.
+          # - /Users/runner/hostedtoolcache/Python/3.9.13/arm64 for MacOS.
+          # key: ${{ runner.os }}-python-${{ env.pythonLocation }}-${{ hashFiles('requirements.txt') }}-test1
+          key: ${{ runner.os }}-python-${{ github.run_id }}-${{ hashFiles('requirements.txt') }}-test1
+          restore-keys: |
+            ${{ runner.os }}-python-${{ github.run_id }}-${{ hashFiles('requirements.txt') }}-test1
+    
+      - name: Install Python dependencies.
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          echo "runner.os is ${{ runner.os }}"
+          echo "env.pythonLocation is ${{ env.pythonLocation }}"
+          echo "github.run_id is ${{ github.run_id }}"
+          echo "hashFiles('requirements.txt') is ${{ hashFiles('requirements.txt') }}"
+          python -m pip install -r requirements.txt
+        # For the first run, the key is not generated in the cache and the If statement evaluates to != true.
+        # Hence, we will install the dependent packages.
+        # For subsequent runs, the key exists in the cache and so the If statement evaluates to != false.
+        # In other words, the dependent packages will not be installed again.
+
+      - name: Run Python scripts.
+        run: |
+          echo "Run python src/prepare.py."
+          python src/prepare.py
+    if: 0 == 1
+
+  login-to-ecr:
+    needs: [pre-action-step, snyk-scan]
+    environment: "dev"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login to ECR.
+        uses: docker/login-action@v3
+        with:
+          # This statement for public repositories.
+          # registry: public.ecr.aws
+          # This statement for private repositories.
+          registry: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+          username: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          password: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    if: 0 == 1
