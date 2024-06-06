@@ -28,11 +28,11 @@ jobs:
 
       # Make sure we are in the terraform folder where all the deployment tf files are.
       # terraform -chdir=terraform/aws init
-      - run: |
-          cd ./terraform/aws
+      # - run: |
+          # cd ./terraform/aws
 
       - name: Terraform init.
-        run: terraform init
+        run: terraform -chdir=terraform/aws init
 
       - name: Terraform workspace list.
         run: terraform workspace list
