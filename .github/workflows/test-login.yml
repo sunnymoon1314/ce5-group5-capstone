@@ -3,20 +3,17 @@ name: Test login to all cloud platforms.
 on:
   push:
     branches:
-      - xxx_main_xxx
+      - dev
   workflow_dispatch:
     inputs:
-      choice:
-        type: choice
-        description: Select the environment
-        options:
-        - dev
-        - prod
-
+      selected-environment:
+        type: environment
+        description: Select the environment.
+   
 jobs:
   deploy-to-aws:
     name: Set up infrastructures and Kubernetes using Terraform.
-    environment: "dev"
+    environment: ${{ inputs.selected-environment }}
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository.
