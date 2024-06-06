@@ -43,7 +43,9 @@ jobs:
       #    terraform workspace list
 
       - name: Terraform plan.
-        run: terraform -chdir=terraform/aws plan -var-file=terraform/aws/${{ inputs.selected-environment }}.tfvars
+        run: |
+          ls -la
+          terraform -chdir=terraform/aws plan -var-file=terraform/aws/${{ inputs.selected-environment }}.tfvars
 
       - name: Terraform apply.
         run: terraform -chdir=terraform/aws apply -var-file=terraform/aws/${{ inputs.selected-environment }}.tfvars -auto-approve
