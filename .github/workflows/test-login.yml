@@ -1,3 +1,6 @@
+# https://github.com/Azure/login/issues/112
+# Can add secret ACTIONS_STEP_DEBUG and set the value true to help debug the issue.
+
 name: Test login to all cloud platforms.
 
 on:
@@ -70,9 +73,9 @@ jobs:
         with:
           azcliversion: latest
           inlineScript: |
-            az login
+            az login --service-principal -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
             az account show
-        if: ${{ inputs.selected-platform == 'aze_IGNORE_CLI' }}
+        if: ${{ inputs.selected-platform == 'aze' }}
 
       #######################################
       # Google Cloud Platform
@@ -104,7 +107,7 @@ jobs:
       - name: Terraform apply.
         run: |
           cd ./terraform/${{ inputs.selected-platform }}
-          # terraform apply -var-file=${{ inputs.selected-environment }}.tfvars -auto-approve
+          terraform apply -var-file=${{ inputs.selected-environment }}.tfvars -auto-approve
         if: ${{ inputs.selected-action == 'apply' }}
 
       # - name: Pause 1min to verify bucket creation.
@@ -113,7 +116,7 @@ jobs:
       - name: Terraform destroy.
         run: |
           cd ./terraform/${{ inputs.selected-platform }}
-          # terraform destroy -var-file=${{ inputs.selected-environment }}.tfvars -auto-approve
+          terraform destroy -var-file=${{ inputs.selected-environment }}.tfvars -auto-approve
         if: ${{ inputs.selected-action == 'destroy' }}
 
       # - name: Download model???
