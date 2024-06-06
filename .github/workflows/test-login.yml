@@ -34,13 +34,13 @@ jobs:
       - name: Terraform init.
         run: terraform -chdir=terraform/aws init
 
-      - name: Terraform workspace list.
-        run: terraform workspace list
+      # - name: Terraform workspace list.
+      #  run: terraform workspace list
 
-      - name: Terraform workspace new environment and select.
-        run: |
-          terraform workspace select ${{ inputs.selected-environment }} || terraform workspace new ${{ inputs.selected-environment }}
-          terraform workspace list
+      # - name: Terraform workspace new environment and select.
+      #  run: |
+      #    terraform workspace select ${{ inputs.selected-environment }} || terraform workspace new ${{ inputs.selected-environment }}
+      #    terraform workspace list
 
       - name: Terraform plan.
         run: terraform -chdir=terraform/aws plan -var-file=${{ inputs.selected-environment }}.tfvars
