@@ -45,16 +45,23 @@ jobs:
       - name: Terraform plan.
         run: |
           ls -la
+          cd ./terraform/aws
+          ls -la
           terraform -chdir=terraform/aws plan -var-file=terraform/aws/${{ inputs.selected-environment }}.tfvars
 
       - name: Terraform apply.
-        run: terraform -chdir=terraform/aws apply -var-file=terraform/aws/${{ inputs.selected-environment }}.tfvars -auto-approve
+      
+        run: |
+          cd ./terraform/aws
+          terraform -chdir=terraform/aws apply -var-file=terraform/aws/${{ inputs.selected-environment }}.tfvars -auto-approve
 
-      - name: Pause 3min to verify bucket creation.
-        run: sleep 180
+      - name: Pause 1min to verify bucket creation.
+        run: sleep 60
 
       - name: Terraform destroy.
-        run: terraform -chdir=terraform/aws destroy -var-file=terraform/aws/${{ inputs.selected-environment }}.tfvars -auto-approve
+        run: |
+          cd ./terraform/aws
+          terraform -chdir=terraform/aws destroy -var-file=terraform/aws/${{ inputs.selected-environment }}.tfvars -auto-approve
 
       # - name: Download model???
         # uses: actions/download-artifact@v2
