@@ -25,7 +25,7 @@ jobs:
   
   build-and-push-image-to-docker-hub:
     needs: [pre-action-step]
-    environment: "production"
+    environment: "prod"
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository.

@@ -24,7 +24,6 @@ on:
         description: Select the environment
         options:
         - dev
-        - uat
         - prod
 
 jobs:
@@ -92,7 +91,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+          aws-region: ${{ secrets.AWS_REGION }}
 
       # Make sure we are in the terraform folder where all the deployment tf files are.
       # terraform -chdir=terraform/aws init
