@@ -6,38 +6,75 @@ on:
       selected-environment:
         type: environment
         description: Select the environment.
+      selected-platform:
+        type: choice
+        options:
+            - aws
+            - aze
+            - gcp
+        description: Select the cloud platform.
+      selected-action:
+          type: choice
+          options:
+              - apply
+              - destroy
+          description: Select the action, whether to init/plan/apply or destroy the infrastructures.
 
+# https://stackoverflow.com/questions/58139175/running-actions-in-another-directory
 # defaults:
 #  run:
 #    working-directory: ./terraform/aws
 
 jobs:
-  deploy-to-aws:
-    name: Test login credentials of AWS.
+  deploy-to-selected-cloud-platform:
+    name: Deploy resources using Terraform to selected cloud platform.
     environment: ${{ inputs.selected-environment }}
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository.
         uses: actions/checkout@v4
 
+      #######################################
+      # Amazon Web Services
+      #######################################
       - name: Configure AWS credentials.
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
+        if: ${{ inputs.selected-platform == 'aws' }}
+
+      #######################################
+      # Microsoft Azure
+      # https://github.com/marketplace/actions/azure-login
+      #######################################
+      - name: Azure login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        if: ${{ inputs.selected-platform == 'aze' }}
+
+      - name: Azure CLI script
+        uses: azure/cli@v2
+        with:
+          azcliversion: latest
+          inlineScript: |
+            az account show
+            if: ${{ inputs.selected-platform == 'aze' }}
+
+      #######################################
+      # Google Cloud Platform
+      #######################################
 
       - name: Set up Terraform.
         uses: hashicorp/setup-terraform@v3
 
-      # Make sure we are in the terraform folder where all the deployment tf files are.
-      # terraform -chdir=terraform/aws init
-      # - run: |
-          # cd ./terraform/aws
-
       - name: Terraform init.
         run: |
-          cd ./terraform/aws
+          cd ./terraform/${{ inputs.selected-platform }}
           terraform init
 
       # - name: Terraform workspace list.
@@ -50,24 +87,23 @@ jobs:
 
       - name: Terraform plan.
         run: |
-          ls -la
-          cd ./terraform/aws
-          ls -la
+          cd ./terraform/${{ inputs.selected-platform }}
           terraform plan -var-file=${{ inputs.selected-environment }}.tfvars
 
       - name: Terraform apply.
-      
         run: |
-          cd ./terraform/aws
-          terraform apply -var-file=${{ inputs.selected-environment }}.tfvars -auto-approve
+          cd ./terraform/${{ inputs.selected-platform }}
+          terraform plan -var-file=${{ inputs.selected-environment }}.tfvars -auto-approve
+        if: ${{ inputs.selected-action == 'apply' }}
 
-      - name: Pause 1min to verify bucket creation.
-        run: sleep 60
+      # - name: Pause 1min to verify bucket creation.
+      #  run: sleep 60
 
       - name: Terraform destroy.
         run: |
-          cd ./terraform/aws
-          terraform destroy -var-file=${{ inputs.selected-environment }}.tfvars -auto-approve
+          cd ./terraform/${{ inputs.selected-platform }}
+          terraform plan -var-file=${{ inputs.selected-environment }}.tfvars -auto-approve
+        if: ${{ inputs.selected-action == 'destroy' }}
 
       # - name: Download model???
         # uses: actions/download-artifact@v2
