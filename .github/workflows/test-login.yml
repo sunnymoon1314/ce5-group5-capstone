@@ -16,6 +16,8 @@ on:
             - aws
             - aze
             - gcp
+            - alc
+            - hwc
         description: Select the cloud platform.
       selected-action:
           type: choice
@@ -59,6 +61,7 @@ jobs:
       #######################################
       # Microsoft Azure
       # https://github.com/marketplace/actions/azure-login
+      # https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure?tabs=azure-portal%2Cwindows#use-the-azure-login-action-with-a-service-principal-secret
       #######################################
       - name: Configure Azure credentials.
         uses: azure/login@v2

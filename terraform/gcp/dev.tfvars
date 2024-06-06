@@ -18,8 +18,12 @@ zone       = "us-east1-a"
 # }
 
 node_pool = {
-  name         = "node-pool-dev"
-  machine_type = "e2-standard-2"
+  name               = "node-pool-dev"
+  machine_type       = "e2-standard-2"
+  disk_size_gb       = 20
+  spot               = false
+  initial_node_count = 2
+  max_count          = 5
 }
 
 service_account = {

@@ -20,6 +20,10 @@ variable "zone" {
   description = "The default zone within the region."
 }
 
+variable "node_pool" {}
+
+variable "service_account" {}
+
 # 28.05.2024 Soon: Added variable gcp_credentials.
 /*
 variable "gcp_credentials" {

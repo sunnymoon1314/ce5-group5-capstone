@@ -39,6 +39,6 @@ services = [
 ]
 
 service_account = {
-  name  = "prod-sa"
+  name  = "gke-sa-prod"
   roles = []
 }
