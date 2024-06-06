@@ -25,6 +25,12 @@ on:
 #  run:
 #    working-directory: ./terraform/aws
 
+# https://stackoverflow.com/questions/72504998/github-actions-unable-to-get-actions-id-token-request-url-env-variable
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   deploy-to-selected-cloud-platform:
     name: Deploy resources using Terraform to selected cloud platform.
