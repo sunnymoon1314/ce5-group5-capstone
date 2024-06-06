@@ -6,7 +6,11 @@ on:
       selected-environment:
         type: environment
         description: Select the environment.
-   
+
+# defaults:
+#  run:
+#    working-directory: ./terraform/aws
+
 jobs:
   deploy-to-aws:
     name: Test login credentials of AWS.
@@ -32,7 +36,9 @@ jobs:
           # cd ./terraform/aws
 
       - name: Terraform init.
-        run: terraform -chdir=terraform/aws init
+        run: |
+          cd ./terraform/aws
+          terraform init
 
       # - name: Terraform workspace list.
       #  run: terraform workspace list
@@ -47,13 +53,13 @@ jobs:
           ls -la
           cd ./terraform/aws
           ls -la
-          terraform -chdir=terraform/aws plan -var-file=terraform/aws/${{ inputs.selected-environment }}.tfvars
+          terraform plan -var-file=${{ inputs.selected-environment }}.tfvars
 
       - name: Terraform apply.
       
         run: |
           cd ./terraform/aws
-          terraform -chdir=terraform/aws apply -var-file=terraform/aws/${{ inputs.selected-environment }}.tfvars -auto-approve
+          terraform apply -var-file=${{ inputs.selected-environment }}.tfvars -auto-approve
 
       - name: Pause 1min to verify bucket creation.
         run: sleep 60
@@ -61,7 +67,7 @@ jobs:
       - name: Terraform destroy.
         run: |
           cd ./terraform/aws
-          terraform -chdir=terraform/aws destroy -var-file=terraform/aws/${{ inputs.selected-environment }}.tfvars -auto-approve
+          terraform destroy -var-file=${{ inputs.selected-environment }}.tfvars -auto-approve
 
       # - name: Download model???
         # uses: actions/download-artifact@v2
