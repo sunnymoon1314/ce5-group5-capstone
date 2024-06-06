@@ -72,7 +72,7 @@ jobs:
           inlineScript: |
             az login
             az account show
-        if: ${{ inputs.selected-platform == 'aze' }}
+        if: ${{ inputs.selected-platform == 'aze_IGNORE_CLI' }}
 
       #######################################
       # Google Cloud Platform
