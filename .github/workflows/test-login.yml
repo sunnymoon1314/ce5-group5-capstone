@@ -12,7 +12,7 @@ on:
    
 jobs:
   deploy-to-aws:
-    name: Set up infrastructures and Kubernetes using Terraform.
+    name: Test login credentials of AWS.
     environment: ${{ inputs.selected-environment }}
     runs-on: ubuntu-latest
     steps:
