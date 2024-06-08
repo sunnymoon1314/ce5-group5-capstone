@@ -1,16 +1,30 @@
 # Copyright (c) HashiCorp, Inc.
 # SPDX-License-Identifier: MPL-2.0
 
-output "resource_group_name" {
-  value = azurerm_resource_group.default.name
-}
-
-output "kubernetes_cluster_name" {
+output "aks_cluster_name" {
   value = azurerm_kubernetes_cluster.default.name
 }
 
-# output "host" {
-#   value = azurerm_kubernetes_cluster.default.kube_config.0.host
+output "aks_cluster_version" {
+  value = azurerm_kubernetes_cluster.default.kubernetes_version
+}
+
+output "aks_cluster_location" {
+  value = azurerm_kubernetes_cluster.default.location
+}
+
+output "aks_cluster_resource_group_name" {
+  value = azurerm_kubernetes_cluster.default.resource_group_name
+}
+
+output "aks_ingress_application_gateway" {
+  description = "The azurerm_kubernetes_cluster's ingress_application_gateway block."
+  value       = try(azurerm_kubernetes_cluster.default.ingress_application_gateway[0], null)
+}
+
+# 08.06.2024 Soon: Commented this because it is sensitive information.
+# output "aks_cluster_host" {
+#  value = azurerm_kubernetes_cluster.default.kube_config.0.host
 # }
 
 # output "client_key" {

@@ -1,64 +1,131 @@
+# https://github.com/Azure/login/issues/112
+# Can add secret ACTIONS_STEP_DEBUG and set the value true to help debug the issue.
+# https://stackoverflow.com/questions/67426632/github-action-azure-loginv1-not-working-on-self-hosted-git-runner
+
 name: Test login to all cloud platforms.
 
 on:
-  push:
-    branches:
-      - xxx_main_xxx
   workflow_dispatch:
     inputs:
-      choice:
+      selected-environment:
+        type: environment
+        description: Select the environment.
+      selected-platform:
         type: choice
-        description: Select the environment
         options:
-        - dev
-        - prod
+            - aws
+            - aze
+            - gcp
+        description: Select the cloud platform.
+      selected-action:
+          type: choice
+          options:
+              - apply
+              - destroy
+          description: Select the action, whether to init/plan/apply or destroy the infrastructures.
+
+# https://stackoverflow.com/questions/58139175/running-actions-in-another-directory
+# defaults:
+#  run:
+#    working-directory: ./terraform/aws
+
+# https://stackoverflow.com/questions/72504998/github-actions-unable-to-get-actions-id-token-request-url-env-variable
+# https://github.com/actions/deploy-pages/issues/28
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
-  deploy-to-aws:
-    name: Set up infrastructures and Kubernetes using Terraform.
-    environment: "dev"
+  deploy-to-selected-cloud-platform:
+    name: Deploy resources using Terraform to selected cloud platform.
+    environment: ${{ inputs.selected-environment }}
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository.
         uses: actions/checkout@v4
 
-      - name: Set up Terraform.
-        uses: hashicorp/setup-terraform@v1
-
+      #######################################
+      # Amazon Web Services
+      #######################################
       - name: Configure AWS credentials.
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
+        if: ${{ inputs.selected-platform == 'aws' }}
 
-      # Make sure we are in the terraform folder where all the deployment tf files are.
-      # terraform -chdir=terraform/aws init
-      - run: |
-          cd ./terraform/aws
+      #######################################
+      # Microsoft Azure
+      # https://github.com/marketplace/actions/azure-login
+      # https://learn.microsoft.com/en-us/azure/developer/github/connect-from-azure?tabs=azure-portal%2Cwindows#use-the-azure-login-action-with-a-service-principal-secret
+      #######################################
+      - name: Configure Azure credentials.
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          creds: '${{ secrets.AZURE_CREDENTIALS }}'
+        if: ${{ inputs.selected-platform == 'aze' }}
+
+      - name: Azure CLI script.
+        uses: azure/cli@v2
+        with:
+          azcliversion: latest
+          inlineScript: |
+            az login --service-principal -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
+            az account show
+        if: ${{ inputs.selected-platform == 'aze' }}
+
+      #######################################
+      # Google Cloud Platform
+      # https://github.com/google-github-actions/auth
+      # https://github.com/google-github-actions/get-gke-credentials
+      # https://github.com/google-github-actions/auth/blob/main/docs/EXAMPLES.md
+      #######################################
+      - name: Configure Google Cloud credentials.
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: '${{ secrets.GOOGLE_CREDENTIALS }}'
+        if: ${{ inputs.selected-platform == 'gcp' }}
+
+      - name: Set up Terraform.
+        uses: hashicorp/setup-terraform@v3
 
       - name: Terraform init.
-        run: terraform init
-
-      - name: Terraform workspace list.
-        run: terraform workspace list
-
-      - name: Terraform workspace new environment and select.
         run: |
-          terraform workspace select dev || terraform workspace new dev
-          terraform workspace list
+          cd ./terraform/${{ inputs.selected-platform }}
+          terraform init
+
+      # - name: Terraform workspace list.
+      #  run: terraform workspace list
+
+      # - name: Terraform workspace new environment and select.
+      #  run: |
+      #    terraform workspace select ${{ inputs.selected-environment }} || terraform workspace new ${{ inputs.selected-environment }}
+      #    terraform workspace list
 
       - name: Terraform plan.
-        run: terraform -chdir=terraform/aws plan -var-file=dev.tfvars
+        run: |
+          cd ./terraform/${{ inputs.selected-platform }}
+          terraform plan -var-file=${{ inputs.selected-environment }}.tfvars
 
       - name: Terraform apply.
-        run: terraform -chdir=terraform/aws apply -var-file=dev.tfvars -auto-approve
+        run: |
+          cd ./terraform/${{ inputs.selected-platform }}
+          terraform apply -var-file=${{ inputs.selected-environment }}.tfvars -auto-approve
+        if: ${{ inputs.selected-action == 'apply' }}
 
-      - name: Pause 3min to verify bucket creation.
-        run: sleep 180
+      # - name: Pause 1min to verify bucket creation.
+      #  run: sleep 60
 
       - name: Terraform destroy.
-        run: terraform -chdir=terraform/aws destroy -var-file=dev.tfvars -auto-approve
+        run: |
+          cd ./terraform/${{ inputs.selected-platform }}
+          terraform destroy -var-file=${{ inputs.selected-environment }}.tfvars -auto-approve
+        if: ${{ inputs.selected-action == 'destroy' }}
 
       # - name: Download model???
         # uses: actions/download-artifact@v2
@@ -66,3 +133,33 @@ jobs:
           # name: api
       - run: |
           echo "Deploy infrastructures using Terraform..."
+
+  deploy-different-cli-command:
+    # https://github.com/hashicorp/terraform-github-actions/issues/140
+    name: Deploy resources using Terraform to selected cloud platform.
+    environment: ${{ inputs.selected-environment }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@master
+
+      - name: "Terraform Init"
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.12.13
+          tf_actions_subcommand: "init"
+
+      - name: "Terraform Plan"
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.12.13
+          tf_actions_subcommand: "plan"
+          args: -var "client_secret=${{ secrets.clientSecret }}"
+
+      - name: "Terraform Apply"
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.12.13
+          tf_actions_subcommand: "apply"
+          args: -var="client_secret=${{ secrets.clientSecret }}"
+    if: ${{ !always() }}
