@@ -16,8 +16,6 @@ on:
             - aws
             - aze
             - gcp
-            - alc
-            - hwc
         description: Select the cloud platform.
       selected-action:
           type: choice
@@ -135,3 +133,33 @@ jobs:
           # name: api
       - run: |
           echo "Deploy infrastructures using Terraform..."
+
+  deploy-different-cli-command:
+    # https://github.com/hashicorp/terraform-github-actions/issues/140
+    name: Deploy resources using Terraform to selected cloud platform.
+    environment: ${{ inputs.selected-environment }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@master
+
+      - name: "Terraform Init"
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.12.13
+          tf_actions_subcommand: "init"
+
+      - name: "Terraform Plan"
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.12.13
+          tf_actions_subcommand: "plan"
+          args: -var "client_secret=${{ secrets.clientSecret }}"
+
+      - name: "Terraform Apply"
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.12.13
+          tf_actions_subcommand: "apply"
+          args: -var="client_secret=${{ secrets.clientSecret }}"
+    if: ${{ !always() }}

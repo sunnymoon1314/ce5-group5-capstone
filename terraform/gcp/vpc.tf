@@ -1,56 +1,43 @@
-# Copyright (c) HashiCorp, Inc.
-# SPDX-License-Identifier: MPL-2.0
+module "vpc" {
+  source  = "terraform-google-modules/network/google"
+  version = "5.2.0"
 
-variable "env" {
-  type        = string
-  description = "Indicates whether the environment to use is development (dev) or production (prod)"
-}
+  depends_on = [google_project_service.this["compute"]]
 
-variable "project_id" {
-  description = "project id"
-}
+  project_id   = var.project_id
+  network_name = var.network.name
 
-variable "region" {
-  description = "region"
-}
+  subnets = [
+    {
+      subnet_name           = var.network.subnetwork_name
+      subnet_ip             = var.network.nodes_cidr_range
+      subnet_region         = var.region
+      subnet_private_access = "true"
+    },
+  ]
 
-# 28.05.2024 Soon: Added variable zone.
-variable "zone" {
-  type        = string
-  description = "The default zone within the region."
-}
+  secondary_ranges = {
+    (var.network.subnetwork_name) = [
+      {
+        range_name    = "${var.network.subnetwork_name}-pods"
+        ip_cidr_range = var.network.pods_cidr_range
+      },
+      {
+        range_name    = "${var.network.subnetwork_name}-services"
+        ip_cidr_range = var.network.services_cidr_range
+      },
+    ]
+  }
 
-variable "node_pool" {}
-
-variable "service_account" {}
-
-# 28.05.2024 Soon: Added variable gcp_credentials.
-/*
-variable "gcp_credentials" {
-  type = string
-  sensitive = true
-  description = "Google Cloud service account credentials"
-}
-*/
-
-# 28.05.2024 Soon: Added attribute zone and credentials.
-provider "google" {
-  project = var.project_id
-  region  = var.region
-  zone    = var.zone
-  # credentials = var.gcp_credentials
-}
-
-# VPC
-resource "google_compute_network" "vpc" {
-  name                    = "${var.project_id}-vpc"
-  auto_create_subnetworks = "false"
-}
-
-# Subnet
-resource "google_compute_subnetwork" "subnet" {
-  name          = "${var.project_id}-subnet"
-  region        = var.region
-  network       = google_compute_network.vpc.name
-  ip_cidr_range = "10.10.0.0/24"
+  firewall_rules = [
+    {
+      name      = "${var.network.name}-allow-iap-ssh-ingress"
+      direction = "INGRESS"
+      ranges    = ["35.235.240.0/20"]
+      allow = [{
+        protocol = "tcp"
+        ports    = ["22"]
+      }]
+    },
+  ]
 }

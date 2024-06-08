@@ -4,8 +4,8 @@ region = "us-east-1"
 
 network = {
   name            = "aws-network-prod"
-  private_subnets = ["10.1.1.0/24", "10.1.2.0/24"]
-  public_subnets  = ["10.1.4.0/24", "10.1.5.0/24"]
+  private_subnets = ["10.0.6.0/24", "10.0.7.0/24"]
+  public_subnets  = ["10.0.8.0/24", "10.0.9.0/24"]
 }
 
 k8s_cluster = {
