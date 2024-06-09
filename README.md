@@ -135,6 +135,6 @@ Very often, we will want to monitor the ML model not only for its performance, l
 
 In the program codes that we used for training the ML model, we have also implemented instrumentation capability to make the model itself export relevant ML-related metrics (such as data and model drift, prediction accuracy, classification and regression metrics, etc). These metrics can then be configured in the instrumentation software for us to analyse the data for performance, operation, troubleshooting and optimisation purpose.
 
-<img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/solid/crown.svg" width="50" height="50">
+## <img src="images/blue-3d-ball.png" width="35" /> E. Project Summary
 
-<img src="images/blue-3d-ball.png" width="35" />
+## <img src="images/purple-3d-ball.png" width="35" /> F. Suggestions For Future Work
