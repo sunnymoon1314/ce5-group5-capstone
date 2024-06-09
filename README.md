@@ -2,11 +2,11 @@
 ### Cohort 5 Group 5 Capstone Project
 Submitted By: SOON Leah Foo, Group 5, 15 Jun 2024.
 
-## A. Project Title
+## <img src="images/red-3d-ball.png" width="35" /> A. Project Title
 
 MLOps using GitHub Actions with deployment to instrumented multi-cloud Kubernetes clusters.
 
-## B. Business Use Case: TraumWare Company Profile
+## <img src="images/orange-3d-ball.png" width="35" /> B. Business Use Case: TraumWare Company Profile
 
 TraumWare Manufacturing Pte Ltd is a Small-Medium Sized company specialising in manufacturing high-precision bolts and nuts for CNC machineries.
 
@@ -14,7 +14,7 @@ In order to ensure the machines are operationally healthy and functioning on a d
 
 The company has more than 20 different makes and models of machineries used in the fabrication process, and it has always been daunting for the company to monitor the status of the various machines. The company approached us for advice and assessment whether there are alternative solutions for a more efficient workflow in terms of optimal forecast plan and efficient usage of available human resources to do the maintenance work.
 
-## C. Project Proposal
+## <img src="images/yellow-3d-ball.png" width="35" /> C. Project Proposal
 
 Corrective and preventive maintenance is often a major part of manufacturing industries. Although this process is complex and expensive when conducted with conventional approaches, machine learning has now made it easier to discover meaningful insights and hidden patterns in factory data. Because this process helps in reducing risks associated with unexpected failures, companies can also reduce unnecessary expenses by implementing machine learning models. What’s more, artificial intelligence and machine learning algorithms work in collaboration to analyze historical data and ensure workflow visualization.
 
@@ -44,7 +44,7 @@ Here is a summary of the proposed items:
 |   |                                   |metrics from the services using EvidentlyAI. The metrics are stored in Prometheus and visualised|
 |   |                                   |using Grafana.|
 
-## D. Project Implementation Details
+## <img src="images/green-3d-ball.png" width="35" /> D. Project Implementation Details
 
 ### D1. CI/CD pipeline (MLOps)
 
@@ -134,3 +134,7 @@ Although Kubernetes has self-healing capability, it is not desirable if there ar
 Very often, we will want to monitor the ML model not only for its performance, latency and predictive accuracy, we also want to perform health check on the operating environment to give insights on whether the operating environment is working as per our expectation.
 
 In the program codes that we used for training the ML model, we have also implemented instrumentation capability to make the model itself export relevant ML-related metrics (such as data and model drift, prediction accuracy, classification and regression metrics, etc). These metrics can then be configured in the instrumentation software for us to analyse the data for performance, operation, troubleshooting and optimisation purpose.
+
+<img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/solid/crown.svg" width="50" height="50">
+
+<img src="images/blue-3d-ball.png" width="35" />
