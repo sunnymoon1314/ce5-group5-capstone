@@ -1,6 +1,7 @@
-## NTU-SCTP Cloud Infrastructure Engineering
-### Cohort 5 Group 5 Capstone Project
-### Submitted By: SOON Leah Foo, 15 Jun 2024.
+# NTU-SCTP Cloud Infrastructure Engineering
+## Cohort 5 Group 5 Capstone Project<br>
+Submitted By: __SOON Leah Foo__<br>
+Submitted On: __15 Jun 2024__
 
 ## <img src="images/red-3d-ball.png" width="35" /> A. Project Title
 
@@ -52,13 +53,14 @@ GitHub Actions has been a very successful automation tool used by software devel
 
 In this project, we will also leverage GitHub Actions as the tool to automate the MLOps workflow.
 
-![alt text](images/devops-cicd-pipeline.png) ![alt text](images/mlops-cicd-pipeline.png)
+<img src="images/devops-cicd-pipeline.png" width="500" />
+<img src="images/mlops-cicd-pipeline.png" width="500" />
 
 DevOps CI/CD pipeline (Software Engineering) versus MLOps CI/CD pipeline (Machine Learning)
 
 INSERT IMAGE THAT SHOWS THE VARIOUS PARTIES IN THE MLOPS WORKFLOW. KIV.
 
-![alt text](images/mlops-github-action-workflow-temp.png)
+<img src="images/mlops-github-action-workflow-temp.png" width="500" />
 
 In the ML domain, the actual development or the training/fine-tuning of the program codes is usually done by a data scientist. Hence, the Trunk-based development approach (versus the more complex variation using Feature branching) is more suitable as the branching strategy for MLOps workflow.
 
@@ -83,7 +85,7 @@ In our MLOps workflow, there are 2 events that will trigger the MLOps pipeline i
         - Deployment of the release version vx.x.x of the ML model to the production system is manually synchronised via ArgoCD UI or CLI.
     - If the release is not approved for some reasons, the pending CD workflow/job will be cancelled by GitHub Actions.
 
-![alt text](images/mlops-end-to-end-workflow-temp.png)
+<img src="images/mlops-end-to-end-workflow-temp.png" width="800" />
 
 Reference: Engineering MLOps, Emmanuel Raj, Packt Publishing, 2021, pp40.
 
@@ -119,17 +121,9 @@ Reference: Engineering MLOps, Emmanuel Raj, Packt Publishing, 2021, pp40.
 5.
 ```
 ```
-
-6.
-```
-```
-
-7.
-```
-```
 </details>
 
-### D2. Containerisation ![ ](images/docker-logo.png) and Microservices ![alt text](images/microservices-logo.png)
+### D2. Containerisation <img src="images/docker-logo.png" width="60" /> And Microservices <img src="images/microservices-logo.png" width="60" />
 
 We will containerise the model file created in the preceding step to a Docker image.
 
@@ -169,17 +163,9 @@ In addition to containerising our ML Model, we have also implemented industrial 
 5.
 ```
 ```
-
-6.
-```
-```
-
-7.
-```
-```
 </details>
 
-### D3. Kubernetes ![alt text](images/kubernetes-logo.png)
+### D3. Kubernetes <img src="images/kubernetes-logo.png" width="60" />
 
 We have chosen to use Elastic Kubernetes Service (EKS) which is the managed Kubernetes services of Amazon Web Services' (AWS) as the deployment platform.
 
@@ -219,17 +205,9 @@ The EKS is provisioned using Terraform, which is an open-source techology to all
 5.
 ```
 ```
-
-6.
-```
-```
-
-7.
-```
-```
 </details>
 
-### D4. ArgoCD ![alt text](images/argocd-logo.png)
+### D4. ArgoCD <img src="images/argocd-logo.png" width="60" />
 
 After deployment of our ML model as an application in the Kubernetes cluster, we make use of ArgoCD to automate the continuous deployment pipeline.
 
@@ -241,7 +219,7 @@ To enable GitOps to work, it is a best practice to have 2 repositories. One for 
 
 However, ArgoCD is only a continuous deployment (CD) tool and we still require a pipeline for continuous integration (CI) that will test and build our application.
 
-![alt text](images/argocd-automated-cd-workflow-temp.png)
+<img src="images/argocd-automated-cd-workflow-temp.png" width="800" />
 
 When a developer updates the application source codes, he will test and then build an image which will be pushed to a container repository. The CI pipeline will the trigger updates to the configuration repository (e.g. update the image version) which will cause ArgoCD to synchronise.
 
@@ -255,7 +233,7 @@ GitOps using ArgoCD has these benefits:
 
 <details><summary><code style="color: yellow">ArgoCD Setup Demo</code></summary>
 
-1. Pre-requisites ArgoCD Setup Demo:
+1. Pre-requisites For ArgoCD Setup Demo:
 
     - Format:
         ```
@@ -285,17 +263,9 @@ GitOps using ArgoCD has these benefits:
 5.
 ```
 ```
-
-6.
-```
-```
-
-7.
-```
-```
 </details>
 
-### D5. Prometheus ![alt text](images/prometheus-logo.png)
+### D5. Prometheus <img src="images/prometheus-logo.png" width="60" />
 
 Although Kubernetes has self-healing capability, it is not desirable if there are indeed outages in the deployed application.
 
@@ -333,14 +303,6 @@ In the program codes that we used for training the ML model, we have also implem
 ```
 
 5.
-```
-```
-
-6.
-```
-```
-
-7.
 ```
 ```
 </details>
