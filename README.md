@@ -1,10 +1,10 @@
 ## NTU-SCTP Cloud Infrastructure Engineering
 ### Cohort 5 Group 5 Capstone Project
-Submitted By: SOON Leah Foo, Group 5, 15 Jun 2024.
+### Submitted By: SOON Leah Foo, 15 Jun 2024.
 
 ## <img src="images/red-3d-ball.png" width="35" /> A. Project Title
 
-MLOps using GitHub Actions with deployment to instrumented multi-cloud Kubernetes clusters.
+## Machine Learning Operations using GitHub Actions with automated deployment to instrumented Kubernetes clusters in a multi-cloud environment.
 
 ## <img src="images/orange-3d-ball.png" width="35" /> B. Business Use Case: TraumWare Company Profile
 
@@ -46,7 +46,7 @@ Here is a summary of the proposed items:
 
 ## <img src="images/green-3d-ball.png" width="35" /> D. Project Implementation Details
 
-### D1. CI/CD pipeline (MLOps)
+### D1. MLOps CI/CD Pipeline
 
 GitHub Actions has been a very successful automation tool used by software developers to automate the software development life cycle from development stage right through to the deployment stage.
 
@@ -87,6 +87,48 @@ In our MLOps workflow, there are 2 events that will trigger the MLOps pipeline i
 
 Reference: Engineering MLOps, Emmanuel Raj, Packt Publishing, 2021, pp40.
 
+<details><summary><code style="color: yellow">MLOps CI/CD Pipeline Demo</code></summary>
+
+1. Pre-requisites For MLOps CI/CD Pipeline Demo:
+
+    - Format:
+        ```
+        kubectl
+        ```
+    - XX
+        ```
+        kubectl
+        ```
+    - XX
+        ```
+        kubectl
+        ```
+
+2.
+```
+```
+
+3.
+```
+```
+
+4.
+```
+```
+
+5.
+```
+```
+
+6.
+```
+```
+
+7.
+```
+```
+</details>
+
 ### D2. Containerisation ![ ](images/docker-logo.png) and Microservices ![alt text](images/microservices-logo.png)
 
 We will containerise the model file created in the preceding step to a Docker image.
@@ -95,6 +137,48 @@ Containerisation is one of the cloud-native techologies that we should always ex
 
 In addition to containerising our ML Model, we have also implemented industrial standard protocol using the REST API so that our image can be easily accessed via the HTTP GET and POST method using our internet browser.
 
+<details><summary><code style="color: yellow">Containerisation And Microservices Demo</code></summary>
+
+1. Pre-requisites For Containerisation And Microservices Demo:
+
+    - Format:
+        ```
+        kubectl
+        ```
+    - XX
+        ```
+        kubectl
+        ```
+    - XX
+        ```
+        kubectl
+        ```
+
+2.
+```
+```
+
+3.
+```
+```
+
+4.
+```
+```
+
+5.
+```
+```
+
+6.
+```
+```
+
+7.
+```
+```
+</details>
+
 ### D3. Kubernetes ![alt text](images/kubernetes-logo.png)
 
 We have chosen to use Elastic Kubernetes Service (EKS) which is the managed Kubernetes services of Amazon Web Services' (AWS) as the deployment platform.
@@ -102,6 +186,48 @@ We have chosen to use Elastic Kubernetes Service (EKS) which is the managed Kube
 EKS is the managed Kubernetes services of Amazon Web Services' (AWS) which offers high-availability, scalability and resilency for our deployed applications.
 
 The EKS is provisioned using Terraform, which is an open-source techology to allow us to deploy infrastructure using codes.
+
+<details><summary><code style="color: yellow">Elastic Kubernetes Service (EKS) Deployment Demo</code></summary>
+
+1. Pre-requisites For EKS Deployment Demo:
+
+    - Format:
+        ```
+        kubectl
+        ```
+    - XX
+        ```
+        kubectl
+        ```
+    - XX
+        ```
+        kubectl
+        ```
+
+2.
+```
+```
+
+3.
+```
+```
+
+4.
+```
+```
+
+5.
+```
+```
+
+6.
+```
+```
+
+7.
+```
+```
+</details>
 
 ### D4. ArgoCD ![alt text](images/argocd-logo.png)
 
@@ -127,6 +253,48 @@ GitOps using ArgoCD has these benefits:
 - We can implement blue/green deployment and/or canary deployment with ease.
 - We can always rollback to the previous working version should the new version is not stable.
 
+<details><summary><code style="color: yellow">ArgoCD Setup Demo</code></summary>
+
+1. Pre-requisites ArgoCD Setup Demo:
+
+    - Format:
+        ```
+        kubectl
+        ```
+    - XX
+        ```
+        kubectl
+        ```
+    - XX
+        ```
+        kubectl
+        ```
+
+2.
+```
+```
+
+3.
+```
+```
+
+4.
+```
+```
+
+5.
+```
+```
+
+6.
+```
+```
+
+7.
+```
+```
+</details>
+
 ### D5. Prometheus ![alt text](images/prometheus-logo.png)
 
 Although Kubernetes has self-healing capability, it is not desirable if there are indeed outages in the deployed application.
@@ -135,6 +303,50 @@ Very often, we will want to monitor the ML model not only for its performance, l
 
 In the program codes that we used for training the ML model, we have also implemented instrumentation capability to make the model itself export relevant ML-related metrics (such as data and model drift, prediction accuracy, classification and regression metrics, etc). These metrics can then be configured in the instrumentation software for us to analyse the data for performance, operation, troubleshooting and optimisation purpose.
 
+<details><summary><code style="color: yellow">Prometheus And Grafana Setup Demo</code></summary>
+
+1. Pre-requisites For Prometheus And Grafana Setup Demo:
+
+    - Format:
+        ```
+        kubectl
+        ```
+    - XX
+        ```
+        kubectl
+        ```
+    - XX
+        ```
+        kubectl
+        ```
+
+2.
+```
+```
+
+3.
+```
+```
+
+4.
+```
+```
+
+5.
+```
+```
+
+6.
+```
+```
+
+7.
+```
+```
+</details>
+
 ## <img src="images/blue-3d-ball.png" width="35" /> E. Project Summary
 
 ## <img src="images/purple-3d-ball.png" width="35" /> F. Suggestions For Future Work
+
+## <img src="images/purple-3d-ball.png" width="35" /> G. References
