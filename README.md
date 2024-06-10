@@ -61,14 +61,14 @@ Reference: https://www.freecodecamp.org/news/what-is-trunk-based-development/
 
 In our MLOps workflow, there are 2 events that will trigger the MLOps pipeline into action:
 
-1. Pull request from dev branch to main branch.
+1.  Pull request from dev branch to main branch.
     -  There will be an approval step for a manager/senior data scientist to check and evaluate the ML model training results, which are stored as GitHub artifacts.
     - Upon approval of the results, the changes and the latest source codes are merged back to the main branch.
     - The model file (one of the files in the GitHub artifacts) is used to build the Docker image.
     - The image is tagged as model-image:latest (i.e. this is a developer build and not to be released to production environment) and is pushed to the DockerHub.
     - If the pull request is not approved for some reasons, the pending CI workflow/job will be cancelled by GitHub Actions and no model-image:latest will be pushed to the DockerHub.
 
-2. Release event on the main branch with vx.x.x semantic versioned tag.
+2.  Release event on the main branch with vx.x.x semantic versioned tag.
     - This is a step that requires due diligence on the testing team to schedule the deployment of the release version to the production environment.
     - Upon creation of the release tag, the event will trigger the CD process:
         - Push to DockerHub with 2 images with latest version and vx.x.x.
@@ -84,7 +84,7 @@ Reference: Engineering MLOps, Emmanuel Raj, Packt Publishing, 2021, pp40.
 
 <details><summary><code style="color: yellow">MLOps CI/CD Pipeline Demo</code></summary>
 
-1. Pre-requisites For MLOps CI/CD Pipeline Demo:
+1.  Pre-requisites For MLOps CI/CD Pipeline Demo:
 
     - Format:
         ```
@@ -126,36 +126,37 @@ In addition to containerising our ML Model, we have also implemented industrial 
 
 <details><summary><code style="color: yellow">Containerisation And Microservices Demo</code></summary>
 
-1. Pre-requisites For Containerisation And Microservices Demo:
+1.  Pre-requisites For Containerisation And Microservices Demo:
+    - |S/N|Required software|Version         |
+      |---|-----------------|-------         |
+      | 1 | curl            |???|
+      | 2 | python          |???|
+      | 3 | Docker Desktop  |???|
+      |||
 
-    - Format:
-        ```
-        kubectl
-        ```
-    - XX
-        ```
-        kubectl
-        ```
-    - XX
-        ```
-        kubectl
-        ```
+2.  Run the following command to test the GET method using curl.
+    ```
+    KIV
+    ```
+    <img src="images/d2-containerisation-detail-02-test-get-using-curl.png"
 
-2.
-```
-```
+3.  Run the following command to test the POST method using curl.
+    ```
+    KIV
+    ```
+    <img src="images/d2-containerisation-detail-03-test-post-using-curl.png"
 
-3.
-```
-```
+4.  Run the following command to test the GET method using docker.
+    ```
+    KIV
+    ```
+    <img src="images/d2-containerisation-detail-04-test-get-using-docker.png"
 
-4.
-```
-```
-
-5.
-```
-```
+5.  Run the following command to test the POST method using docker.
+    ```
+    KIV
+    ```
+    <img src="images/d2-containerisation-detail-05-test-post-using-docker.png"
 </details>
 
 ### D3. Kubernetes <img src="images/kubernetes-logo.png" width="60" />
@@ -166,38 +167,53 @@ EKS is the managed Kubernetes services of Amazon Web Services' (AWS) which offer
 
 The EKS is provisioned using Terraform, which is an open-source techology to allow us to deploy infrastructure using codes.
 
-<details><summary><code style="color: yellow">Elastic Kubernetes Service (EKS) Deployment Demo</code></summary>
+<details><summary><code style="color: aqua">Elastic Kubernetes Service (EKS) Deployment Demo</code></summary>
 
-1. Pre-requisites For EKS Deployment Demo:
+1.  Pre-requisites For EKS Deployment Demo:
+    - |S/N|Required software|Version      |
+      |---|-----------------|-------      |
+      | 1 | Terraform       |v1.8.4 or later.|
+      | 2 | kubectl         |???|
+      | 3 | AWS account with permission to provision resources.||
+      | 4 | AWS credentials setup in local machine.||
+      |||
 
-    - Format:
-        ```
-        kubectl
-        ```
-    - XX
-        ```
-        kubectl
-        ```
-    - XX
-        ```
-        kubectl
-        ```
+2.  Navigate to the folder terraform/aws and run the `terraform init` command.
 
-2.
-```
-```
+    <img src="images/d3-eks-detail-02-terraform-init.png" width="500" />
 
-3.
-```
-```
+3.  Run the `terraform apply` command and specify `-var-file=prod.tfvars` as the argument:
+    ```
+    terraform apply -var-file=prod.tfvars
+    ```
+    <img src="images/d3-eks-detail-03-terraform-apply-prod.png"
 
-4.
-```
-```
+    Note that the command will provision the infrastructures (VPC, Network, Firewalls, Internet Gateway, EC2, etc) for the
+    production environment. Please use the dev.tfvars to setup the development/testing environment.
+    ```
+    terraform apply -var-file=dev.tfvars
+    ```
+    <img src="images/d3-eks-detail-04-terraform-apply-dev.png"
+    
+4.  Upon prompted by the system, type `yes` and then press the `Enter` key:
 
-5.
-```
-```
+    <img src="images/d3-eks-detail-05-terraform-apply-yes.png"
+
+5.  Please wait for up to 20 minutes for the Terraform to provision the EKS cluster in AWS.<br>
+    Upon completion of the EKS cluster, you should be able to see the information about the cluster:
+
+    <img src="images/d3-eks-detail-06-terraform-apply-output.png" 
+
+6.  Please note down the details shown in the preceding step because the information is required in section D4 for setting up the
+    ArgoCD.
+
+7.  Run the following command to update the kubectl configuration file (Located at ~/.kube/config).<br>
+    ```
+    kubectl config???
+    ```
+    <img src="images/d3-eks-detail-07-kubectl-config.png"
+
+8.  You are ready to proceed to setup the ArgoCD described in the next section.
 </details>
 
 ### D4. ArgoCD <img src="images/argocd-logo.png" width="60" />
@@ -224,38 +240,39 @@ GitOps using ArgoCD has these benefits:
 - We can implement blue/green deployment and/or canary deployment with ease.
 - We can always rollback to the previous working version should the new version is not stable.
 
-<details><summary><code style="color: yellow">ArgoCD Setup Demo</code></summary>
+<details><summary><code style="color: cyan">ArgoCD Setup Demo</code></summary>
 
-1. Pre-requisites For ArgoCD Setup Demo:
+1.  Pre-requisites For ArgoCD Setup Demo:
+    - |S/N|Required software       |Version      |
+      |---|-----------------       |-------      |
+      | 1 | Helm                   |vXXXX or later.|
+      | 2 | kubectl                |???|
+      | 3 | ArgoCD GUI and CLI tool||
+      |||
 
-    - Format:
-        ```
-        kubectl
-        ```
-    - XX
-        ```
-        kubectl
-        ```
-    - XX
-        ```
-        kubectl
-        ```
+2.  Navigate to the folder terraform/aws and run the `choco install helm` command.
+    ```
+    kubectl config???
+    ```
+    <img src="images/d4-argocd-detail-02-helm-install.png" width="500" />
 
-2.
-```
-```
+3.  Navigate to the folder terraform/aws and run the `choco install helm` command.
+    ```
+    kubectl config???
+    ```
+    <img src="images/d4-argocd-detail-03-helm-install.png" width="500" />
 
-3.
-```
-```
+4.  Navigate to the folder terraform/aws and run the `choco install helm` command.
+    ```
+    kubectl config???
+    ```
+    <img src="images/d4-argocd-detail-04-helm-install.png" width="500" />
 
-4.
-```
-```
-
-5.
-```
-```
+5.  Navigate to the folder terraform/aws and run the `choco install helm` command.
+    ```
+    kubectl config???
+    ```
+    <img src="images/d4-argocd-detail-05-helm-install.png" width="500" />
 </details>
 
 ### D5. Prometheus <img src="images/prometheus-logo.png" width="60" />
@@ -268,36 +285,37 @@ In the program codes that we used for training the ML model, we have also implem
 
 <details><summary><code style="color: yellow">Prometheus And Grafana Setup Demo</code></summary>
 
-1. Pre-requisites For Prometheus And Grafana Setup Demo:
+1.  Pre-requisites For Prometheus And Grafana Setup Demo:
+    - |S/N|Required software       |Version      |
+      |---|-----------------       |-------      |
+      | 1 | Helm                   |vXXXX or later.|
+      | 2 | kubectl                |???|
+      | 3 | ArgoCD GUI and CLI tool||
+      |||
 
-    - Format:
-        ```
-        kubectl
-        ```
-    - XX
-        ```
-        kubectl
-        ```
-    - XX
-        ```
-        kubectl
-        ```
+2.  Navigate to the folder terraform/aws and run the `choco install helm` command.
+    ```
+    kubectl config???
+    ```
+    <img src="images/d5-prometheus-detail-02-helm-install.png" width="500" />
 
-2.
-```
-```
+3.  Navigate to the folder terraform/aws and run the `choco install helm` command.
+    ```
+    kubectl config???
+    ```
+    <img src="images/d5-prometheus-detail-03-helm-install.png" width="500" />
 
-3.
-```
-```
+4.  Navigate to the folder terraform/aws and run the `choco install helm` command.
+    ```
+    kubectl config???
+    ```
+    <img src="images/d5-prometheus-detail-04-helm-install.png" width="500" />
 
-4.
-```
-```
-
-5.
-```
-```
+5.  Navigate to the folder terraform/aws and run the `choco install helm` command.
+    ```
+    kubectl config???
+    ```
+    <img src="images/d5-prometheus-detail-05-helm-install.png" width="500" />
 </details>
 
 ## <img src="images/blue-3d-ball.png" width="35" /> E. Project Summary
