@@ -29,15 +29,20 @@ c5.	We will install instrumenting software tools such as Prometheus and ML-Monit
 
 Here is a summary of the proposed items:
 
+#### _Summary Of Proposed Solution_
+Image Source: https://igboie.medium.com/kubernetes-ci-cd-with-github-github-actions-and-argo-cd-36b88b6bda64
+<img src="images/c-summary-proposed-solution.png" width="800" />
+
 ##
 |S/N|Proposed item (Technology stack)           |Description of proposed items|
 |---|-------------------------------------------|-----------------------------| 
-|c1 |GitHub Actions (CI/CD pipeline)            |GitHub Actions is used to implement a CI/CD pipeline to streamline the MLOps workflow.|
-|c2 |Docker (Containerisation) and              |The ML models created in (c1) are containerised using Docker and published to DockerHub.<br>The images are implemented as REST API services using Python/Flask                                                                 |
-|c3	|Kubernetes (Orchestration platform)        |The services in (c2) are deployed to Elastic Kubernetes Service (EKS) of AWS.<br>EKS is a managed service and thus will handle the auto-scaling, self-healing and auto-provisioning of the required resources for us.          |
-|c4	|GitOps (CD workflow automation)            |The EKS deployment workflow in (c3) is automated and monitored via ArgoCD.<br>Whenever there are updates to the ML model versions and other configurations, ArgoCD will refresh and propagate those changes to the configured environment automatically.                                                                                                             |
-|c5 |Prometheus (Instrumentation)               |The services in (c4) are monitored for their reliability by exporting relevant performance metrics from the services using ML Monitor. The metrics are stored in Prometheus and visualised using Grafana.             |
-|                                               |                                                                                      |
+|c1 |GitHub Actions<br>(CI/CD pipeline)         |GitHub Actions is used to implement a CI/CD pipeline to streamline the MLOps workflow.|
+|c2 |Docker/REST API<br>(Containerisation/Microservice)|The ML models created in __(c1)__ are containerised using Docker and published to DockerHub The images are implemented as REST API services using Python/Flask.|
+|c3	|Kubernetes<br>(Orchestration platform)     |The services in __(c2)__ are deployed to Elastic Kubernetes Service (EKS) of AWS.<br>EKS is a managed service and thus will handle the auto-scaling, self-healing and auto-provisioning of the required resources for us.|
+|c4	|GitOps<br>(CD workflow automation)|The EKS deployment workflow in __(c3)__ is automated and monitored via ArgoCD.<br>Whenever there are updates to the ML model versions and other configurations, ArgoCD will refresh and propagate those changes to the configured environment automatically.|
+|c5 |Prometheus/Grafana<br>(Instrumentation)|The services in __(c4)__ are monitored for their reliability by exporting relevant performance metrics from the services using ML Monitor. The metrics are stored in Prometheus and visualised using Grafana.|
+|||
+
 ## <img src="images/green-3d-ball.png" width="35" /> D. Project Implementation Details
 
 ### D1. MLOps CI/CD Pipeline
@@ -46,14 +51,15 @@ GitHub Actions has been a very successful automation tool used by software devel
 
 In this project, we will also leverage GitHub Actions as the tool to automate the MLOps workflow.
 
-<img src="images/devops-cicd-pipeline.png" width="500" />
-<img src="images/mlops-cicd-pipeline.png" width="500" />
+#### _DevOps CI/CD pipeline (Software Engineering) versus MLOps CI/CD pipeline (Machine Learning)_
+<img src="images/d1-devops-cicd-pipeline.png" width="400" /> <img src="images/d1-mlops-cicd-pipeline.png" width="380" />
 
-DevOps CI/CD pipeline (Software Engineering) versus MLOps CI/CD pipeline (Machine Learning)
+#### _Different roles involved in MLOps workflow._
+<img src="images/d1-mlops-different-roles-involved-in-workflow.png" width="500" />
 
-INSERT IMAGE THAT SHOWS THE VARIOUS PARTIES IN THE MLOPS WORKFLOW. KIV.
+#### _MLOps workflow using GitHub Actions._
+<img src="images/d1-mlops-github-action-workflow-temp.png" width="500" /><br>
 
-<img src="images/mlops-github-action-workflow-temp.png" width="500" />
 
 In the ML domain, the actual development or the training/fine-tuning of the program codes is usually done by a data scientist. Hence, the Trunk-based development approach (versus the more complex variation using Feature branching) is more suitable as the branching strategy for MLOps workflow.
 
@@ -78,11 +84,12 @@ In our MLOps workflow, there are 2 events that will trigger the MLOps pipeline i
         - Deployment of the release version vx.x.x of the ML model to the production system is manually synchronised via ArgoCD UI or CLI.
     - If the release is not approved for some reasons, the pending CD workflow/job will be cancelled by GitHub Actions.
 
-<img src="images/mlops-end-to-end-workflow-temp.png" width="800" />
+<img src="images/d1-mlops-end-to-end-workflow-temp.png" width="800" />
+TO UPDATE THIS FIGURE. KIV
 
 Reference: Engineering MLOps, Emmanuel Raj, Packt Publishing, 2021, pp40.
 
-<details><summary><code style="color: yellow">MLOps CI/CD Pipeline Demo</code></summary>
+<XXXdetails><summary><code style="color: yellow">MLOps CI/CD Pipeline Demo</code></summary>
 
 1.  Pre-requisites For MLOps CI/CD Pipeline Demo:
 
@@ -90,28 +97,11 @@ Reference: Engineering MLOps, Emmanuel Raj, Packt Publishing, 2021, pp40.
         ```
         kubectl
         ```
-    - XX
-        ```
-        kubectl
-        ```
-    - XX
-        ```
-        kubectl
-        ```
-
 2.
 ```
 ```
 
 3.
-```
-```
-
-4.
-```
-```
-
-5.
 ```
 ```
 </details>
@@ -124,39 +114,23 @@ Containerisation is one of the cloud-native techologies that we should always ex
 
 In addition to containerising our ML Model, we have also implemented industrial standard protocol using the REST API so that our image can be easily accessed via the HTTP GET and POST method using our internet browser.
 
-<details><summary><code style="color: yellow">Containerisation And Microservices Demo</code></summary>
+<XXXdetails><summary><code style="color: yellow">Containerisation And Microservices Demo</code></summary>
 
 1.  Pre-requisites For Containerisation And Microservices Demo:
-    - |S/N|Required software|Version         |
-      |---|-----------------|-------         |
+    - |S/N|Required software|Version|
+      |---|-----------------|-------|
       | 1 | curl            |???|
       | 2 | python          |???|
-      | 3 | Docker Desktop  |???|
+      | 3 | Postman         |???|
       |||
 
-2.  Run the following command to test the GET method using curl.
-    ```
-    KIV
-    ```
-    <img src="images/d2-containerisation-detail-02-test-get-using-curl.png"
+2.  Use Postman to test the GET method.
+ 
+    <img src="images/d2-containerisation-detail-02-test-get-using-postman.png" width="500" />
 
-3.  Run the following command to test the POST method using curl.
-    ```
-    KIV
-    ```
-    <img src="images/d2-containerisation-detail-03-test-post-using-curl.png"
+3.  Use Postman to test the POST method.
 
-4.  Run the following command to test the GET method using docker.
-    ```
-    KIV
-    ```
-    <img src="images/d2-containerisation-detail-04-test-get-using-docker.png"
-
-5.  Run the following command to test the POST method using docker.
-    ```
-    KIV
-    ```
-    <img src="images/d2-containerisation-detail-05-test-post-using-docker.png"
+    <img src="images/d2-containerisation-detail-03-test-post-using-postman.png" width="500" />
 </details>
 
 ### D3. Kubernetes <img src="images/kubernetes-logo.png" width="60" />
@@ -167,12 +141,12 @@ EKS is the managed Kubernetes services of Amazon Web Services' (AWS) which offer
 
 The EKS is provisioned using Terraform, which is an open-source techology to allow us to deploy infrastructure using codes.
 
-<details><summary><code style="color: aqua">Elastic Kubernetes Service (EKS) Deployment Demo</code></summary>
+<XXXdetails><summary><code style="color: aqua">Elastic Kubernetes Service (EKS) Deployment Demo</code></summary>
 
 1.  Pre-requisites For EKS Deployment Demo:
-    - |S/N|Required software|Version      |
-      |---|-----------------|-------      |
-      | 1 | Terraform       |v1.8.4 or later.|
+    - |S/N|Required software|Version|
+      |---|-----------------|-------|
+      | 1 | terraform       |v1.8.4 or later.|
       | 2 | kubectl         |???|
       | 3 | AWS account with permission to provision resources.||
       | 4 | AWS credentials setup in local machine.||
@@ -186,23 +160,22 @@ The EKS is provisioned using Terraform, which is an open-source techology to all
     ```
     terraform apply -var-file=prod.tfvars
     ```
-    <img src="images/d3-eks-detail-03-terraform-apply-prod.png"
+    <img src="images/d3-eks-detail-03-terraform-apply-prod.png" width="500" />
 
-    Note that the command will provision the infrastructures (VPC, Network, Firewalls, Internet Gateway, EC2, etc) for the
-    production environment. Please use the dev.tfvars to setup the development/testing environment.
+    Note that the command will provision the infrastructures (VPC, Network, Firewalls, Internet Gateway, EC2, etc) for the production environment. Please use the dev.tfvars to setup the development/testing environment.
     ```
     terraform apply -var-file=dev.tfvars
     ```
-    <img src="images/d3-eks-detail-04-terraform-apply-dev.png"
+    <img src="images/d3-eks-detail-04-terraform-apply-dev.png" width="500" />
     
 4.  Upon prompted by the system, type `yes` and then press the `Enter` key:
 
-    <img src="images/d3-eks-detail-05-terraform-apply-yes.png"
+    <img src="images/d3-eks-detail-05-terraform-apply-yes.png" width="500" />
 
 5.  Please wait for up to 20 minutes for the Terraform to provision the EKS cluster in AWS.<br>
     Upon completion of the EKS cluster, you should be able to see the information about the cluster:
 
-    <img src="images/d3-eks-detail-06-terraform-apply-output.png" 
+    <img src="images/d3-eks-detail-06-terraform-apply-output.png" width="500" />
 
 6.  Please note down the details shown in the preceding step because the information is required in section D4 for setting up the
     ArgoCD.
@@ -211,7 +184,7 @@ The EKS is provisioned using Terraform, which is an open-source techology to all
     ```
     kubectl config???
     ```
-    <img src="images/d3-eks-detail-07-kubectl-config.png"
+    <img src="images/d3-eks-detail-07-kubectl-config.png" width="500" />
 
 8.  You are ready to proceed to setup the ArgoCD described in the next section.
 </details>
@@ -228,7 +201,7 @@ To enable GitOps to work, it is a best practice to have 2 repositories. One for 
 
 However, ArgoCD is only a continuous deployment (CD) tool and we still require a pipeline for continuous integration (CI) that will test and build our application.
 
-<img src="images/argocd-automated-cd-workflow-temp.png" width="800" />
+<img src="images/d3-argocd-automated-cd-workflow-temp.png" width="800" />
 
 When a developer updates the application source codes, he will test and then build an image which will be pushed to a container repository. The CI pipeline will the trigger updates to the configuration repository (e.g. update the image version) which will cause ArgoCD to synchronise.
 
@@ -240,42 +213,82 @@ GitOps using ArgoCD has these benefits:
 - We can implement blue/green deployment and/or canary deployment with ease.
 - We can always rollback to the previous working version should the new version is not stable.
 
-<details><summary><code style="color: cyan">ArgoCD Setup Demo</code></summary>
+<XXXdetails><summary><code style="color: cyan">ArgoCD Setup (Using Manifest) Demo</code></summary>
 
-1.  Pre-requisites For ArgoCD Setup Demo:
-    - |S/N|Required software       |Version      |
-      |---|-----------------       |-------      |
-      | 1 | Helm                   |vXXXX or later.|
-      | 2 | kubectl                |???|
-      | 3 | ArgoCD GUI and CLI tool||
+1.  Pre-requisites For ArgoCD Setup (Using Manifest) Demo:
+    - |S/N|Required software|Version|
+      |---|-----------------|-------|
+      | 1 | kubectl         |???|
+      | 2 | ArgoCD GUI and CLI tool||
+      | 3 | A Kubernetes installed and configured in .kube/config.||
       |||
 
-2.  Navigate to the folder terraform/aws and run the `choco install helm` command.
+2.  Run the following command to create the argocd namespace.
     ```
-    kubectl config???
+    kubectl create namespace argocd
     ```
-    <img src="images/d4-argocd-detail-02-helm-install.png" width="500" />
+    <img src="images/d4-argocd-detail-02-create-namespace.png" width="500" />
 
-3.  Navigate to the folder terraform/aws and run the `choco install helm` command.
+3.  Apply the install.yaml manifest file to install ArgoCD.
     ```
-    kubectl config???
+    kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
     ```
-    <img src="images/d4-argocd-detail-03-helm-install.png" width="500" />
+    <img src="images/d4-argocd-detail-03-apply-install-manifest.png" width="500" />
 
-4.  Navigate to the folder terraform/aws and run the `choco install helm` command.
+4.  Use this command to verify the installation.
     ```
-    kubectl config???
+    kubectl get all --namespace argocd
     ```
-    <img src="images/d4-argocd-detail-04-helm-install.png" width="500" />
+    <img src="images/d4-argocd-detail-04-verify-installation.png" width="500" />
 
-5.  Navigate to the folder terraform/aws and run the `choco install helm` command.
+    Please wait for few minutes for all the pods to be ready in Running status. These are all the components that are required for ArgoCD to function properly.
+
+5.  We can access ArgoCD via its Graphical User Interface (GUI). But we need to use a mechanism
+    called “port-forwarding” on the service called service/argocd-server (which is listening on
+    port 80 and 443). By-pass the certificate check, if necessary.
     ```
-    kubectl config???
+    kubectl get services -n argocd
+    kubectl port-forward service/argocd-server --namespace argocd 8080:443
     ```
-    <img src="images/d4-argocd-detail-05-helm-install.png" width="500" />
+    <img src="images/d4-argocd-detail-05-port-forwarding.png" width="500" />
+
+6.  Run the following command to get the initial password of ArgoCD. You will need it to login
+    to the ArgoCD GUI.
+    ```
+    kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+    ```
+    <img src="images/d4-argocd-detail-06-decode-initial-password.png" width="500" />
+
+7.  Go to the browser and enter the following address as the URL to access the ArgoCD GUI.
+    ```
+    http://localhost:8080
+    ```
+8.  When the ArgoCD GUI is up, enter __admin__ as the __Username__. For the __Password__, enter
+    the text that you obtained in step 6.
+
+    <img src="images/d4-argocd-detail-07-argocd-gui.png" width="500" />
+
+9.  Within the ArgoCD GUI, click Create Application. Please enter the following details:
+    Application name: XXX
+    Project: default
+    __Create namespace__: Tick this option
+    Repo URL: XXX
+    Target server: XXX
+
+    Then click the Create button at the bottom of the screen.
+
+    <img src="images/d4-argocd-detail-08-create-application.png" width="500" />
+
+10. Please wait for the application to show healthy status (i.e. Synchronised/Healthy).
+
+    <img src="images/d4-argocd-detail-08-show-application.png" width="500" />
+
+11. Repeat step 9 and 10 to create a second application, if required.
+
+![alt text](image.png)
 </details>
 
-### D5. Prometheus <img src="images/prometheus-logo.png" width="60" />
+### D5. Prometheus <img src="images/prometheus-logo.png" width="60" /> And Grafana
 
 Although Kubernetes has self-healing capability, it is not desirable if there are indeed outages in the deployed application.
 
@@ -283,39 +296,118 @@ Very often, we will want to monitor the ML model not only for its performance, l
 
 In the program codes that we used for training the ML model, we have also implemented instrumentation capability to make the model itself export relevant ML-related metrics (such as data and model drift, prediction accuracy, classification and regression metrics, etc). These metrics can then be configured in the instrumentation software for us to analyse the data for performance, operation, troubleshooting and optimisation purpose.
 
-<details><summary><code style="color: yellow">Prometheus And Grafana Setup Demo</code></summary>
+#### _ML Monitoring_
+Image Source: https://bowtiedraptor.substack.com/p/mlops-18-monitoring-with-prometheus
+<img src="images/d5-prometheus-ml-monitoring.png" width="800" />
+
+#### _ML Monitoring With Prometheus And Grafana_
+Image Source: https://bowtiedraptor.substack.com/p/mlops-18-monitoring-with-prometheus
+<img src="images/d5-prometheus-ml-monitoring-with-prometheus-and-grafana.png" width="800" />
+
+<XXXdetails><summary><code style="color: yellow">Prometheus And Grafana Setup Demo</code></summary>
 
 1.  Pre-requisites For Prometheus And Grafana Setup Demo:
-    - |S/N|Required software       |Version      |
-      |---|-----------------       |-------      |
-      | 1 | Helm                   |vXXXX or later.|
-      | 2 | kubectl                |???|
-      | 3 | ArgoCD GUI and CLI tool||
+    - |S/N|Required software|Version|
+      |---|-----------------|-------|
+      | 1 | helm            |vXXXX or later.|
+      | 2 | kubectl         |???|
+      | 3 | A Kubernetes installed and configured in .kube/config.||
       |||
 
-2.  Navigate to the folder terraform/aws and run the `choco install helm` command.
-    ```
-    kubectl config???
-    ```
-    <img src="images/d5-prometheus-detail-02-helm-install.png" width="500" />
+2.  Go to https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus and locate the
+    prometheus chart.
 
-3.  Navigate to the folder terraform/aws and run the `choco install helm` command.
-    ```
-    kubectl config???
-    ```
-    <img src="images/d5-prometheus-detail-03-helm-install.png" width="500" />
+    <img src="images/d5-prometheus-detail-02-select-prometheus.png" width="500" />
 
-4.  Navigate to the folder terraform/aws and run the `choco install helm` command.
+3.  Run the following command to add the prometheus chart to the Helm repository.
     ```
-    kubectl config???
+    helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
     ```
-    <img src="images/d5-prometheus-detail-04-helm-install.png" width="500" />
+    <img src="images/d5-prometheus-detail-03-add-prometheus-to-helm.png" width="500" />
 
-5.  Navigate to the folder terraform/aws and run the `choco install helm` command.
+4.  Update the Helm repository with this command.
     ```
-    kubectl config???
+    helm repo update
     ```
-    <img src="images/d5-prometheus-detail-05-helm-install.png" width="500" />
+    <img src="images/d5-prometheus-detail-04-update-helm.png" width="500" />
+
+5.  Install Prometheus using this command.
+    ```
+    kubectl install prometheus prometheus-community/prometheus
+    ```
+    <img src="images/d5-prometheus-detail-05-install-prometheus.png" width="500" />
+
+6.  Verify the installation.
+    ```
+    kubectl get pods
+    ```
+    <img src="images/d5-prometheus-detail-06-verify-installation.png" width="500" />
+
+    Please wait for few minutes for all the pods to be ready in Running status. These are all the components that are required for Prometheus to function properly.
+
+7.  In order to access Prometheus from outside the cluster, we need to expose the node port.
+    ```
+    kubectl get services <<< NEED TO ADD NAMESPACE???
+    kubectl expose service prometheus-server --type=NodePort --target-port=9090 --name=prometheus-server-ext
+    ```
+    <img src="images/d5-prometheus-detail-07-expose-prometheus-server.png" width="500" />
+
+    You will see there is one extra service (with the name of prometheus-server-ext) created.
+
+8.  Go to the browser and enter `xxx` as the URL. The port is the 5-digit number associated with the newly created
+    service prometheus-server-ext.
+
+    <img src="images/d5-prometheus-detail-08-prometheus-gui.png" width="500" />
+
+9.  Within Prometheus GUI, go to Status/Targets...
+
+    <img src="images/d5-prometheus-detail-09-prometheus-gui-target-status.png" width="500" />
+
+    <img src="images/d5-prometheus-detail-10-prometheus-gui-target-status-details.png" width="500" />
+
+    <img src="images/d5-prometheus-detail-10-prometheus-gui-metrics.png" width="500" />
+
+10. To install Grafana, run the following command:
+    ```
+    kubectl get pods
+    ```
+    <img src="images/d5-prometheus-detail-06-verify-installation.png" width="500" />
+
+11. XXX:
+    ```
+    XXX
+    ```
+    <img src="images/d5-prometheus-detail-06-verify-installation.png" width="500" />
+
+12. XXX:
+    ```
+    XXX
+    ```
+    <img src="images/d5-prometheus-detail-06-verify-installation.png" width="500" />
+
+13. XXX:
+    ```
+    XXX
+    ```
+    <img src="images/d5-prometheus-detail-06-verify-installation.png" width="500" />
+
+14. XXX:
+    ```
+    XXX
+    ```
+    <img src="images/d5-prometheus-detail-06-verify-installation.png" width="500" />
+
+15. XXX:
+    ```
+    XXX
+    ```
+    <img src="images/d5-prometheus-detail-06-verify-installation.png" width="500" />
+
+16. XXX:
+    ```
+    XXX
+    ```
+    <img src="images/d5-prometheus-detail-06-verify-installation.png" width="500" />
 </details>
 
 ## <img src="images/blue-3d-ball.png" width="35" /> E. Project Summary
