@@ -29,22 +29,15 @@ c5.	We will install instrumenting software tools such as Prometheus and ML-Monit
 
 Here is a summary of the proposed items:
 
-###
-|S/N|Proposed item (Technology stack)   |Description of proposed items|
-|---|--------------------------------   |-----------------------------| 
-|c1 |GitHub Actions (CI/CD pipeline)    |GitHub Actions is used to implement a CI/CD pipeline to streamline the MLOps workflow.|
-|c2 |Docker (Containerisation) and      |The ML models created in (c1) are containerised using Docker and published to DockerHub.|
-|   |                                   |The images are The images are implemented as REST API services using Python/Flask|
-|c3	|Kubernetes (Orchestration platform)|The services in (c2) are deployed to Elastic Kubernetes Service (EKS) of AWS.|
-|   |                                   |EKS is a managed service and thus will handle the auto-scaling, self-healing and provisioning of|
-|   |                                   |the required resources automatically for us.|
-|c4	|GitOps (CD workflow automation)    |The EKS deployment workflow in (c3) is automated and monitored via ArgoCD. Whenever there are|
-|   |                                   |updates to the ML model versions and other configurations, ArgoCD will refresh and propagate|
-|   |                                   |those changes to the configured environment automatically.
-|c5 |Prometheus (Instrumentation)       |The services in (c4) are monitored for their reliability by exporting relevant performance|
-|   |                                   |metrics from the services using EvidentlyAI. The metrics are stored in Prometheus and visualised|
-|   |                                   |using Grafana.|
-
+##
+|S/N|Proposed item (Technology stack)           |Description of proposed items|
+|---|-------------------------------------------|-----------------------------| 
+|c1 |GitHub Actions (CI/CD pipeline)            |GitHub Actions is used to implement a CI/CD pipeline to streamline the MLOps workflow.|
+|c2 |Docker (Containerisation) and              |The ML models created in (c1) are containerised using Docker and published to DockerHub.<br>The images are implemented as REST API services using Python/Flask                                                                 |
+|c3	|Kubernetes (Orchestration platform)        |The services in (c2) are deployed to Elastic Kubernetes Service (EKS) of AWS.<br>EKS is a managed service and thus will handle the auto-scaling, self-healing and auto-provisioning of the required resources for us.          |
+|c4	|GitOps (CD workflow automation)            |The EKS deployment workflow in (c3) is automated and monitored via ArgoCD.<br>Whenever there are updates to the ML model versions and other configurations, ArgoCD will refresh and propagate those changes to the configured environment automatically.                                                                                                             |
+|c5 |Prometheus (Instrumentation)               |The services in (c4) are monitored for their reliability by exporting relevant performance metrics from the services using ML Monitor. The metrics are stored in Prometheus and visualised using Grafana.             |
+|                                               |                                                                                      |
 ## <img src="images/green-3d-ball.png" width="35" /> D. Project Implementation Details
 
 ### D1. MLOps CI/CD Pipeline
@@ -309,6 +302,6 @@ In the program codes that we used for training the ML model, we have also implem
 
 ## <img src="images/blue-3d-ball.png" width="35" /> E. Project Summary
 
-## <img src="images/purple-3d-ball.png" width="35" /> F. Suggestions For Future Work
+## <img src="images/indigo-3d-ball.png" width="35" /> F. Suggestions For Future Work
 
-## <img src="images/purple-3d-ball.png" width="35" /> G. References
+## <img src="images/violet-3d-ball.png" width="35" /> G. References
