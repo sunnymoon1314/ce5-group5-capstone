@@ -1,12 +1,13 @@
-## NTU-SCTP Cloud Infrastructure Engineering
-### Cohort 5 Group 5 Capstone Project
-Submitted By: SOON Leah Foo, Group 5, 15 Jun 2024.
+# NTU-SCTP Cloud Infrastructure Engineering
+## Cohort 5 Group 5 Capstone Project<br>
+Submitted By: __SOON Leah Foo__<br>
+Submitted On: __15 Jun 2024__
 
-## A. Project Title
+## <img src="images/red-3d-ball.png" width="35" /> A. Project Title
 
-MLOps using GitHub Actions with deployment to instrumented multi-cloud Kubernetes clusters.
+## Machine Learning Operations using GitHub Actions with automated deployment to instrumented Kubernetes clusters in a multi-cloud environment.
 
-## B. Business Use Case: TraumWare Company Profile
+## <img src="images/orange-3d-ball.png" width="35" /> B. Business Use Case: TraumWare Company Profile
 
 TraumWare Manufacturing Pte Ltd is a Small-Medium Sized company specialising in manufacturing high-precision bolts and nuts for CNC machineries.
 
@@ -14,7 +15,7 @@ In order to ensure the machines are operationally healthy and functioning on a d
 
 The company has more than 20 different makes and models of machineries used in the fabrication process, and it has always been daunting for the company to monitor the status of the various machines. The company approached us for advice and assessment whether there are alternative solutions for a more efficient workflow in terms of optimal forecast plan and efficient usage of available human resources to do the maintenance work.
 
-## C. Project Proposal
+## <img src="images/yellow-3d-ball.png" width="35" /> C. Project Proposal
 
 Corrective and preventive maintenance is often a major part of manufacturing industries. Although this process is complex and expensive when conducted with conventional approaches, machine learning has now made it easier to discover meaningful insights and hidden patterns in factory data. Because this process helps in reducing risks associated with unexpected failures, companies can also reduce unnecessary expenses by implementing machine learning models. What’s more, artificial intelligence and machine learning algorithms work in collaboration to analyze historical data and ensure workflow visualization.
 
@@ -28,37 +29,31 @@ c5.	We will install instrumenting software tools such as Prometheus and ML-Monit
 
 Here is a summary of the proposed items:
 
-###
-|S/N|Proposed item (Technology stack)   |Description of proposed items|
-|---|--------------------------------   |-----------------------------| 
-|c1 |GitHub Actions (CI/CD pipeline)    |GitHub Actions is used to implement a CI/CD pipeline to streamline the MLOps workflow.|
-|c2 |Docker (Containerisation) and      |The ML models created in (c1) are containerised using Docker and published to DockerHub.|
-|   |                                   |The images are The images are implemented as REST API services using Python/Flask|
-|c3	|Kubernetes (Orchestration platform)|The services in (c2) are deployed to Elastic Kubernetes Service (EKS) of AWS.|
-|   |                                   |EKS is a managed service and thus will handle the auto-scaling, self-healing and provisioning of|
-|   |                                   |the required resources automatically for us.|
-|c4	|GitOps (CD workflow automation)    |The EKS deployment workflow in (c3) is automated and monitored via ArgoCD. Whenever there are|
-|   |                                   |updates to the ML model versions and other configurations, ArgoCD will refresh and propagate|
-|   |                                   |those changes to the configured environment automatically.
-|c5 |Prometheus (Instrumentation)       |The services in (c4) are monitored for their reliability by exporting relevant performance|
-|   |                                   |metrics from the services using EvidentlyAI. The metrics are stored in Prometheus and visualised|
-|   |                                   |using Grafana.|
+##
+|S/N|Proposed item (Technology stack)           |Description of proposed items|
+|---|-------------------------------------------|-----------------------------| 
+|c1 |GitHub Actions (CI/CD pipeline)            |GitHub Actions is used to implement a CI/CD pipeline to streamline the MLOps workflow.|
+|c2 |Docker (Containerisation) and              |The ML models created in (c1) are containerised using Docker and published to DockerHub.<br>The images are implemented as REST API services using Python/Flask                                                                 |
+|c3	|Kubernetes (Orchestration platform)        |The services in (c2) are deployed to Elastic Kubernetes Service (EKS) of AWS.<br>EKS is a managed service and thus will handle the auto-scaling, self-healing and auto-provisioning of the required resources for us.          |
+|c4	|GitOps (CD workflow automation)            |The EKS deployment workflow in (c3) is automated and monitored via ArgoCD.<br>Whenever there are updates to the ML model versions and other configurations, ArgoCD will refresh and propagate those changes to the configured environment automatically.                                                                                                             |
+|c5 |Prometheus (Instrumentation)               |The services in (c4) are monitored for their reliability by exporting relevant performance metrics from the services using ML Monitor. The metrics are stored in Prometheus and visualised using Grafana.             |
+|                                               |                                                                                      |
+## <img src="images/green-3d-ball.png" width="35" /> D. Project Implementation Details
 
-## D. Project Implementation Details
-
-### D1. CI/CD pipeline (MLOps)
+### D1. MLOps CI/CD Pipeline
 
 GitHub Actions has been a very successful automation tool used by software developers to automate the software development life cycle from development stage right through to the deployment stage.
 
 In this project, we will also leverage GitHub Actions as the tool to automate the MLOps workflow.
 
-![alt text](images/devops-cicd-pipeline.png) ![alt text](images/mlops-cicd-pipeline.png)
+<img src="images/devops-cicd-pipeline.png" width="500" />
+<img src="images/mlops-cicd-pipeline.png" width="500" />
 
 DevOps CI/CD pipeline (Software Engineering) versus MLOps CI/CD pipeline (Machine Learning)
 
 INSERT IMAGE THAT SHOWS THE VARIOUS PARTIES IN THE MLOPS WORKFLOW. KIV.
 
-![alt text](images/mlops-github-action-workflow-temp.png)
+<img src="images/mlops-github-action-workflow-temp.png" width="500" />
 
 In the ML domain, the actual development or the training/fine-tuning of the program codes is usually done by a data scientist. Hence, the Trunk-based development approach (versus the more complex variation using Feature branching) is more suitable as the branching strategy for MLOps workflow.
 
@@ -66,14 +61,14 @@ Reference: https://www.freecodecamp.org/news/what-is-trunk-based-development/
 
 In our MLOps workflow, there are 2 events that will trigger the MLOps pipeline into action:
 
-1. Pull request from dev branch to main branch.
+1.  Pull request from dev branch to main branch.
     -  There will be an approval step for a manager/senior data scientist to check and evaluate the ML model training results, which are stored as GitHub artifacts.
     - Upon approval of the results, the changes and the latest source codes are merged back to the main branch.
     - The model file (one of the files in the GitHub artifacts) is used to build the Docker image.
     - The image is tagged as model-image:latest (i.e. this is a developer build and not to be released to production environment) and is pushed to the DockerHub.
     - If the pull request is not approved for some reasons, the pending CI workflow/job will be cancelled by GitHub Actions and no model-image:latest will be pushed to the DockerHub.
 
-2. Release event on the main branch with vx.x.x semantic versioned tag.
+2.  Release event on the main branch with vx.x.x semantic versioned tag.
     - This is a step that requires due diligence on the testing team to schedule the deployment of the release version to the production environment.
     - Upon creation of the release tag, the event will trigger the CD process:
         - Push to DockerHub with 2 images with latest version and vx.x.x.
@@ -83,11 +78,45 @@ In our MLOps workflow, there are 2 events that will trigger the MLOps pipeline i
         - Deployment of the release version vx.x.x of the ML model to the production system is manually synchronised via ArgoCD UI or CLI.
     - If the release is not approved for some reasons, the pending CD workflow/job will be cancelled by GitHub Actions.
 
-![alt text](images/mlops-end-to-end-workflow-temp.png)
+<img src="images/mlops-end-to-end-workflow-temp.png" width="800" />
 
 Reference: Engineering MLOps, Emmanuel Raj, Packt Publishing, 2021, pp40.
 
-### D2. Containerisation ![ ](images/docker-logo.png) and Microservices ![alt text](images/microservices-logo.png)
+<details><summary><code style="color: yellow">MLOps CI/CD Pipeline Demo</code></summary>
+
+1.  Pre-requisites For MLOps CI/CD Pipeline Demo:
+
+    - Format:
+        ```
+        kubectl
+        ```
+    - XX
+        ```
+        kubectl
+        ```
+    - XX
+        ```
+        kubectl
+        ```
+
+2.
+```
+```
+
+3.
+```
+```
+
+4.
+```
+```
+
+5.
+```
+```
+</details>
+
+### D2. Containerisation <img src="images/docker-logo.png" width="60" /> And Microservices <img src="images/microservices-logo.png" width="60" />
 
 We will containerise the model file created in the preceding step to a Docker image.
 
@@ -95,7 +124,42 @@ Containerisation is one of the cloud-native techologies that we should always ex
 
 In addition to containerising our ML Model, we have also implemented industrial standard protocol using the REST API so that our image can be easily accessed via the HTTP GET and POST method using our internet browser.
 
-### D3. Kubernetes ![alt text](images/kubernetes-logo.png)
+<details><summary><code style="color: yellow">Containerisation And Microservices Demo</code></summary>
+
+1.  Pre-requisites For Containerisation And Microservices Demo:
+    - |S/N|Required software|Version         |
+      |---|-----------------|-------         |
+      | 1 | curl            |???|
+      | 2 | python          |???|
+      | 3 | Docker Desktop  |???|
+      |||
+
+2.  Run the following command to test the GET method using curl.
+    ```
+    KIV
+    ```
+    <img src="images/d2-containerisation-detail-02-test-get-using-curl.png"
+
+3.  Run the following command to test the POST method using curl.
+    ```
+    KIV
+    ```
+    <img src="images/d2-containerisation-detail-03-test-post-using-curl.png"
+
+4.  Run the following command to test the GET method using docker.
+    ```
+    KIV
+    ```
+    <img src="images/d2-containerisation-detail-04-test-get-using-docker.png"
+
+5.  Run the following command to test the POST method using docker.
+    ```
+    KIV
+    ```
+    <img src="images/d2-containerisation-detail-05-test-post-using-docker.png"
+</details>
+
+### D3. Kubernetes <img src="images/kubernetes-logo.png" width="60" />
 
 We have chosen to use Elastic Kubernetes Service (EKS) which is the managed Kubernetes services of Amazon Web Services' (AWS) as the deployment platform.
 
@@ -103,7 +167,56 @@ EKS is the managed Kubernetes services of Amazon Web Services' (AWS) which offer
 
 The EKS is provisioned using Terraform, which is an open-source techology to allow us to deploy infrastructure using codes.
 
-### D4. ArgoCD ![alt text](images/argocd-logo.png)
+<details><summary><code style="color: aqua">Elastic Kubernetes Service (EKS) Deployment Demo</code></summary>
+
+1.  Pre-requisites For EKS Deployment Demo:
+    - |S/N|Required software|Version      |
+      |---|-----------------|-------      |
+      | 1 | Terraform       |v1.8.4 or later.|
+      | 2 | kubectl         |???|
+      | 3 | AWS account with permission to provision resources.||
+      | 4 | AWS credentials setup in local machine.||
+      |||
+
+2.  Navigate to the folder terraform/aws and run the `terraform init` command.
+
+    <img src="images/d3-eks-detail-02-terraform-init.png" width="500" />
+
+3.  Run the `terraform apply` command and specify `-var-file=prod.tfvars` as the argument:
+    ```
+    terraform apply -var-file=prod.tfvars
+    ```
+    <img src="images/d3-eks-detail-03-terraform-apply-prod.png"
+
+    Note that the command will provision the infrastructures (VPC, Network, Firewalls, Internet Gateway, EC2, etc) for the
+    production environment. Please use the dev.tfvars to setup the development/testing environment.
+    ```
+    terraform apply -var-file=dev.tfvars
+    ```
+    <img src="images/d3-eks-detail-04-terraform-apply-dev.png"
+    
+4.  Upon prompted by the system, type `yes` and then press the `Enter` key:
+
+    <img src="images/d3-eks-detail-05-terraform-apply-yes.png"
+
+5.  Please wait for up to 20 minutes for the Terraform to provision the EKS cluster in AWS.<br>
+    Upon completion of the EKS cluster, you should be able to see the information about the cluster:
+
+    <img src="images/d3-eks-detail-06-terraform-apply-output.png" 
+
+6.  Please note down the details shown in the preceding step because the information is required in section D4 for setting up the
+    ArgoCD.
+
+7.  Run the following command to update the kubectl configuration file (Located at ~/.kube/config).<br>
+    ```
+    kubectl config???
+    ```
+    <img src="images/d3-eks-detail-07-kubectl-config.png"
+
+8.  You are ready to proceed to setup the ArgoCD described in the next section.
+</details>
+
+### D4. ArgoCD <img src="images/argocd-logo.png" width="60" />
 
 After deployment of our ML model as an application in the Kubernetes cluster, we make use of ArgoCD to automate the continuous deployment pipeline.
 
@@ -115,7 +228,7 @@ To enable GitOps to work, it is a best practice to have 2 repositories. One for 
 
 However, ArgoCD is only a continuous deployment (CD) tool and we still require a pipeline for continuous integration (CI) that will test and build our application.
 
-![alt text](images/argocd-automated-cd-workflow-temp.png)
+<img src="images/argocd-automated-cd-workflow-temp.png" width="800" />
 
 When a developer updates the application source codes, he will test and then build an image which will be pushed to a container repository. The CI pipeline will the trigger updates to the configuration repository (e.g. update the image version) which will cause ArgoCD to synchronise.
 
@@ -127,10 +240,86 @@ GitOps using ArgoCD has these benefits:
 - We can implement blue/green deployment and/or canary deployment with ease.
 - We can always rollback to the previous working version should the new version is not stable.
 
-### D5. Prometheus ![alt text](images/prometheus-logo.png)
+<details><summary><code style="color: cyan">ArgoCD Setup Demo</code></summary>
+
+1.  Pre-requisites For ArgoCD Setup Demo:
+    - |S/N|Required software       |Version      |
+      |---|-----------------       |-------      |
+      | 1 | Helm                   |vXXXX or later.|
+      | 2 | kubectl                |???|
+      | 3 | ArgoCD GUI and CLI tool||
+      |||
+
+2.  Navigate to the folder terraform/aws and run the `choco install helm` command.
+    ```
+    kubectl config???
+    ```
+    <img src="images/d4-argocd-detail-02-helm-install.png" width="500" />
+
+3.  Navigate to the folder terraform/aws and run the `choco install helm` command.
+    ```
+    kubectl config???
+    ```
+    <img src="images/d4-argocd-detail-03-helm-install.png" width="500" />
+
+4.  Navigate to the folder terraform/aws and run the `choco install helm` command.
+    ```
+    kubectl config???
+    ```
+    <img src="images/d4-argocd-detail-04-helm-install.png" width="500" />
+
+5.  Navigate to the folder terraform/aws and run the `choco install helm` command.
+    ```
+    kubectl config???
+    ```
+    <img src="images/d4-argocd-detail-05-helm-install.png" width="500" />
+</details>
+
+### D5. Prometheus <img src="images/prometheus-logo.png" width="60" />
 
 Although Kubernetes has self-healing capability, it is not desirable if there are indeed outages in the deployed application.
 
 Very often, we will want to monitor the ML model not only for its performance, latency and predictive accuracy, we also want to perform health check on the operating environment to give insights on whether the operating environment is working as per our expectation.
 
 In the program codes that we used for training the ML model, we have also implemented instrumentation capability to make the model itself export relevant ML-related metrics (such as data and model drift, prediction accuracy, classification and regression metrics, etc). These metrics can then be configured in the instrumentation software for us to analyse the data for performance, operation, troubleshooting and optimisation purpose.
+
+<details><summary><code style="color: yellow">Prometheus And Grafana Setup Demo</code></summary>
+
+1.  Pre-requisites For Prometheus And Grafana Setup Demo:
+    - |S/N|Required software       |Version      |
+      |---|-----------------       |-------      |
+      | 1 | Helm                   |vXXXX or later.|
+      | 2 | kubectl                |???|
+      | 3 | ArgoCD GUI and CLI tool||
+      |||
+
+2.  Navigate to the folder terraform/aws and run the `choco install helm` command.
+    ```
+    kubectl config???
+    ```
+    <img src="images/d5-prometheus-detail-02-helm-install.png" width="500" />
+
+3.  Navigate to the folder terraform/aws and run the `choco install helm` command.
+    ```
+    kubectl config???
+    ```
+    <img src="images/d5-prometheus-detail-03-helm-install.png" width="500" />
+
+4.  Navigate to the folder terraform/aws and run the `choco install helm` command.
+    ```
+    kubectl config???
+    ```
+    <img src="images/d5-prometheus-detail-04-helm-install.png" width="500" />
+
+5.  Navigate to the folder terraform/aws and run the `choco install helm` command.
+    ```
+    kubectl config???
+    ```
+    <img src="images/d5-prometheus-detail-05-helm-install.png" width="500" />
+</details>
+
+## <img src="images/blue-3d-ball.png" width="35" /> E. Project Summary
+
+## <img src="images/indigo-3d-ball.png" width="35" /> F. Suggestions For Future Work
+
+## <img src="images/violet-3d-ball.png" width="35" /> G. References
