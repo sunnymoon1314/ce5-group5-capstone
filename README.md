@@ -5,42 +5,56 @@ Submitted On: __15 Jun 2024__
 
 ## <img src="images/red-3d-ball.png" width="35" /> A. Project Title
 
-## Machine Learning Operations using GitHub Actions with automated deployment to instrumented Kubernetes clusters in a multi-cloud environment.
+## Machine Learning Operations using GitHub Actions with automated deployment to instrumented Kubernetes clusters.
 
-## <img src="images/orange-3d-ball.png" width="35" /> B. Business Use Case: TraumWare Company Profile
+## <img src="images/orange-3d-ball.png" width="35" /> B. Business Use Case
 
-TraumWare Manufacturing Pte Ltd is a Small-Medium Sized company specialising in manufacturing high-precision bolts and nuts for CNC machineries.
+Data Driven Cloud Consultancy Services is a company that specialises in providing customised AI-powered cloud solutions to its clients.
+
+We have been approached by one of our prospective client which is a small-medium-sized company specialising in producting paper boxes in their factories.
 
 In order to ensure the machines are operationally healthy and functioning on a daily basis, the company has to schedule for planned maintenance of the machinery on a regular basis.
 
-The company has more than 20 different makes and models of machineries used in the fabrication process, and it has always been daunting for the company to monitor the status of the various machines. The company approached us for advice and assessment whether there are alternative solutions for a more efficient workflow in terms of optimal forecast plan and efficient usage of available human resources to do the maintenance work.
+The company has more than 20 different makes and models of machineries used in the fabrication process, and it has always been daunting for the company to monitor the operational status of the various machines, to ensure there is minimal downtime due to breakdown and faults in the machines.
+
+The company thus approached us for professional advice and assessment whether there are cost-effective ways to schedule for preventive maintenance and to reduce any impact caused by machine breakdown.
 
 ## <img src="images/yellow-3d-ball.png" width="35" /> C. Project Proposal
 
-Corrective and preventive maintenance is often a major part of manufacturing industries. Although this process is complex and expensive when conducted with conventional approaches, machine learning has now made it easier to discover meaningful insights and hidden patterns in factory data. Because this process helps in reducing risks associated with unexpected failures, companies can also reduce unnecessary expenses by implementing machine learning models. What’s more, artificial intelligence and machine learning algorithms work in collaboration to analyze historical data and ensure workflow visualization.
+Corrective and preventive maintenance is often a major part of manufacturing industries. Although this process is complex and expensive when conducted with conventional approaches, machine learning has now made it easier to discover meaningful insights and hidden patterns in factory data.
 
-Here is our proposed solution:
+Because this process helps in reducing risks associated with unexpected failures, companies can also reduce unnecessary expenses by implementing machine learning models (ML models). What’s more, artificial intelligence and machine learning algorithms work in collaboration to analyze historical data and ensure workflow visualization.
 
-1. We will implement a AI-powered solution to solve the problem. We will automate the machine learning model process so that the resultant trained model can be deployed to the production operating environment without much human intervention.
-2.	We will leverage on open-source software and cloud technologies to ensure our solution is scalable and highly available. The trained ML models will be containerised and deployed as RESTAPI endpoints in Kubernetes clusters.
-3.	We will deploy the ML model to Kubernetes.
-4.	We will put in place an automation process using the GitOps methodology to ensure the ML model version used in the production environment is automatically updated whenever there are new releases of the ML models.
-c5.	We will install instrumenting software tools such as Prometheus and ML-Monitor to monitor the health status of the deployed ML model. This is to ensure the ML model maintains its predictive accuracy in the production environment. If the predictive accuracy drops below the acceptable threshold limit, we will trigger the process to retrain the ML model, if necessary.
+Below is a summary of our proposal:
+
+1. We will conduct on-site survey of their factories and assessed the position(s) on each of the machines where sensors/IoT devices can be attached to capture data on temperature, sound, humidity, rotation speed, and other statistics that can help to detect fault in the machine.
+
+2. These sensor data will be collected and uploaded to the cloud and stored in AWS S3 bucket.
+
+3. The data in S3 will be cleaned and pre-processecd to remove any invalid data.
+
+4. We will load the data in the S3 buckets to train and build a ML model which is able to predict whether the machine that produced the data is about to fail or require any attention for corrective maintenance.
+
+5. The trained ML models will be containerised and deployed as RESTAPI endpoints to Kubernetes clusters.
+
+6.	We will automate the deployment process to ensure the ML model in the production environment can be easily updated whenever there are new releases of the ML models.
+
+7.	We will install instrumenting software tools such as Prometheus and ML-Monitor to monitor the health status and predictive accuracy of the deployed ML model. If the predictive accuracy drops below the acceptable threshold limit, we will trigger the process to retrain the ML model, if necessary.
 
 Here is a summary of the proposed items:
 
-#### _Summary Of Proposed Solution_
+### _Summary Of Proposed Solution_
 Image Source: https://igboie.medium.com/kubernetes-ci-cd-with-github-github-actions-and-argo-cd-36b88b6bda64
 <img src="images/c-summary-proposed-solution.png" width="800" />
 
 ##
-|S/N|Proposed item (Technology stack)           |Description of proposed items|
-|---|-------------------------------------------|-----------------------------| 
-|c1 |GitHub Actions<br>(CI/CD pipeline)         |GitHub Actions is used to implement a CI/CD pipeline to streamline the MLOps workflow.|
-|c2 |Docker/REST API<br>(Containerisation/Microservice)|The ML models created in __(c1)__ are containerised using Docker and published to DockerHub The images are implemented as REST API services using Python/Flask.|
-|c3	|Kubernetes<br>(Orchestration platform)     |The services in __(c2)__ are deployed to Elastic Kubernetes Service (EKS) of AWS.<br>EKS is a managed service and thus will handle the auto-scaling, self-healing and auto-provisioning of the required resources for us.|
-|c4	|GitOps<br>(CD workflow automation)|The EKS deployment workflow in __(c3)__ is automated and monitored via ArgoCD.<br>Whenever there are updates to the ML model versions and other configurations, ArgoCD will refresh and propagate those changes to the configured environment automatically.|
-|c5 |Prometheus/Grafana<br>(Instrumentation)|The services in __(c4)__ are monitored for their reliability by exporting relevant performance metrics from the services using ML Monitor. The metrics are stored in Prometheus and visualised using Grafana.|
+|S/N|Proposed item<br>(Technology stack) |Description of proposed items|
+|---|------------------------------------|-----------------------------| 
+|c1 |GitHub Actions<br>(CI pipeline)  |GitHub Actions is used to implement a CI pipeline to create the ML model.|
+|c2 |Docker/REST API<br>(Containerisation/Microservice)|The ML models created in __(c1)__ are containerised using Docker and published to DockerHub. The images are implemented as REST API services using Python/Flask.|
+|c3	|Kubernetes<br>(Orchestration platform)     |The services in __(c2)__ are deployed to Elastic Kubernetes Service (EKS) of AWS using Terraform.<br>EKS is a managed service and thus will handle the auto-scaling, self-healing and auto-provisioning of the required resources for us.|
+|c4	|GitOps<br>(CD workflow automation)|The configurations of EKS deployed in __(c3)__ is stored in a config repository.<br>ArgoCD is setup to monitor if there are changes to this config repository. Wnenever it detects any updates to the ML model versions and/or other settings such as number of replicas, new services added, etc, ArgoCD will refresh and propagate those changes to the Kubernetes cluster(s) automatically.|
+|c5 |Prometheus/Grafana<br>(Instrumentation)|The services in __(c2)__ are also monitored based on the various performance metrics generated from them. The metrics are stored in Prometheus and visualised using Grafana.|
 |||
 
 ## <img src="images/green-3d-ball.png" width="35" /> D. Project Implementation Details
@@ -58,23 +72,26 @@ In this project, we will also leverage GitHub Actions as the tool to automate th
 <img src="images/d1-mlops-different-roles-involved-in-workflow.png" width="500" />
 
 #### _MLOps workflow using GitHub Actions._
-<img src="images/d1-mlops-github-action-workflow-temp.png" width="500" /><br>
-
+<img src="images/d1-mlops-github-action-workflow.png" width="800" /><br>
 
 In the ML domain, the actual development or the training/fine-tuning of the program codes is usually done by a data scientist. Hence, the Trunk-based development approach (versus the more complex variation using Feature branching) is more suitable as the branching strategy for MLOps workflow.
 
 Reference: https://www.freecodecamp.org/news/what-is-trunk-based-development/
 
-In our MLOps workflow, there are 2 events that will trigger the MLOps pipeline into action:
+In our MLOps workflow, there are mainly 3 events that will trigger the MLOps pipeline into action:
 
-1.  Pull request from dev branch to main branch.
-    -  There will be an approval step for a manager/senior data scientist to check and evaluate the ML model training results, which are stored as GitHub artifacts.
+1.  __Push event at dev branch__
+
+2.  __Pull request from dev branch to main branch__
+
+    -  There will be an approval step for a manager/senior data scientist to check and assess the ML model training results, which are available as GitHub artifacts.
     - Upon approval of the results, the changes and the latest source codes are merged back to the main branch.
     - The model file (one of the files in the GitHub artifacts) is used to build the Docker image.
-    - The image is tagged as model-image:latest (i.e. this is a developer build and not to be released to production environment) and is pushed to the DockerHub.
-    - If the pull request is not approved for some reasons, the pending CI workflow/job will be cancelled by GitHub Actions and no model-image:latest will be pushed to the DockerHub.
+    - The image is tagged as ml-model:latest (note that this is a developer build and not to be released to production environment) and is pushed to the DockerHub.
+    - If the pull request is not approved for some reasons, the pending CI workflow/job will be cancelled by GitHub Actions and no ml-model:latest will be pushed to the DockerHub.
 
-2.  Release event on the main branch with vx.x.x semantic versioned tag.
+3.  __Release event on the main branch with vx.x.x semantic version tag__
+
     - This is a step that requires due diligence on the testing team to schedule the deployment of the release version to the production environment.
     - Upon creation of the release tag, the event will trigger the CD process:
         - Push to DockerHub with 2 images with latest version and vx.x.x.
@@ -83,11 +100,6 @@ In our MLOps workflow, there are 2 events that will trigger the MLOps pipeline i
         - Deployment of the release version vx.x.x of the ML model to the test system is auto-sync via ArgoCD UI or CLI.
         - Deployment of the release version vx.x.x of the ML model to the production system is manually synchronised via ArgoCD UI or CLI.
     - If the release is not approved for some reasons, the pending CD workflow/job will be cancelled by GitHub Actions.
-
-<img src="images/d1-mlops-end-to-end-workflow-temp.png" width="800" />
-TO UPDATE THIS FIGURE. KIV
-
-Reference: Engineering MLOps, Emmanuel Raj, Packt Publishing, 2021, pp40.
 
 <XXXdetails><summary><code style="color: yellow">MLOps CI/CD Pipeline Demo</code></summary>
 
@@ -106,7 +118,7 @@ Reference: Engineering MLOps, Emmanuel Raj, Packt Publishing, 2021, pp40.
 ```
 </details>
 
-### D2. Containerisation <img src="images/docker-logo.png" width="60" /> And Microservices <img src="images/microservices-logo.png" width="60" />
+### D2. Containerisation <img src="images/d2-docker-logo.png" width="60" /> And Microservices <img src="images/d2-microservices-logo.png" width="60" />
 
 We will containerise the model file created in the preceding step to a Docker image.
 
@@ -133,7 +145,7 @@ In addition to containerising our ML Model, we have also implemented industrial 
     <img src="images/d2-containerisation-detail-03-test-post-using-postman.png" width="500" />
 </details>
 
-### D3. Kubernetes <img src="images/kubernetes-logo.png" width="60" />
+### D3. Kubernetes <img src="images/d3-kubernetes-logo.png" width="60" />
 
 We have chosen to use Elastic Kubernetes Service (EKS) which is the managed Kubernetes services of Amazon Web Services' (AWS) as the deployment platform.
 
@@ -189,7 +201,7 @@ The EKS is provisioned using Terraform, which is an open-source techology to all
 8.  You are ready to proceed to setup the ArgoCD described in the next section.
 </details>
 
-### D4. ArgoCD <img src="images/argocd-logo.png" width="60" />
+### D4. ArgoCD <img src="images/d4-argocd-logo.png" width="60" />
 
 After deployment of our ML model as an application in the Kubernetes cluster, we make use of ArgoCD to automate the continuous deployment pipeline.
 
@@ -201,7 +213,7 @@ To enable GitOps to work, it is a best practice to have 2 repositories. One for 
 
 However, ArgoCD is only a continuous deployment (CD) tool and we still require a pipeline for continuous integration (CI) that will test and build our application.
 
-<img src="images/d3-argocd-automated-cd-workflow-temp.png" width="800" />
+<img src="images/d4-argocd-automated-cd-workflow-temp.png" width="800" />
 
 When a developer updates the application source codes, he will test and then build an image which will be pushed to a container repository. The CI pipeline will the trigger updates to the configuration repository (e.g. update the image version) which will cause ArgoCD to synchronise.
 
@@ -288,7 +300,7 @@ GitOps using ArgoCD has these benefits:
 ![alt text](image.png)
 </details>
 
-### D5. Prometheus <img src="images/prometheus-logo.png" width="60" /> And Grafana
+### D5. Prometheus <img src="images/d5-prometheus-logo.png" width="60" /> And Grafana <img src="images/d5-grafana-logo.png" width="75" height="55"/>
 
 Although Kubernetes has self-healing capability, it is not desirable if there are indeed outages in the deployed application.
 
@@ -411,6 +423,8 @@ Image Source: https://bowtiedraptor.substack.com/p/mlops-18-monitoring-with-prom
 </details>
 
 ## <img src="images/blue-3d-ball.png" width="35" /> E. Project Summary
+
+Lessons learnt and challenges faced.
 
 ## <img src="images/indigo-3d-ball.png" width="35" /> F. Suggestions For Future Work
 
