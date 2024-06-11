@@ -7,12 +7,12 @@
 # This will trigger the deploy.yml.
 # git push origin v0.0.1
 
-name: Deploy the release version of the model(s) to staging and prod.
+name: Deploy the release version of the ML model(s) to testing and prod environment.
 
 on:
   push:
     branches:
-      - xxx_main_xxx
+      - main
     tags:
       # - 'v*.*.*'
       # Push events to match v*, i.e. v1.0, v20.15.10.
@@ -127,3 +127,4 @@ jobs:
           # name: api
       - run: |
           echo "Deploy infrastructures using Terraform..."
+    if: ${{ !always() }}

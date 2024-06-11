@@ -1,19 +1,39 @@
-name: Build docker image and push to DockerHub.
+name: Run Python scripts to prepare the dataset, train, test, build the model (pkl format).
 # - How to Run Python Scripts in GitHub Action Workflows, Data Engineering With Nick, 1.43K subscribers
 #   https://www.youtube.com/watch?v=zk4bSTD8uWM
 
 on:
   push:
     branches:
-      - main
-  workflow_dispatch:
-    # inputs:
-      # selected-environment:
-          # type: environment
-          # description: Select the environment.
+      - dev
+
+# 11.06.2024 Soon: Need to include the explicit write permission for running snyk-scan.
+# Otherwise, you may encounter an error "Resource not accessible by integration".
+permissions:
+  security-events: write
 
 jobs:
+    # 25.05.2024 Soon: Added snyk-scan job.
+  snyk-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/python@master
+        continue-on-error: true # To make sure that SARIF upload gets called
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --sarif-file-output=snyk.sarif
+      - name: Upload result to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: snyk.sarif
+    if: ${{ always() }}
+
   prepare-train-build:
+    needs: [snyk-scan]
+    environment: "dev"
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository.
@@ -47,29 +67,3 @@ jobs:
           # You can use wildcard pattern to specify what files/folders to upload.
           # path: ./model/*.pkl
           path: ./model/*
-
-  build-and-push-image-to-docker-hub:
-    needs: [prepare-train-build]
-    environment: "prod"
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository.
-        uses: actions/checkout@v4
-
-      - name: Login to Docker Hub.
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Set up Docker Buildx.
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build and push image to Docker Hub.
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          # Push the developer version of the image to the DockerHub.
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/ml-model:latest
