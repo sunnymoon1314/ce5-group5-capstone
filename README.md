@@ -74,6 +74,7 @@ In this project, we will also leverage GitHub Actions as the tool to automate th
 #### _MLOps workflow using GitHub Actions._
 <img src="images/d1-mlops-github-action-workflow.png" width="800" /><br>
 
+![alt text](image.png)
 In the ML domain, the actual development or the training/fine-tuning of the program codes is usually done by a data scientist. Hence, the Trunk-based development approach (versus the more complex variation using Feature branching) is more suitable as the branching strategy for MLOps workflow.
 
 Reference: https://www.freecodecamp.org/news/what-is-trunk-based-development/
@@ -82,38 +83,38 @@ In our MLOps workflow, there are mainly 3 events that will trigger the MLOps pip
 
 1.  __Push event at dev branch__
 
+    -  The trained ML model as well as training results will saved as GitHub artifacts for audit trail purpose.
+
 2.  __Pull request from dev branch to main branch__
 
-    -  There will be an approval step for a manager/senior data scientist to check and assess the ML model training results, which are available as GitHub artifacts.
-    - Upon approval of the results, the changes and the latest source codes are merged back to the main branch.
-    - The model file (one of the files in the GitHub artifacts) is used to build the Docker image.
-    - The image is tagged as ml-model:latest (note that this is a developer build and not to be released to production environment) and is pushed to the DockerHub.
-    - If the pull request is not approved for some reasons, the pending CI workflow/job will be cancelled by GitHub Actions and no ml-model:latest will be pushed to the DockerHub.
+    -  New pull requests to merge changes from dev to the main branch are subjected to approval by a manager/senior data scientist to validate and assess the ML model training results, which are available as GitHub artifacts.
+    - Upon acceptance of the test results and approval of the pull request, the changes and the latest source codes are merged back to the main branch.
+    - The ML model file (one of the files in the GitHub artifacts) will be used to build the Docker image and tagged as ml-model:latest (note that this is a developer build and not to be released to production environment) and is pushed to the DockerHub.
+    - If the pull request is rejected for some reasons, the pending CI workflow/job will be cancelled by GitHub Actions and no ml-model:latest will be pushed to the DockerHub.
 
 3.  __Release event on the main branch with vx.x.x semantic version tag__
 
-    - This is a step that requires due diligence on the testing team to schedule the deployment of the release version to the production environment.
+    - This is a step that requires due diligence on the testing/QA team to schedule the deployment of the release version of the ML model to the production environment.
     - Upon creation of the release tag, the event will trigger the CD process:
-        - Push to DockerHub with 2 images with latest version and vx.x.x.
-        - Deploy the infrastructures and the Kubernetes cluster(s) using Terraform.
+        - Push to DockerHub with 2 images with respective tag of latest and vx.x.x.
         - Update the values.yaml file in the application config repository to the new release version vx.x.x.
-        - Deployment of the release version vx.x.x of the ML model to the test system is auto-sync via ArgoCD UI or CLI.
+        - Deployment of the release version vx.x.x of the ML model to the test/dev system is auto-sync via ArgoCD UI or CLI.
         - Deployment of the release version vx.x.x of the ML model to the production system is manually synchronised via ArgoCD UI or CLI.
-    - If the release is not approved for some reasons, the pending CD workflow/job will be cancelled by GitHub Actions.
+    - If the release is rejected for some reasons, the pending CD workflow/job will be cancelled by GitHub Actions.
 
 <XXXdetails><summary><code style="color: yellow">MLOps CI/CD Pipeline Demo</code></summary>
 
-1.  Pre-requisites For MLOps CI/CD Pipeline Demo:
+1.  __Push event at dev branch__
 
     - Format:
         ```
         kubectl
         ```
-2.
+2.  __Pull request from dev branch to main branch__
 ```
 ```
 
-3.
+3.  __Release event on the main branch with vx.x.x semantic version tag__
 ```
 ```
 </details>
