@@ -106,12 +106,12 @@ In our MLOps workflow, there are mainly 3 events that will trigger the MLOps pip
 
 1.  __Push event at dev branch__
 
-    <img src="images/d1-mlops-workflow-detail-02-git-push-dev.png" width="800" />
+    -   git push at the command prompt window:
+    
+        <img src="images/d1-mlops-workflow-detail-02-git-push-dev.png" width="800" />
 
-    - Format:
-        ```
-        kubectl
-        ```
+
+
 2.  __Pull request from dev branch to main branch__
 ```
 ```

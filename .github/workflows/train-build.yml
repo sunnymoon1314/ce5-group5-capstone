@@ -6,7 +6,12 @@ on:
   push:
     branches:
       - dev
- 
+
+# 11.06.2024 Soon: Need to include the explicit write permission for running snyk-scan.
+# Otherwise, you may encounter an error "Resource not accessible by integration".
+permissions:
+  security-events: write
+
 jobs:
     # 25.05.2024 Soon: Added snyk-scan job.
   snyk-scan:
