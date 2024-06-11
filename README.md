@@ -27,25 +27,25 @@ Because this process helps in reducing risks associated with unexpected failures
 
 Below is a summary of our proposal:
 
-1. We will conduct on-site survey of their factories and assessed the position(s) on each of the machines where sensors/IoT devices can be attached to capture data on temperature, sound, humidity, rotation speed, and other statistics that can help to detect fault in the machine.
+1.  We will conduct on-site survey of their factories and assessed the position(s) on each of the machines where sensors/IoT devices can be attached to capture data on temperature, sound, humidity, rotation speed, and other statistics that can help to detect fault in the machine.
 
-2. These sensor data will be collected and uploaded to the cloud and stored in AWS S3 bucket.
+2.  These sensor data will be collected and uploaded to the cloud and stored in AWS S3 bucket.
 
-3. The data in S3 will be cleaned and pre-processecd to remove any invalid data.
+3.  The data in S3 will be cleaned and pre-processecd to remove any invalid data.
 
-4. We will load the data in the S3 buckets to train and build a ML model which is able to predict whether the machine that produced the data is about to fail or require any attention for corrective maintenance.
+4.  We will load the data in the S3 buckets to train and build a ML model which is able to predict whether the machine that produced the data is about to fail or require any attention for corrective maintenance.
 
-5. The trained ML models will be containerised and deployed as RESTAPI endpoints to Kubernetes clusters.
+5.  The trained ML models will be containerised and deployed as RESTAPI endpoints to Kubernetes clusters.
 
-6.	We will automate the deployment process to ensure the ML model in the production environment can be easily updated whenever there are new releases of the ML models.
+6.  We will automate the deployment process to ensure the ML model in the production environment can be easily updated whenever there are new releases of the ML models.
 
-7.	We will install instrumenting software tools such as Prometheus and ML-Monitor to monitor the health status and predictive accuracy of the deployed ML model. If the predictive accuracy drops below the acceptable threshold limit, we will trigger the process to retrain the ML model, if necessary.
+7.  We will install instrumenting software tools such as Prometheus and ML-Monitor to monitor the health status and predictive accuracy of the deployed ML model. If the predictive accuracy drops below the acceptable threshold limit, we will trigger the process to retrain the ML model, if necessary.
 
 Here is a summary of the proposed items:
 
 ### _Summary Of Proposed Solution_
 Image Source: https://igboie.medium.com/kubernetes-ci-cd-with-github-github-actions-and-argo-cd-36b88b6bda64
-<img src="images/c-summary-proposed-solution.png" width="800" />
+<img src="images/c-summary-proposed-solution.png" width="500" />
 
 ##
 |S/N|Proposed item<br>(Technology stack) |Description of proposed items|
@@ -72,9 +72,8 @@ In this project, we will also leverage GitHub Actions as the tool to automate th
 <img src="images/d1-mlops-different-roles-involved-in-workflow.png" width="500" />
 
 #### _MLOps workflow using GitHub Actions._
-<img src="images/d1-mlops-github-action-workflow.png" width="800" /><br>
+<img src="images/d1-mlops-github-action-workflow.png" width="500" /><br>
 
-![alt text](image.png)
 In the ML domain, the actual development or the training/fine-tuning of the program codes is usually done by a data scientist. Hence, the Trunk-based development approach (versus the more complex variation using Feature branching) is more suitable as the branching strategy for MLOps workflow.
 
 Reference: https://www.freecodecamp.org/news/what-is-trunk-based-development/
@@ -87,38 +86,108 @@ In our MLOps workflow, there are mainly 3 events that will trigger the MLOps pip
 
 2.  __Pull request from dev branch to main branch__
 
-    -  New pull requests to merge changes from dev to the main branch are subjected to approval by a manager/senior data scientist to validate and assess the ML model training results, which are available as GitHub artifacts.
-    - Upon acceptance of the test results and approval of the pull request, the changes and the latest source codes are merged back to the main branch.
-    - The ML model file (one of the files in the GitHub artifacts) will be used to build the Docker image and tagged as ml-model:latest (note that this is a developer build and not to be released to production environment) and is pushed to the DockerHub.
-    - If the pull request is rejected for some reasons, the pending CI workflow/job will be cancelled by GitHub Actions and no ml-model:latest will be pushed to the DockerHub.
+    -   New pull requests to merge changes from dev to the main branch are subjected to approval by a manager/senior data scientist to validate and assess the ML model training results, which are available as GitHub artifacts.
+    -   Upon acceptance of the test results and approval of the pull request, the changes and the latest source codes are merged back to the main branch.
+    -   The ML model file (one of the files in the GitHub artifacts) will be used to build the Docker image and tagged as ml-model:latest (note that this is a developer build and not to be released to production environment) and is pushed to the DockerHub.
+    -   If the pull request is rejected for some reasons, the pending CI workflow/job will be cancelled by GitHub Actions and no ml-model:latest will be pushed to the DockerHub.
 
 3.  __Release event on the main branch with vx.x.x semantic version tag__
 
-    - This is a step that requires due diligence on the testing/QA team to schedule the deployment of the release version of the ML model to the production environment.
-    - Upon creation of the release tag, the event will trigger the CD process:
-        - Push to DockerHub with 2 images with respective tag of latest and vx.x.x.
-        - Update the values.yaml file in the application config repository to the new release version vx.x.x.
-        - Deployment of the release version vx.x.x of the ML model to the test/dev system is auto-sync via ArgoCD UI or CLI.
-        - Deployment of the release version vx.x.x of the ML model to the production system is manually synchronised via ArgoCD UI or CLI.
-    - If the release is rejected for some reasons, the pending CD workflow/job will be cancelled by GitHub Actions.
+    -   This is a step that requires due diligence on the testing/QA team to schedule the deployment of the release version of the ML model to the production environment.
+    -   Upon creation of the release tag, the event will trigger the CD process:
+        -   Push to DockerHub with 2 images with respective tag of latest and vx.x.x.
+        -   Update the values.yaml file in the application config repository to the new release version vx.x.x.
+        -   Deployment of the release version vx.x.x of the ML model to the test/dev system is auto-sync via ArgoCD UI or CLI.
+        -   Deployment of the release version vx.x.x of the ML model to the production system is manually synchronised via ArgoCD UI or CLI.
+    -   If the release is rejected for some reasons, the pending CD workflow/job will be cancelled by GitHub Actions.
 
 <XXXdetails><summary><code style="color: yellow">MLOps CI/CD Pipeline Demo</code></summary>
 
 1.  __Push event at dev branch__
 
-    -   git push at the command prompt window:
+    -   `git push` at the command prompt window:
+
+        <img src="images/d1-mlops-workflow-detail-02-git-push-dev.png" width="500" />
+
+    -   train-build.yml workflow running in progress...
+
+        <img src="images/d1-mlops-workflow-detail-03-train-build-running.png" width="500" />
     
-        <img src="images/d1-mlops-workflow-detail-02-git-push-dev.png" width="800" />
+    -   train-build.yml workflow completed.
 
+        <img src="images/d1-mlops-workflow-detail-04-train-build-completed.png" width="500" />
 
+    -   The artifact files can be downloaded by clicking the download button on the right of the file name.
+
+        <img src="images/d1-mlops-workflow-detail-05-artifact-zip-file.png" width="500" /><br>
+
+        <img src="images/d1-mlops-workflow-detail-06-artifact-contents.png" width="500" />
 
 2.  __Pull request from dev branch to main branch__
-```
-```
+
+    -   Create a pull request in the GitHub Graphical User Interface (GUI) by clicking on the __New pull request button__.
+
+        <img src="images/d1-mlops-workflow-detail-07-create-pull-request.png" width="500" />
+
+    -   Select dev from the Compare list.
+
+        <img src="images/d1-mlops-workflow-detail-08-select-compare-dev.png" width="500" />
+
+    -   The changes made in the dev branch will be listed for your reference. Click the __Create pull request__ to effect the creation.
+
+        <img src="images/d1-mlops-workflow-detail-09-changes-in-dev.png" width="500" />
+
+    -   Add a description for the changes made and click the __Create pull request__ button at the bottom of the screen.
+
+        <img src="images/d1-mlops-workflow-detail-10-pull-request-description.png" width="500" />
+
+    -   The list of pending pull request(s) will be listed in the Pull requests tab.
+
+        <img src="images/d1-mlops-workflow-detail-11-pull-request-pending.png" width="500" />
+
+    -   The requestor will select the pull request to submit for approval, by clicking on the name of the branch name next to the checkbox.
+
+        <img src="images/d1-mlops-workflow-detail-12-pull-request-selected.png" width="500" />
+
+    -   Within the pull request page, scroll to the bottom of the screen and add a comment, if any.
+        And then click the __Merge pull request__ button.
+
+        <img src="images/d1-mlops-workflow-detail-13-pull-request-submit-for-approval.png" width="500" />
+    
+    -   And then click the __Confirm merge__ button.
+
+        <img src="images/d1-mlops-workflow-detail-14-pull-request-confirm-merge.png" width="500" />
+
+    -   If there are no conflicts to be resolved, the merger should be successful.
+
+        <img src="images/d1-mlops-workflow-detail-15-pull-request-merged-and-closed.png" width="500" />
+
+    -   The manager or the seniors will receive a notification of the pull request via email.
+
+        <img src="images/d1-mlops-workflow-detail-16-pull-request-email.png" width="500" />
+
+    -   Within the notification email, click the Review pending deployments.
+
+        <img src="images/d1-mlops-workflow-detail-17-pull-request-review-pending.png" width="500" />
+
+    -   In the approval screen, notice the build-and-push-image-to-docker-hub job is waiting for review. If necessary, the artifacts are also available at the bottom of the screen for validation.
+
+        <img src="images/d1-mlops-workflow-detail-18-pull-request-review-deployments.png" width="500" />
+
+    -   Once the artifacts are checked and all in order, Click __Review deployments__ and on the next screen, tick the prod checkbox and then click the __Approve and deploy__ button.
+
+    -   The ml-model:latest image is now pushed to the DockerHub upon approval.
+
+        <img src="images/d1-mlops-workflow-detail-19-pull-request-approved.png" width="500" />
+
+        <img src="images/d1-mlops-workflow-detail-20-build-and-push-image-to-docker-hub-completed.png" width="500" />
+
+    -   Open the Docker Desktop and check that the ml-model:latest is now pushed to the DockerHub.
+
+        <img src="images/d1-mlops-workflow-detail-20-ml-model-pushed-to-dockerhub.png" width="500" />
 
 3.  __Release event on the main branch with vx.x.x semantic version tag__
-```
-```
+
 </details>
 
 ### D2. Containerisation <img src="images/d2-docker-logo.png" width="60" /> And Microservices <img src="images/d2-microservices-logo.png" width="60" />
@@ -216,7 +285,7 @@ To enable GitOps to work, it is a best practice to have 2 repositories. One for 
 
 However, ArgoCD is only a continuous deployment (CD) tool and we still require a pipeline for continuous integration (CI) that will test and build our application.
 
-<img src="images/d4-argocd-automated-cd-workflow-temp.png" width="800" />
+<img src="images/d4-argocd-automated-cd-workflow-temp.png" width="500" />
 
 When a developer updates the application source codes, he will test and then build an image which will be pushed to a container repository. The CI pipeline will the trigger updates to the configuration repository (e.g. update the image version) which will cause ArgoCD to synchronise.
 
@@ -313,11 +382,13 @@ In the program codes that we used for training the ML model, we have also implem
 
 #### _ML Monitoring_
 Image Source: https://bowtiedraptor.substack.com/p/mlops-18-monitoring-with-prometheus
-<img src="images/d5-prometheus-ml-monitoring.png" width="800" />
+
+<img src="images/d5-prometheus-ml-monitoring.png" width="500" />
 
 #### _ML Monitoring With Prometheus And Grafana_
 Image Source: https://bowtiedraptor.substack.com/p/mlops-18-monitoring-with-prometheus
-<img src="images/d5-prometheus-ml-monitoring-with-prometheus-and-grafana.png" width="800" />
+
+<img src="images/d5-prometheus-ml-monitoring-with-prometheus-and-grafana.png" width="500" />
 
 <XXXdetails><summary><code style="color: yellow">Prometheus And Grafana Setup Demo</code></summary>
 
