@@ -74,6 +74,16 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/ml-model:latest, ${{ secrets.DOCKERHUB_USERNAME }}/ml-model:${{ github.ref_name }}
 
+      - name: Update values.yaml
+        run: |
+          cd helm
+          sed -i 's|APP_VERSION:.*|APP_VERSION: '${{ github.ref_name }}'|' values.yaml 
+          git config --global user.name 'sunnymoon1314'
+          git config --global user.email 'moonysun1314@gmail.com'
+          git add values.yaml
+          git commit -m "Update values.yaml"
+          git push
+
   deploy:
     name: Set up infrastructures and Kubernetes using Terraform.
     needs: [build-and-push-image-to-docker-hub]
