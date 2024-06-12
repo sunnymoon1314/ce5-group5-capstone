@@ -45,7 +45,8 @@ Here is a summary of the proposed items:
 
 ### _Summary Of Proposed Solution_
 Image Source: https://igboie.medium.com/kubernetes-ci-cd-with-github-github-actions-and-argo-cd-36b88b6bda64
-<img src="images/c-summary-proposed-solution.png" width="500" />
+
+<img src="images/c-summary-proposed-solution.png" width="600" />
 
 ##
 |S/N|Proposed item<br>(Technology stack) |Description of proposed items|
@@ -53,7 +54,7 @@ Image Source: https://igboie.medium.com/kubernetes-ci-cd-with-github-github-acti
 |c1 |GitHub Actions<br>(CI pipeline)  |GitHub Actions is used to implement a CI pipeline to create the ML model.|
 |c2 |Docker/REST API<br>(Containerisation/Microservice)|The ML models created in __(c1)__ are containerised using Docker and published to DockerHub. The images are implemented as REST API services using Python/Flask.|
 |c3	|Kubernetes<br>(Orchestration platform)     |The services in __(c2)__ are deployed to Elastic Kubernetes Service (EKS) of AWS using Terraform.<br>EKS is a managed service and thus will handle the auto-scaling, self-healing and auto-provisioning of the required resources for us.|
-|c4	|GitOps<br>(CD workflow automation)|The configurations of EKS deployed in __(c3)__ is stored in a config repository.<br>ArgoCD is setup to monitor if there are changes to this config repository. Wnenever it detects any updates to the ML model versions and/or other settings such as number of replicas, new services added, etc, ArgoCD will refresh and propagate those changes to the Kubernetes cluster(s) automatically.|
+|c4	|ArgoCD<br>(CD workflow automation)|The configurations of EKS deployed in __(c3)__ is stored in a config repository.<br>ArgoCD is setup to monitor if there are changes to this config repository. Wnenever it detects any updates to the ML model versions and/or other settings such as number of replicas, new services added, etc, ArgoCD will refresh and propagate those changes to the Kubernetes cluster(s) automatically.|
 |c5 |Prometheus/Grafana<br>(Instrumentation)|The services in __(c2)__ are also monitored based on the various performance metrics generated from them. The metrics are stored in Prometheus and visualised using Grafana.|
 |||
 
@@ -69,10 +70,10 @@ In this project, we will also leverage GitHub Actions as the tool to automate th
 <img src="images/d1-devops-cicd-pipeline.png" width="400" /> <img src="images/d1-mlops-cicd-pipeline.png" width="380" />
 
 #### _Different roles involved in MLOps workflow._
-<img src="images/d1-mlops-different-roles-involved-in-workflow.png" width="500" />
+<img src="images/d1-mlops-different-roles-involved-in-workflow.png" width="600" />
 
 #### _MLOps workflow using GitHub Actions._
-<img src="images/d1-mlops-github-action-workflow.png" width="500" /><br>
+<img src="images/d1-mlops-github-action-workflow.png" width="600" /><br>
 
 In the ML domain, the actual development or the training/fine-tuning of the program codes is usually done by a data scientist. Hence, the Trunk-based development approach (versus the more complex variation using Feature branching) is more suitable as the branching strategy for MLOps workflow.
 
@@ -107,88 +108,144 @@ In our MLOps workflow, there are mainly 3 events that will trigger the MLOps pip
 
     -   `git push` at the command prompt window:
 
-        <img src="images/d1-mlops-workflow-detail-02-git-push-dev.png" width="500" />
+        <img src="images/d1-mlops-workflow-detail-02-git-push-dev.png" width="600" />
 
     -   train-build.yml workflow running in progress...
 
-        <img src="images/d1-mlops-workflow-detail-03-train-build-running.png" width="500" />
-    
+        <img src="images/d1-mlops-workflow-detail-03-train-build-running.png" width="600" />
+
     -   train-build.yml workflow completed.
 
-        <img src="images/d1-mlops-workflow-detail-04-train-build-completed.png" width="500" />
+        <img src="images/d1-mlops-workflow-detail-04-train-build-completed.png" width="600" />
 
     -   The artifact files can be downloaded by clicking the download button on the right of the file name.
 
-        <img src="images/d1-mlops-workflow-detail-05-artifact-zip-file.png" width="500" /><br>
+        <img src="images/d1-mlops-workflow-detail-05-artifact-zip-file.png" width="600" /><br>
 
-        <img src="images/d1-mlops-workflow-detail-06-artifact-contents.png" width="500" />
+        <img src="images/d1-mlops-workflow-detail-06-artifact-contents.png" width="600" />
 
 2.  __Pull request from dev branch to main branch__
 
-    -   Create a pull request in the GitHub Graphical User Interface (GUI) by clicking on the __New pull request button__.
+    -   Create a pull request in the GitHub Graphical User Interface (GUI) by clicking on the __New pull request__ button.
 
-        <img src="images/d1-mlops-workflow-detail-07-create-pull-request.png" width="500" />
+        <img src="images/d1-mlops-workflow-detail-07-create-pull-request.png" width="600" />
 
     -   Select dev from the Compare list.
 
-        <img src="images/d1-mlops-workflow-detail-08-select-compare-dev.png" width="500" />
+        <img src="images/d1-mlops-workflow-detail-08-select-compare-dev.png" width="600" />
 
     -   The changes made in the dev branch will be listed for your reference. Click the __Create pull request__ to effect the creation.
 
-        <img src="images/d1-mlops-workflow-detail-09-changes-in-dev.png" width="500" />
+        <img src="images/d1-mlops-workflow-detail-09-changes-in-dev.png" width="600" />
 
     -   Add a description for the changes made and click the __Create pull request__ button at the bottom of the screen.
 
-        <img src="images/d1-mlops-workflow-detail-10-pull-request-description.png" width="500" />
+        <img src="images/d1-mlops-workflow-detail-10-pull-request-description.png" width="600" />
 
     -   The list of pending pull request(s) will be listed in the Pull requests tab.
 
-        <img src="images/d1-mlops-workflow-detail-11-pull-request-pending.png" width="500" />
+        <img src="images/d1-mlops-workflow-detail-11-pull-request-pending.png" width="600" />
 
     -   The requestor will select the pull request to submit for approval, by clicking on the name of the branch name next to the checkbox.
 
-        <img src="images/d1-mlops-workflow-detail-12-pull-request-selected.png" width="500" />
+        <img src="images/d1-mlops-workflow-detail-12-pull-request-selected.png" width="600" />
 
     -   Within the pull request page, scroll to the bottom of the screen and add a comment, if any.
         And then click the __Merge pull request__ button.
 
-        <img src="images/d1-mlops-workflow-detail-13-pull-request-submit-for-approval.png" width="500" />
-    
+        <img src="images/d1-mlops-workflow-detail-13-pull-request-submit-for-approval.png" width="600" />
+
     -   And then click the __Confirm merge__ button.
 
-        <img src="images/d1-mlops-workflow-detail-14-pull-request-confirm-merge.png" width="500" />
+        <img src="images/d1-mlops-workflow-detail-14-pull-request-confirm-merge.png" width="600" />
 
     -   If there are no conflicts to be resolved, the merger should be successful.
 
-        <img src="images/d1-mlops-workflow-detail-15-pull-request-merged-and-closed.png" width="500" />
+        <img src="images/d1-mlops-workflow-detail-15-pull-request-merged-and-closed.png" width="600" />
 
     -   The manager or the seniors will receive a notification of the pull request via email.
 
-        <img src="images/d1-mlops-workflow-detail-16-pull-request-email.png" width="500" />
+        <img src="images/d1-mlops-workflow-detail-16-pull-request-email.png" width="600" />
 
     -   Within the notification email, click the Review pending deployments.
 
-        <img src="images/d1-mlops-workflow-detail-17-pull-request-review-pending.png" width="500" />
+        <img src="images/d1-mlops-workflow-detail-17-pull-request-review-pending-deployments.png" width="600" />
 
     -   In the approval screen, notice the build-and-push-image-to-docker-hub job is waiting for review. If necessary, the artifacts are also available at the bottom of the screen for validation.
 
-        <img src="images/d1-mlops-workflow-detail-18-pull-request-review-deployments.png" width="500" />
+        <img src="images/d1-mlops-workflow-detail-18-pull-request-review-deployments.png" width="600" />
 
     -   Once the artifacts are checked and all in order, Click __Review deployments__ and on the next screen, tick the prod checkbox and then click the __Approve and deploy__ button.
 
     -   The ml-model:latest image is now pushed to the DockerHub upon approval.
 
-        <img src="images/d1-mlops-workflow-detail-19-pull-request-approved.png" width="500" />
+        <img src="images/d1-mlops-workflow-detail-19-pull-request-approved.png" width="600" /><br>
 
-        <img src="images/d1-mlops-workflow-detail-20-build-and-push-image-to-docker-hub-completed.png" width="500" />
+        <img src="images/d1-mlops-workflow-detail-20-build-and-push-image-to-docker-hub-completed.png" width="600" />
 
     -   Open the Docker Desktop and check that the ml-model:latest is now pushed to the DockerHub.
 
-        <img src="images/d1-mlops-workflow-detail-20-ml-model-pushed-to-dockerhub.png" width="500" />
+        <img src="images/d1-mlops-workflow-detail-20-ml-model-pushed-to-dockerhub.png" width="600" />
 
 3.  __Release event on the main branch with vx.x.x semantic version tag__
 
+    -   To create a new tag, use the `git tag` command and specify the tag name that you want to create.
+        ```
+        git tag <tag_name>
+        ```
+        For example, if you want to create a new tag v1.0.0 as the new release version, then type:
+        ```
+        git tag v1.0.0
+        ```
+    -   Use the `git tag` command again without specifying the <tag_name> to list the existing tags available in the repository.
+        ```
+        git tag
+
+        v1.0.0
+        ```
+        <img src="images/d1-mlops-workflow-detail-25-create-release-tag.png" width="600" />
+
+    -   Use the following command to update the tag in the remote repository.
+
+        <img src="images/d1-mlops-workflow-detail-26-update-remote-repository.png" width="600" />
+
+    -   Go to the GitHub GUI __Code__ tab and dlick on the __Tags__ icon.
+
+        <img src="images/d1-mlops-workflow-detail-27-github-gui-code-tab.png" width="600" /><br>
+
+        <img src="images/d1-mlops-workflow-detail-28-select-tag-icon.png" width="600" />
+
+    -   You will see the list of tags available in the repository.
+
+        <img src="images/d1-mlops-workflow-detail-29-available-tag-list.png" width="600" />
+
+    -   Click the __Tag__ you want to use as the release version.
+
+        <img src="images/d1-mlops-workflow-detail-30-selected-tag.png" width="600" />
+
+    -   Click __Create release from tag__ located on the top-right of the screen.
+
+        <img src="images/d1-mlops-workflow-detail-31-create-release-from-tag.png" width="600" />
+
+    -   Scroll to the bottom of the screen and click the __Publish release__ button.
+
+        <img src="images/d1-mlops-workflow-detail-32-publish-release.png" width="600" />
+
+    -   After the __Publish release__ button is pressed, review and approve the deployment to production.
+
+        <img src="images/d1-mlops-workflow-detail-33-release-review-pending-deployments.png" width="600" />
+
+    -   The deploy.yml will run and update the DockerHub with new images (the existing latest tag as well as the v1.0.0).
+        <img src="images/d1-mlops-workflow-detail-34-release-review-pending-deployments.png" width="600" />
+
+    -   Open the Docker Desktop and check that the ml-model:latest and ml-model:v1.0.0 are now pushed to the DockerHub.
+
+        <img src="images/d1-mlops-workflow-detail-35-ml-model-pushed-to-dockerhub.png" width="600" />
 </details>
+
+Reference:
+- [How to Create a Tag in a GitHub Repository: A Step-by-Step Guide](https://git.wtf/how-to-create-a-tag-in-a-github-repository-a-comprehensive-guide/).
+- [How To Create Git Tags](https://devconnected.com/how-to-create-git-tags/).
 
 ### D2. Containerisation <img src="images/d2-docker-logo.png" width="60" /> And Microservices <img src="images/d2-microservices-logo.png" width="60" />
 
@@ -210,11 +267,11 @@ In addition to containerising our ML Model, we have also implemented industrial 
 
 2.  Use Postman to test the GET method.
  
-    <img src="images/d2-containerisation-detail-02-test-get-using-postman.png" width="500" />
+    <img src="images/d2-containerisation-detail-02-test-get-using-postman.png" width="600" />
 
 3.  Use Postman to test the POST method.
 
-    <img src="images/d2-containerisation-detail-03-test-post-using-postman.png" width="500" />
+    <img src="images/d2-containerisation-detail-03-test-post-using-postman.png" width="600" />
 </details>
 
 ### D3. Kubernetes <img src="images/d3-kubernetes-logo.png" width="60" />
@@ -238,28 +295,28 @@ The EKS is provisioned using Terraform, which is an open-source techology to all
 
 2.  Navigate to the folder terraform/aws and run the `terraform init` command.
 
-    <img src="images/d3-eks-detail-02-terraform-init.png" width="500" />
+    <img src="images/d3-eks-detail-02-terraform-init.png" width="600" />
 
 3.  Run the `terraform apply` command and specify `-var-file=prod.tfvars` as the argument:
     ```
     terraform apply -var-file=prod.tfvars
     ```
-    <img src="images/d3-eks-detail-03-terraform-apply-prod.png" width="500" />
+    <img src="images/d3-eks-detail-03-terraform-apply-prod.png" width="600" />
 
     Note that the command will provision the infrastructures (VPC, Network, Firewalls, Internet Gateway, EC2, etc) for the production environment. Please use the dev.tfvars to setup the development/testing environment.
     ```
     terraform apply -var-file=dev.tfvars
     ```
-    <img src="images/d3-eks-detail-04-terraform-apply-dev.png" width="500" />
-    
+    <img src="images/d3-eks-detail-04-terraform-apply-dev.png" width="600" />
+
 4.  Upon prompted by the system, type `yes` and then press the `Enter` key:
 
-    <img src="images/d3-eks-detail-05-terraform-apply-yes.png" width="500" />
+    <img src="images/d3-eks-detail-05-terraform-apply-yes.png" width="600" />
 
 5.  Please wait for up to 20 minutes for the Terraform to provision the EKS cluster in AWS.<br>
     Upon completion of the EKS cluster, you should be able to see the information about the cluster:
 
-    <img src="images/d3-eks-detail-06-terraform-apply-output.png" width="500" />
+    <img src="images/d3-eks-detail-06-terraform-apply-output.png" width="600" />
 
 6.  Please note down the details shown in the preceding step because the information is required in section D4 for setting up the
     ArgoCD.
@@ -268,7 +325,7 @@ The EKS is provisioned using Terraform, which is an open-source techology to all
     ```
     kubectl config???
     ```
-    <img src="images/d3-eks-detail-07-kubectl-config.png" width="500" />
+    <img src="images/d3-eks-detail-07-kubectl-config.png" width="600" />
 
 8.  You are ready to proceed to setup the ArgoCD described in the next section.
 </details>
@@ -285,7 +342,7 @@ To enable GitOps to work, it is a best practice to have 2 repositories. One for 
 
 However, ArgoCD is only a continuous deployment (CD) tool and we still require a pipeline for continuous integration (CI) that will test and build our application.
 
-<img src="images/d4-argocd-automated-cd-workflow-temp.png" width="500" />
+<img src="images/d4-argocd-automated-cd-workflow-temp.png" width="600" />
 
 When a developer updates the application source codes, he will test and then build an image which will be pushed to a container repository. The CI pipeline will the trigger updates to the configuration repository (e.g. update the image version) which will cause ArgoCD to synchronise.
 
@@ -311,19 +368,19 @@ GitOps using ArgoCD has these benefits:
     ```
     kubectl create namespace argocd
     ```
-    <img src="images/d4-argocd-detail-02-create-namespace.png" width="500" />
+    <img src="images/d4-argocd-detail-02-create-namespace.png" width="600" />
 
 3.  Apply the install.yaml manifest file to install ArgoCD.
     ```
     kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
     ```
-    <img src="images/d4-argocd-detail-03-apply-install-manifest.png" width="500" />
+    <img src="images/d4-argocd-detail-03-apply-install-manifest.png" width="600" />
 
 4.  Use this command to verify the installation.
     ```
     kubectl get all --namespace argocd
     ```
-    <img src="images/d4-argocd-detail-04-verify-installation.png" width="500" />
+    <img src="images/d4-argocd-detail-04-verify-installation.png" width="600" />
 
     Please wait for few minutes for all the pods to be ready in Running status. These are all the components that are required for ArgoCD to function properly.
 
@@ -334,14 +391,14 @@ GitOps using ArgoCD has these benefits:
     kubectl get services -n argocd
     kubectl port-forward service/argocd-server --namespace argocd 8080:443
     ```
-    <img src="images/d4-argocd-detail-05-port-forwarding.png" width="500" />
+    <img src="images/d4-argocd-detail-05-port-forwarding.png" width="600" />
 
 6.  Run the following command to get the initial password of ArgoCD. You will need it to login
     to the ArgoCD GUI.
     ```
     kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
     ```
-    <img src="images/d4-argocd-detail-06-decode-initial-password.png" width="500" />
+    <img src="images/d4-argocd-detail-06-decode-initial-password.png" width="600" />
 
 7.  Go to the browser and enter the following address as the URL to access the ArgoCD GUI.
     ```
@@ -350,7 +407,7 @@ GitOps using ArgoCD has these benefits:
 8.  When the ArgoCD GUI is up, enter __admin__ as the __Username__. For the __Password__, enter
     the text that you obtained in step 6.
 
-    <img src="images/d4-argocd-detail-07-argocd-gui.png" width="500" />
+    <img src="images/d4-argocd-detail-07-argocd-gui.png" width="600" />
 
 9.  Within the ArgoCD GUI, click Create Application. Please enter the following details:
     Application name: XXX
@@ -361,11 +418,11 @@ GitOps using ArgoCD has these benefits:
 
     Then click the Create button at the bottom of the screen.
 
-    <img src="images/d4-argocd-detail-08-create-application.png" width="500" />
+    <img src="images/d4-argocd-detail-08-create-application.png" width="600" />
 
 10. Please wait for the application to show healthy status (i.e. Synchronised/Healthy).
 
-    <img src="images/d4-argocd-detail-08-show-application.png" width="500" />
+    <img src="images/d4-argocd-detail-08-show-application.png" width="600" />
 
 11. Repeat step 9 and 10 to create a second application, if required.
 
@@ -383,12 +440,12 @@ In the program codes that we used for training the ML model, we have also implem
 #### _ML Monitoring_
 Image Source: https://bowtiedraptor.substack.com/p/mlops-18-monitoring-with-prometheus
 
-<img src="images/d5-prometheus-ml-monitoring.png" width="500" />
+<img src="images/d5-prometheus-ml-monitoring.png" width="600" />
 
 #### _ML Monitoring With Prometheus And Grafana_
 Image Source: https://bowtiedraptor.substack.com/p/mlops-18-monitoring-with-prometheus
 
-<img src="images/d5-prometheus-ml-monitoring-with-prometheus-and-grafana.png" width="500" />
+<img src="images/d5-prometheus-ml-monitoring-with-prometheus-and-grafana.png" width="600" />
 
 <XXXdetails><summary><code style="color: yellow">Prometheus And Grafana Setup Demo</code></summary>
 
@@ -403,31 +460,31 @@ Image Source: https://bowtiedraptor.substack.com/p/mlops-18-monitoring-with-prom
 2.  Go to https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus and locate the
     prometheus chart.
 
-    <img src="images/d5-prometheus-detail-02-select-prometheus.png" width="500" />
+    <img src="images/d5-prometheus-detail-02-select-prometheus.png" width="600" />
 
 3.  Run the following command to add the prometheus chart to the Helm repository.
     ```
     helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
     ```
-    <img src="images/d5-prometheus-detail-03-add-prometheus-to-helm.png" width="500" />
+    <img src="images/d5-prometheus-detail-03-add-prometheus-to-helm.png" width="600" />
 
 4.  Update the Helm repository with this command.
     ```
     helm repo update
     ```
-    <img src="images/d5-prometheus-detail-04-update-helm.png" width="500" />
+    <img src="images/d5-prometheus-detail-04-update-helm.png" width="600" />
 
 5.  Install Prometheus using this command.
     ```
     kubectl install prometheus prometheus-community/prometheus
     ```
-    <img src="images/d5-prometheus-detail-05-install-prometheus.png" width="500" />
+    <img src="images/d5-prometheus-detail-05-install-prometheus.png" width="600" />
 
 6.  Verify the installation.
     ```
     kubectl get pods
     ```
-    <img src="images/d5-prometheus-detail-06-verify-installation.png" width="500" />
+    <img src="images/d5-prometheus-detail-06-verify-installation.png" width="600" />
 
     Please wait for few minutes for all the pods to be ready in Running status. These are all the components that are required for Prometheus to function properly.
 
@@ -436,64 +493,64 @@ Image Source: https://bowtiedraptor.substack.com/p/mlops-18-monitoring-with-prom
     kubectl get services <<< NEED TO ADD NAMESPACE???
     kubectl expose service prometheus-server --type=NodePort --target-port=9090 --name=prometheus-server-ext
     ```
-    <img src="images/d5-prometheus-detail-07-expose-prometheus-server.png" width="500" />
+    <img src="images/d5-prometheus-detail-07-expose-prometheus-server.png" width="600" />
 
     You will see there is one extra service (with the name of prometheus-server-ext) created.
 
 8.  Go to the browser and enter `xxx` as the URL. The port is the 5-digit number associated with the newly created
     service prometheus-server-ext.
 
-    <img src="images/d5-prometheus-detail-08-prometheus-gui.png" width="500" />
+    <img src="images/d5-prometheus-detail-08-prometheus-gui.png" width="600" />
 
 9.  Within Prometheus GUI, go to Status/Targets...
 
-    <img src="images/d5-prometheus-detail-09-prometheus-gui-target-status.png" width="500" />
+    <img src="images/d5-prometheus-detail-09-prometheus-gui-target-status.png" width="600" />
 
-    <img src="images/d5-prometheus-detail-10-prometheus-gui-target-status-details.png" width="500" />
+    <img src="images/d5-prometheus-detail-10-prometheus-gui-target-status-details.png" width="600" />
 
-    <img src="images/d5-prometheus-detail-10-prometheus-gui-metrics.png" width="500" />
+    <img src="images/d5-prometheus-detail-10-prometheus-gui-metrics.png" width="600" />
 
 10. To install Grafana, run the following command:
     ```
     kubectl get pods
     ```
-    <img src="images/d5-prometheus-detail-06-verify-installation.png" width="500" />
+    <img src="images/d5-prometheus-detail-06-verify-installation.png" width="600" />
 
 11. XXX:
     ```
     XXX
     ```
-    <img src="images/d5-prometheus-detail-06-verify-installation.png" width="500" />
+    <img src="images/d5-prometheus-detail-06-verify-installation.png" width="600" />
 
 12. XXX:
     ```
     XXX
     ```
-    <img src="images/d5-prometheus-detail-06-verify-installation.png" width="500" />
+    <img src="images/d5-prometheus-detail-06-verify-installation.png" width="600" />
 
 13. XXX:
     ```
     XXX
     ```
-    <img src="images/d5-prometheus-detail-06-verify-installation.png" width="500" />
+    <img src="images/d5-prometheus-detail-06-verify-installation.png" width="600" />
 
 14. XXX:
     ```
     XXX
     ```
-    <img src="images/d5-prometheus-detail-06-verify-installation.png" width="500" />
+    <img src="images/d5-prometheus-detail-06-verify-installation.png" width="600" />
 
 15. XXX:
     ```
     XXX
     ```
-    <img src="images/d5-prometheus-detail-06-verify-installation.png" width="500" />
+    <img src="images/d5-prometheus-detail-06-verify-installation.png" width="600" />
 
 16. XXX:
     ```
     XXX
     ```
-    <img src="images/d5-prometheus-detail-06-verify-installation.png" width="500" />
+    <img src="images/d5-prometheus-detail-06-verify-installation.png" width="600" />
 </details>
 
 ## <img src="images/blue-3d-ball.png" width="35" /> E. Project Summary
