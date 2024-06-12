@@ -1,0 +1,6 @@
+
+replicas: 3
+
+configmap:
+  data:
+    CUSTOM_HEADER: 'This is on the prod environment with 3 pods!'

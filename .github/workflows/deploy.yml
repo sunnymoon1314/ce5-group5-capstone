@@ -76,8 +76,10 @@ jobs:
 
       - name: Update values.yaml
         run: |
-          cd helm
-          sed -i 's|APP_VERSION:.*|APP_VERSION: '${{ github.ref_name }}'|' values.yaml 
+          cd helm-app
+          sed -i 's|APP_VERSION:.*|APP_VERSION: '${{ github.ref_name }}'|' values.yaml
+          sed -i 's|tag:.*|tag: '${{ github.ref_name }}'|' values.yaml
+          sed -i 's|name: helm-app-configmap.*|name: helm-app-configmap-'${{ github.ref_name }}'|' values.yaml
           git config --global user.name 'sunnymoon1314'
           git config --global user.email 'moonysun1314@gmail.com'
           git add values.yaml

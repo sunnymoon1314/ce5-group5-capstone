@@ -1,0 +1,12 @@
+appName: helm-app
+
+port: 5000
+
+configmap:
+  name: helm-app-configmap-v1.0.0
+  data:
+    CUSTOM_HEADER: 'This app was deployed with helm!'
+
+image:
+  name: moonysun1314/ml-model
+  tag: v1.0.0

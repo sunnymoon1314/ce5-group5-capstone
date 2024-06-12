@@ -252,7 +252,7 @@ Reference(s):
 -   [How To Create Git Tags](https://devconnected.com/how-to-create-git-tags/).
 </details>
 
-### D2. Containerisation <img src="images/d2-docker-logo.png" width="60" /> And Microservices <img src="images/d2-microservices-logo.png" width="60" />
+### D2. Containerisation <img src="images/logo/d2-docker-logo.png" width="60" /> And Microservices <img src="images/logo/d2-microservices-logo.png" width="60" />
 
 We will containerise the model file created in the preceding step to a Docker image.
 
@@ -277,7 +277,7 @@ In addition to containerising our ML Model, we have also implemented industrial 
     <img src="images/d2-containerisation-detail-03-test-post-using-postman.png" width="600" />
 </details>
 
-### D3. Kubernetes <img src="images/d3-kubernetes-logo.png" width="60" />
+### D3. Kubernetes <img src="images/logo/d3-kubernetes-logo.png" width="60" />
 
 We have chosen to use Elastic Kubernetes Service (EKS) which is the managed Kubernetes services of Amazon Web Services' (AWS) as the deployment platform.
 
@@ -524,6 +524,10 @@ The EKS is provisioned using Terraform, which is an open-source techology to all
     ```
     <img src="images/d3-gke-detail/d3-gke-detail-08-update-kubeconfig.png" width="600" />
 
+    ```
+    gcloud container clusters get-credentials gke-cluster-dev --region us-east1-b --project enhanced-option-423814-n0
+    ```
+
 11. Run some commands using kubectl to verify you are able to access the cluster.
     ```
     kubectl get namespaces
@@ -545,7 +549,7 @@ The EKS is provisioned using Terraform, which is an open-source techology to all
     <img src="images/d3-gke-detail/d3-gke-detail-12-terraform-destroy-completed.png" width="600" />
 </details>
 
-### D4. ArgoCD <img src="images/d4-argocd-logo.png" width="60" />
+### D4. ArgoCD <img src="images/logo/d4-argocd-logo.png" width="60" />
 
 After deployment of our ML model as an application in the Kubernetes cluster, we make use of ArgoCD to automate the continuous deployment pipeline.
 
@@ -715,7 +719,7 @@ GitOps using ArgoCD has these benefits:
     ```
     <img src="images/d4-argocd-detail/d4-argocd-detail-11-helm-chart-values.png" width="600" />
 
-13. Use this command to verify the installation.
+13. Use this command to verify the ArgoCD installation.
     ```
     kubectl get all --namespace argocd
     ```
@@ -762,29 +766,82 @@ GitOps using ArgoCD has these benefits:
     <img src="images/d4-argocd-detail/d4-argocd-detail-17-argocd-landing-page.png" width="600" />
 
 18. Within the ArgoCD GUI, click <img src="images/d4-argocd-detail/d4-argocd-detail-18-argocd-new-app.png" width="60" /> and enter the following details:
-    Application Name: helm-app
-    Project Name: default
-    __AUTO-CREATE NAMESPACE__: Tick this option
-    Repository URL: C:\Users\bunny\OneDrive\OneDrive_AddOn\github\ce5-group5-capstone\helm-app\helm
-    Cluster URL: https://kubernetes.default.svc
-    Namespace: prod
-    ...
+    -   GENERAL:
+        -   Application Name: helm-app-dev
+        -   Project Name: default
+        -   SYNC POLICY: Automatic
+    -   SYNC OPTIONS
+        -   __AUTO-CREATE NAMESPACE__: Tick the checkbox
+    -   SOURCE
+        -   Repository URL: https://github.com/sunnymoon1314/ce5-group5-capstone
+        -   Path: helm-app/helm
+    -   DESTINATION
+        -   Cluster URL: https://kubernetes.default.svc
+        -   Namespace: dev
+    -   Helm
+        -   appName: helm-app
+        -   configmap.data.CUSTOM_HEADER: This app was deployed with helm.
+        -   configmap.name: helm-app-configmap-v1.0.0
+        -   image.name: moonysun1314/ml-model
+        -   image.tag: v1.0.0
+        -   port: 5000
+    -   Helm
+        -   VALUES FILES: values.yml
 
-    Then click the <img src="images/d4-argocd-detail/d4-argocd-detail-19-create-application.png" width="60" /> button at the top-left corner of the screen.
+    <img src="images/d4-argocd-detail/d4-argocd-detail-19-create-application-details-1.png" width="600" />
 
-    <img src="images/d4-argocd-detail-20-create-application-details.png" width="600" />
+    <img src="images/d4-argocd-detail/d4-argocd-detail-20-create-application-details-2.png" width="600" />
+
+    <img src="images/d4-argocd-detail/d4-argocd-detail-21-create-application-details-3.png" width="600" />
+
+![alt text](image.png)
+19. Then click the <img src="images/d4-argocd-detail/d4-argocd-detail-21-create-application.png" width="60" /> button at the top-left corner of the screen.
+
 
 19. Please wait for the application to show healthy status (i.e. Synchronised/Healthy).
 
     <img src="images/d4-argocd-detail/d4-argocd-detail-21-show-application.png" width="600" />
 
+![alt text](image.png)
 20. Repeat step 18 and 19 to create a second application, if required.
+
+21. Use this command to check whether our application(s) are running. The number of pods should tally with the number of replicas in the deployment.yml manifest file.
+    ```
+    kubectl get all --namespace dev
+    ```
+    <img src="images/d4-argocd-detail/d4-argocd-detail-22-check-application-running.png" width="600" />
+
+22. Use this command to access the application.
+    ```
+    kubectl port-foward service/helm-app 5000:5000 --namespace dev
+    ```
+    <img src="images/d4-argocd-detail/d4-argocd-detail-23-port-forwarding-5000-to-5000.png" width="600" />
+
+23. Go to the browser and enter the following address as the URL to access the ArgoCD GUI.
+    ```
+    http://localhost:5000
+    ```
+    If prompted that the connection is not private, click the __Advanced__ button and then click the link _Proceed to localhost (unsafe)__.
+
+    <img src="images/d4-argocd-detail/d4-argocd-detail-24-connection-not-private.png" width="600" />
+
+24. You should be able to see the message returned by the GET method of the ML model that we deployed in section D2.
+
+    <img src="images/d4-argocd-detail/d4-argocd-detail-25-test-get-method.png" width="600" />
+
+25. To test the POST method of the ML model, use Postman.
+
+    <img src="images/d4-argocd-detail/d4-argocd-detail-26-test-post-method.png" width="600" />
+
+26. Release a new version of the ML model by creating a new tag (say v1.0.1) in GitHub and then approve and deploy the new version to the prod environment. You should be able to see ArgoCD synchronise the version from v1.0.0 to v1.0.1.
+
+    <img src="images/d4-argocd-detail/d4-argocd-detail-27-auto-sync-upon-version-update.png" width="600" />
 
 Reference(s):
 -   [Deploy using ArgoCD and Github Actions](https://medium.com/@mssantossousa/deploy-using-argocd-and-github-actions-888f7370e480)
 </details>
 
-### D5. Prometheus <img src="images/d5-prometheus-logo.png" width="60" /> And Grafana <img src="images/d5-grafana-logo.png" width="75" height="55"/>
+### D5. Prometheus <img src="images/logo/d5-prometheus-logo.png" width="60" /> And Grafana <img src="images/logo/d5-grafana-logo.png" width="75" height="55"/>
 
 Although Kubernetes has self-healing capability, it is not desirable if there are indeed outages in the deployed application.
 
