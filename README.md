@@ -3,11 +3,11 @@
 Submitted By: __SOON Leah Foo__<br>
 Submitted On: __15 Jun 2024__
 
-## <img src="images/red-3d-ball.png" width="35" /> A. Project Title
+## <img src="images/3d-ball-icon/red-3d-ball.png" width="35" /> A. Project Title
 
 ## Machine Learning Operations using GitHub Actions with automated deployment to instrumented Kubernetes clusters.
 
-## <img src="images/orange-3d-ball.png" width="35" /> B. Business Use Case
+## <img src="images/3d-ball-icon/orange-3d-ball.png" width="35" /> B. Business Use Case
 
 Data Driven Cloud Consultancy Services is a company that specialises in providing customised AI-powered cloud solutions to its clients.
 
@@ -19,7 +19,7 @@ The company has more than 20 different makes and models of machineries used in t
 
 The company thus approached us for professional advice and assessment whether there are cost-effective ways to schedule for preventive maintenance and to reduce any impact caused by machine breakdown.
 
-## <img src="images/yellow-3d-ball.png" width="35" /> C. Project Proposal
+## <img src="images/3d-ball-icon/yellow-3d-ball.png" width="35" /> C. Project Proposal
 
 Corrective and preventive maintenance is often a major part of manufacturing industries. Although this process is complex and expensive when conducted with conventional approaches, machine learning has now made it easier to discover meaningful insights and hidden patterns in factory data.
 
@@ -58,7 +58,7 @@ Image Source: https://igboie.medium.com/kubernetes-ci-cd-with-github-github-acti
 |c5 |Prometheus/Grafana<br>(Instrumentation)|The services in __(c2)__ are also monitored based on the various performance metrics generated from them. The metrics are stored in Prometheus and visualised using Grafana.|
 |||
 
-## <img src="images/green-3d-ball.png" width="35" /> D. Project Implementation Details
+## <img src="images/3d-ball-icon/green-3d-ball.png" width="35" /> D. Project Implementation Details
 
 ### D1. MLOps CI/CD Pipeline
 
@@ -102,90 +102,90 @@ In our MLOps workflow, there are mainly 3 events that will trigger the MLOps pip
         -   Deployment of the release version vx.x.x of the ML model to the production system is manually synchronised via ArgoCD UI or CLI.
     -   If the release is rejected for some reasons, the pending CD workflow/job will be cancelled by GitHub Actions.
 
-<XXXdetails><summary><code style="color: yellow">MLOps CI/CD Pipeline Demo</code></summary>
+<details><summary><code style="color: yellow">MLOps CI/CD Pipeline Event Details</code></summary>
 
 1.  __Push event at dev branch__
 
     -   `git push` at the command prompt window:
 
-        <img src="images/d1-mlops-workflow-detail-02-git-push-dev.png" width="600" />
+        <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-02-git-push-dev.png" width="600" />
 
     -   train-build.yml workflow running in progress...
 
-        <img src="images/d1-mlops-workflow-detail-03-train-build-running.png" width="600" />
+        <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-03-train-build-running.png" width="600" />
 
     -   train-build.yml workflow completed.
 
-        <img src="images/d1-mlops-workflow-detail-04-train-build-completed.png" width="600" />
+        <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-04-train-build-completed.png" width="600" />
 
     -   The artifact files can be downloaded by clicking the download button on the right of the file name.
 
-        <img src="images/d1-mlops-workflow-detail-05-artifact-zip-file.png" width="600" /><br>
+        <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-05-artifact-zip-file.png" width="600" /><br>
 
-        <img src="images/d1-mlops-workflow-detail-06-artifact-contents.png" width="600" />
+        <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-06-artifact-contents.png" width="600" />
 
 2.  __Pull request from dev branch to main branch__
 
     -   Create a pull request in the GitHub Graphical User Interface (GUI) by clicking on the __New pull request__ button.
 
-        <img src="images/d1-mlops-workflow-detail-07-create-pull-request.png" width="600" />
+        <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-07-create-pull-request.png" width="600" />
 
     -   Select dev from the Compare list.
 
-        <img src="images/d1-mlops-workflow-detail-08-select-compare-dev.png" width="600" />
+        <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-08-select-compare-dev.png" width="600" />
 
     -   The changes made in the dev branch will be listed for your reference. Click the __Create pull request__ to effect the creation.
 
-        <img src="images/d1-mlops-workflow-detail-09-changes-in-dev.png" width="600" />
+        <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-09-changes-in-dev.png" width="600" />
 
     -   Add a description for the changes made and click the __Create pull request__ button at the bottom of the screen.
 
-        <img src="images/d1-mlops-workflow-detail-10-pull-request-description.png" width="600" />
+        <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-10-pull-request-description.png" width="600" />
 
     -   The list of pending pull request(s) will be listed in the Pull requests tab.
 
-        <img src="images/d1-mlops-workflow-detail-11-pull-request-pending.png" width="600" />
+        <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-11-pull-request-pending.png" width="600" />
 
     -   The requestor will select the pull request to submit for approval, by clicking on the name of the branch name next to the checkbox.
 
-        <img src="images/d1-mlops-workflow-detail-12-pull-request-selected.png" width="600" />
+        <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-12-pull-request-selected.png" width="600" />
 
     -   Within the pull request page, scroll to the bottom of the screen and add a comment, if any.
         And then click the __Merge pull request__ button.
 
-        <img src="images/d1-mlops-workflow-detail-13-pull-request-submit-for-approval.png" width="600" />
+        <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-13-pull-request-submit-for-approval.png" width="600" />
 
     -   And then click the __Confirm merge__ button.
 
-        <img src="images/d1-mlops-workflow-detail-14-pull-request-confirm-merge.png" width="600" />
+        <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-14-pull-request-confirm-merge.png" width="600" />
 
     -   If there are no conflicts to be resolved, the merger should be successful.
 
-        <img src="images/d1-mlops-workflow-detail-15-pull-request-merged-and-closed.png" width="600" />
+        <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-15-pull-request-merged-and-closed.png" width="600" />
 
     -   The manager or the seniors will receive a notification of the pull request via email.
 
-        <img src="images/d1-mlops-workflow-detail-16-pull-request-email.png" width="600" />
+        <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-16-pull-request-email.png" width="600" />
 
     -   Within the notification email, click the Review pending deployments.
 
-        <img src="images/d1-mlops-workflow-detail-17-pull-request-review-pending-deployments.png" width="600" />
+        <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-17-pull-request-review-pending-deployments.png" width="600" />
 
     -   In the approval screen, notice the build-and-push-image-to-docker-hub job is waiting for review. If necessary, the artifacts are also available at the bottom of the screen for validation.
 
-        <img src="images/d1-mlops-workflow-detail-18-pull-request-review-deployments.png" width="600" />
+        <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-18-pull-request-review-deployments.png" width="600" />
 
     -   Once the artifacts are checked and all in order, Click __Review deployments__ and on the next screen, tick the prod checkbox and then click the __Approve and deploy__ button.
 
     -   The ml-model:latest image is now pushed to the DockerHub upon approval.
 
-        <img src="images/d1-mlops-workflow-detail-19-pull-request-approved.png" width="600" /><br>
+        <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-19-pull-request-approved.png" width="600" /><br>
 
-        <img src="images/d1-mlops-workflow-detail-20-build-and-push-image-to-docker-hub-completed.png" width="600" />
+        <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-20-build-and-push-image-to-docker-hub-completed.png" width="600" />
 
     -   Open the Docker Desktop and check that the ml-model:latest is now pushed to the DockerHub.
 
-        <img src="images/d1-mlops-workflow-detail-21-ml-model-pushed-to-dockerhub.png" width="600" />
+        <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-21-ml-model-pushed-to-dockerhub.png" width="600" />
 
 3.  __Release event on the main branch with vx.x.x semantic version tag__
 
@@ -203,53 +203,53 @@ In our MLOps workflow, there are mainly 3 events that will trigger the MLOps pip
 
         v1.0.0
         ```
-        <img src="images/d1-mlops-workflow-detail-25-create-release-tag.png" width="600" />
+        <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-25-create-release-tag.png" width="600" />
 
     -   Use the following command to update the tag in the remote repository.
 
-        <img src="images/d1-mlops-workflow-detail-26-update-remote-repository.png" width="600" />
+        <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-26-update-remote-repository.png" width="600" />
 
     -   Go to the GitHub GUI __Code__ tab and dlick on the __Tags__ icon.
 
-        <img src="images/d1-mlops-workflow-detail-27-github-gui-code-tab.png" width="600" /><br>
+        <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-27-github-gui-code-tab.png" width="600" /><br>
 
-        <img src="images/d1-mlops-workflow-detail-28-select-tag-icon.png" width="600" />
+        <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-28-select-tag-icon.png" width="600" />
 
     -   You will see the list of tags available in the repository.
 
-        <img src="images/d1-mlops-workflow-detail-29-available-tag-list.png" width="600" />
+        <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-29-available-tag-list.png" width="600" />
 
     -   Click the __Tag__ you want to use as the release version.
 
-        <img src="images/d1-mlops-workflow-detail-30-selected-tag.png" width="600" />
+        <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-30-selected-tag.png" width="600" />
 
     -   Click __Create release from tag__ located on the top-right of the screen.
 
-        <img src="images/d1-mlops-workflow-detail-31-create-release-from-tag.png" width="600" />
+        <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-31-create-release-from-tag.png" width="600" />
 
     -   Scroll to the bottom of the screen and click the __Publish release__ button.
 
-        <img src="images/d1-mlops-workflow-detail-32-publish-release.png" width="600" />
+        <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-32-publish-release.png" width="600" />
 
     -   After the __Publish release__ button is pressed, review and approve the deployment to production.
 
-        <img src="images/d1-mlops-workflow-detail-33-release-review-pending-deployments.png" width="600" />
+        <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-33-release-review-pending-deployments.png" width="600" />
 
     -   The deploy.yml will run and update the DockerHub with new images (the existing latest tag as well as the v1.0.0).
 
-        <img src="images/d1-mlops-workflow-detail-34-release-review-pending-deployments.png" width="600" />
+        <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-34-release-review-pending-deployments.png" width="600" />
 
     -   Deploy workflow in action...
 
-        <img src="images/d1-mlops-workflow-detail-35-ml-model-deploy_workflow-running.png" width="600" />
+        <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-35-ml-model-deploy_workflow-running.png" width="600" />
 
     -   Open the Docker Desktop and check that the ml-model:latest and ml-model:v1.0.0 are now pushed to the DockerHub.
 
-        <img src="images/d1-mlops-workflow-detail-36-ml-model-pushed-release-version-to-dockerhub.png" width="600" />
+        <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-36-ml-model-pushed-release-version-to-dockerhub.png" width="600" />
 
-Reference:
-- [How to Create a Tag in a GitHub Repository: A Step-by-Step Guide](https://git.wtf/how-to-create-a-tag-in-a-github-repository-a-comprehensive-guide/).
-- [How To Create Git Tags](https://devconnected.com/how-to-create-git-tags/).
+Reference(s):
+-   [How to Create a Tag in a GitHub Repository: A Step-by-Step Guide](https://git.wtf/how-to-create-a-tag-in-a-github-repository-a-comprehensive-guide/).
+-   [How To Create Git Tags](https://devconnected.com/how-to-create-git-tags/).
 </details>
 
 ### D2. Containerisation <img src="images/d2-docker-logo.png" width="60" /> And Microservices <img src="images/d2-microservices-logo.png" width="60" />
@@ -260,16 +260,16 @@ Containerisation is one of the cloud-native techologies that we should always ex
 
 In addition to containerising our ML Model, we have also implemented industrial standard protocol using the REST API so that our image can be easily accessed via the HTTP GET and POST method using our internet browser.
 
-<XXXdetails><summary><code style="color: yellow">Containerisation And Microservices Demo</code></summary>
+<details><summary><code style="color: yellow">Containerisation And Microservices Testing Instructions</code></summary>
 
-1.  Pre-requisites For Containerisation And Microservices Demo:
+1.  Pre-requisites For Containerisation And Microservices Testing Instructions:
     - |S/N|Required software|Version|
       |---|-----------------|-------|
       | 1 | Postman sign-in account||
       |||
 
 2.  Use Postman to test the GET method.
- 
+
     <img src="images/d2-containerisation-detail-02-test-get-using-postman.png" width="600" />
 
 3.  Use Postman to test the POST method.
@@ -285,8 +285,8 @@ EKS is the managed Kubernetes services of Amazon Web Services' (AWS) which offer
 
 The EKS is provisioned using Terraform, which is an open-source techology to allow us to deploy infrastructure using codes.
 
-<XXXdetails><summary><code style="color: aqua">Elastic Kubernetes Service (EKS) Deployment Demo</code></summary>
-1.  Pre-requisites For EKS Deployment Demo:
+<details><summary><code style="color: aqua">Elastic Kubernetes Service (EKS) Deployment Instructions</code></summary>
+1.  Pre-requisites For EKS Deployment Instructions:
     - |S/N|Required software|Version|
       |---|-----------------|-------|
       | 1 | terraform       |v1.8.5 or later.|
@@ -362,7 +362,7 @@ The EKS is provisioned using Terraform, which is an open-source techology to all
 
 12. You are ready to proceed to setup the ArgoCD described in the next section.
 
-13. Please remember to delete the resources that you deployed in the preceding steps when the resources are no longer required:
+13. Please remember to delete the resources that you deployed in the preceding steps if the resources are no longer required:
     ```
     terraform destroy -var-file=prod.tfvars
     ```
@@ -371,8 +371,8 @@ The EKS is provisioned using Terraform, which is an open-source techology to all
     <img src="images/d3-eks-detail/d3-eks-detail-12-terraform-destroy-completed.png" width="600" />
 </details>
 
-<XXXdetails><summary><code style="color: aqua">Azure Kubernetes Service (AKS) Deployment Demo</code></summary>
-1.  Pre-requisites For AKS Deployment Demo:
+<details><summary><code style="color: aqua">Azure Kubernetes Service (AKS) Deployment Instructions</code></summary>
+1.  Pre-requisites For AKS Deployment Instructions:
     - |S/N|Required software|Version|
       |---|-----------------|-------|
       | 1 | terraform       |v1.8.5 or later.|
@@ -446,7 +446,7 @@ The EKS is provisioned using Terraform, which is an open-source techology to all
 
 12. You are ready to proceed to setup the ArgoCD described in the next section.
 
-13. Please remember to delete the resources that you deployed in the preceding steps when the resources are no longer required:
+13. Please remember to delete the resources that you deployed in the preceding steps if the resources are no longer required:
     ```
     terraform destroy -var-file=prod.tfvars
     ```
@@ -455,8 +455,8 @@ The EKS is provisioned using Terraform, which is an open-source techology to all
     <img src="images/d3-aks-detail/d3-aks-detail-12-terraform-destroy-completed.png" width="600" />
 </details>
 
-<XXXdetails><summary><code style="color: aqua">Google Kubernetes Engine (GKE) Deployment Demo</code></summary>
-1.  Pre-requisites For GKE Deployment Demo:
+<details><summary><code style="color: aqua">Google Kubernetes Engine (GKE) Deployment Instructions</code></summary>
+1.  Pre-requisites For GKE Deployment Instructions:
     - |S/N|Required software|Version|
       |---|-----------------|-------|
       | 1 | terraform       |v1.8.5 or later.|
@@ -471,7 +471,6 @@ The EKS is provisioned using Terraform, which is an open-source techology to all
 
 3.  Run the `terraform init` command to initialise and download any plugins.
 
-    ![alt text](image.png)
     <img src="images/d3-gke-detail/d3-gke-detail-03-terraform-init.png" width="600" />
 
 4.  Run the `terraform apply` command with the argument `-var-file=prod.tfvars` and press the `Enter` key.
@@ -537,7 +536,7 @@ The EKS is provisioned using Terraform, which is an open-source techology to all
 
 12. You are ready to proceed to setup the ArgoCD described in the next section.
 
-13. Please remember to delete the resources that you deployed in the preceding steps when the resources are no longer required:
+13. Please remember to delete the resources that you deployed in the preceding steps if the resources are no longer required:
     ```
     terraform destroy -var-file=prod.tfvars
     ```
@@ -570,9 +569,9 @@ GitOps using ArgoCD has these benefits:
 - We can implement blue/green deployment and/or canary deployment with ease.
 - We can always rollback to the previous working version should the new version is not stable.
 
-<XXXdetails><summary><code style="color: cyan">ArgoCD Setup (Using Manifest) Demo</code></summary>
+<XXXdetails><summary><code style="color: green">ArgoCD Installation (Using Manifest) Instructions</code></summary>
 
-1.  Pre-requisites For ArgoCD Setup (Using Manifest) Demo:
+1.  Pre-requisites For ArgoCD Installation (Using Manifest) Instructions:
     - |S/N|Required software|Version|
       |---|-----------------|-------|
       | 1 | kubectl         |???|
@@ -584,65 +583,205 @@ GitOps using ArgoCD has these benefits:
     ```
     kubectl create namespace argocd
     ```
-    <img src="images/d4-argocd-detail-02-create-namespace.png" width="600" />
+    <img src="images/d4-argocd-detail/d4-argocd-detail-02-create-namespace.png" width="600" />
 
 3.  Apply the install.yaml manifest file to install ArgoCD.
     ```
     kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
     ```
-    <img src="images/d4-argocd-detail-03-apply-install-manifest.png" width="600" />
+    <img src="images/d4-argocd-detail/d4-argocd-detail-03-install-manifest.png" width="600" /><br>
 
-4.  Use this command to verify the installation.
+    <img src="images/d4-argocd-detail/d4-argocd-detail-04-install-manifest-2.png" width="600" />
+
+4.  Add the official Helm repository.
+    ```
+    helm repo add stable https://charts.helm.sh/stable
+    ```
+    <img src="images/d4-argocd-detail/d4-argocd-detail-05-helm-repo-add.png" width="600" />
+
+6.  Update the Helm repositories.
+    ```
+    helm repo update
+    ```
+    <img src="images/d4-argocd-detail/d4-argocd-detail-06-helm-repo-update.png" width="600" />
+
+7.  Setup the application repository with its corresponding Helm chart.
+    ```
+    cd C:\Users\bunny\OneDrive\OneDrive_AddOn\github\ce5-group5-capstone\
+
+    mkdir helm-app
+
+    cd helm-app
+
+    helm create helm
+    ```
+
+8.  The command in the preceding step will create a new folder called __helm__ with the basic structures of a Helm chart.
+
+    <img src="images/d4-argocd-detail/d4-argocd-detail-07-helm-chart-folder-structure.png" width="600" />
+
+9.  Update the __helm/templates/deployment.yml__ file to configure it for our ML model.
+    ```
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: app-deploy
+      labels:
+        app: app
+    spec:
+      replicas: 3
+      selector:
+        matchLabels:
+          app: app
+      template:
+        metadata:
+          labels:
+            app: app
+        spec:
+          containers:
+            - name: app
+              image: moonysun1314/ml-model:{{ .Values.env.APP_VERSION }}
+              ports:
+                - containerPort: 5000
+              env:
+              - name: NAME
+                value: 'Soon'
+              readinessProbe:
+                httpGet:
+                  path: /health
+                  port: 5000
+                initialDelaySeconds: 10
+                periodSeconds: 10
+                successThreshold: 1
+                failureThreshold: 3
+              livenessProbe:
+                httpGet:
+                  path: /health
+                  port: 5000
+                initialDelaySeconds: 10
+                periodSeconds: 10
+                timeoutSeconds: 5
+                successThreshold: 1
+                failureThreshold: 3
+    ```
+    <img src="images/d4-argocd-detail/d4-argocd-detail-08-helm-chart-deployment.png" width="600" />
+
+10. Update the __helm/templates/service.yml__ file to configure it for our ML model.
+    ```
+    apiVersion: v1
+    kind: Service
+    metadata:
+      name: app-service
+      labels:
+        app: app
+    spec:
+      type: NodePort
+      selector:
+        app: app
+      ports:
+        - protocol: TCP
+          port: 5000
+          targetPort: 5000
+          nodePort: 30080
+    ```
+    <img src="images/d4-argocd-detail/d4-argocd-detail-09-helm-chart-service.png" width="600" />
+
+11. Create a new file named __ingress.yml__ inside the templates folder with the following contents:
+    ```
+    apiVersion: networking.k8s.io/v1
+    kind: Ingress
+    metadata:
+      name: ingress
+      annotations:
+        nginx.ingress.kubernetes.io/rewrite-target: /
+    spec:
+      rules:
+        - http:
+            paths:
+              - path: /
+                pathType: Prefix
+                backend:
+                  service:
+                    name: app-service
+                    port:
+                      number: 5000
+    ```
+    <img src="images/d4-argocd-detail/d4-argocd-detail-10-helm-chart-ingress.png" width="600" />
+
+12. Update the __values.yml__ file located in the helm folder: Replace the content of the file with the following code:
+    ```
+    env:
+      APP_VERSION: v1.0.0
+    ```
+    <img src="images/d4-argocd-detail/d4-argocd-detail-11-helm-chart-values.png" width="600" />
+
+13. Use this command to verify the installation.
     ```
     kubectl get all --namespace argocd
     ```
-    <img src="images/d4-argocd-detail-04-verify-installation.png" width="600" />
+    <img src="images/d4-argocd-detail/d4-argocd-detail-12-verify-installation.png" width="600" />
 
-    Please wait for few minutes for all the pods to be ready in Running status. These are all the components that are required for ArgoCD to function properly.
+    Quite a lot of components are required for ArgoCD to function properly.
 
-5.  We can access ArgoCD via its Graphical User Interface (GUI). But we need to use a mechanism
+14. We can access ArgoCD via its Graphical User Interface (GUI). But we need to use a mechanism
     called “port-forwarding” on the service called service/argocd-server (which is listening on
     port 80 and 443). By-pass the certificate check, if necessary.
     ```
     kubectl get services -n argocd
     kubectl port-forward service/argocd-server --namespace argocd 8080:443
     ```
-    <img src="images/d4-argocd-detail-05-port-forwarding.png" width="600" />
+    <img src="images/d4-argocd-detail/d4-argocd-detail-13-port-forwarding-443-to-8080.png" width="600" />
 
-6.  Run the following command to get the initial password of ArgoCD. You will need it to login
+15. Run the following command to get the initial password of ArgoCD. You will need it to login
     to the ArgoCD GUI.
     ```
     kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
     ```
-    <img src="images/d4-argocd-detail-06-decode-initial-password.png" width="600" />
+    ```
+    kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}"
+    Wmw4a2hnUk1ObnNmZWg4LQ==
+    
+    echo Wmw4a2hnUk1ObnNmZWg4LQ== | openssl base64 -d
+    Zl8khgRMNnsfeh8- <<<<<< This is the ArgoCD initial secret in base64.
+    ```
+    <img src="images/d4-argocd-detail/d4-argocd-detail-14-decode-initial-password.png" width="600" />
 
-7.  Go to the browser and enter the following address as the URL to access the ArgoCD GUI.
+16. Go to the browser and enter the following address as the URL to access the ArgoCD GUI.
     ```
     http://localhost:8080
     ```
-8.  When the ArgoCD GUI is up, enter __admin__ as the __Username__. For the __Password__, enter
-    the text that you obtained in step 6.
+    If prompted that the connection is not private, click the __Advanced__ button and then click the link _Proceed to localhost (unsafe)__.
 
-    <img src="images/d4-argocd-detail-07-argocd-gui.png" width="600" />
+    <img src="images/d4-argocd-detail/d4-argocd-detail-15-connection-not-private.png" width="600" />
 
-9.  Within the ArgoCD GUI, click Create Application. Please enter the following details:
-    Application name: XXX
-    Project: default
-    __Create namespace__: Tick this option
-    Repo URL: XXX
-    Target server: XXX
+17. When the ArgoCD GUI is up, enter __admin__ as the __Username__. For the __Password__, enter
+    __Zl8khgRMNnsfeh8-__ (Password you obtained in step 15). And then click the __SIGN IN__ button.
 
-    Then click the Create button at the bottom of the screen.
+    <img src="images/d4-argocd-detail/d4-argocd-detail-16-argocd-login.png" width="600" /><br>
 
-    <img src="images/d4-argocd-detail-08-create-application.png" width="600" />
+    <img src="images/d4-argocd-detail/d4-argocd-detail-17-argocd-landing-page.png" width="600" />
 
-10. Please wait for the application to show healthy status (i.e. Synchronised/Healthy).
+18. Within the ArgoCD GUI, click <img src="images/d4-argocd-detail/d4-argocd-detail-18-argocd-new-app.png" width="60" /> and enter the following details:
+    Application Name: helm-app
+    Project Name: default
+    __AUTO-CREATE NAMESPACE__: Tick this option
+    Repository URL: C:\Users\bunny\OneDrive\OneDrive_AddOn\github\ce5-group5-capstone\helm-app\helm
+    Cluster URL: https://kubernetes.default.svc
+    Namespace: prod
+    ...
 
-    <img src="images/d4-argocd-detail-08-show-application.png" width="600" />
+    Then click the <img src="images/d4-argocd-detail/d4-argocd-detail-19-create-application.png" width="60" /> button at the top-left corner of the screen.
 
-11. Repeat step 9 and 10 to create a second application, if required.
+    <img src="images/d4-argocd-detail-20-create-application-details.png" width="600" />
 
-![alt text](image.png)
+19. Please wait for the application to show healthy status (i.e. Synchronised/Healthy).
+
+    <img src="images/d4-argocd-detail/d4-argocd-detail-21-show-application.png" width="600" />
+
+20. Repeat step 18 and 19 to create a second application, if required.
+
+Reference(s):
+-   [Deploy using ArgoCD and Github Actions](https://medium.com/@mssantossousa/deploy-using-argocd-and-github-actions-888f7370e480)
 </details>
 
 ### D5. Prometheus <img src="images/d5-prometheus-logo.png" width="60" /> And Grafana <img src="images/d5-grafana-logo.png" width="75" height="55"/>
@@ -663,9 +802,9 @@ Image Source: https://bowtiedraptor.substack.com/p/mlops-18-monitoring-with-prom
 
 <img src="images/d5-prometheus-ml-monitoring-with-prometheus-and-grafana.png" width="600" />
 
-<XXXdetails><summary><code style="color: yellow">Prometheus And Grafana Setup Demo</code></summary>
+<XXXdetails><summary><code style="color: blue">Prometheus And Grafana Installation Instructions</code></summary>
 
-1.  Pre-requisites For Prometheus And Grafana Setup Demo:
+1.  Pre-requisites For Prometheus And Grafana Installation Instructions:
     - |S/N|Required software|Version|
       |---|-----------------|-------|
       | 1 | helm            |vXXXX or later.|
@@ -769,10 +908,10 @@ Image Source: https://bowtiedraptor.substack.com/p/mlops-18-monitoring-with-prom
     <img src="images/d5-prometheus-detail-06-verify-installation.png" width="600" />
 </details>
 
-## <img src="images/blue-3d-ball.png" width="35" /> E. Project Summary
+## <img src="images/3d-ball-icon/blue-3d-ball.png" width="35" /> E. Project Summary
 
 Lessons learnt and challenges faced.
 
-## <img src="images/indigo-3d-ball.png" width="35" /> F. Suggestions For Future Work
+## <img src="images/3d-ball-icon/indigo-3d-ball.png" width="35" /> F. Suggestions For Future Work
 
-## <img src="images/violet-3d-ball.png" width="35" /> G. References
+## <img src="images/3d-ball-icon/violet-3d-ball.png" width="35" /> G. References
