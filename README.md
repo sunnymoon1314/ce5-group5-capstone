@@ -185,7 +185,7 @@ In our MLOps workflow, there are mainly 3 events that will trigger the MLOps pip
 
     -   Open the Docker Desktop and check that the ml-model:latest is now pushed to the DockerHub.
 
-        <img src="images/d1-mlops-workflow-detail-20-ml-model-pushed-to-dockerhub.png" width="600" />
+        <img src="images/d1-mlops-workflow-detail-21-ml-model-pushed-to-dockerhub.png" width="600" />
 
 3.  __Release event on the main branch with vx.x.x semantic version tag__
 
@@ -236,16 +236,21 @@ In our MLOps workflow, there are mainly 3 events that will trigger the MLOps pip
         <img src="images/d1-mlops-workflow-detail-33-release-review-pending-deployments.png" width="600" />
 
     -   The deploy.yml will run and update the DockerHub with new images (the existing latest tag as well as the v1.0.0).
+
         <img src="images/d1-mlops-workflow-detail-34-release-review-pending-deployments.png" width="600" />
+
+    -   Deploy workflow in action...
+
+        <img src="images/d1-mlops-workflow-detail-35-ml-model-deploy_workflow-running.png" width="600" />
 
     -   Open the Docker Desktop and check that the ml-model:latest and ml-model:v1.0.0 are now pushed to the DockerHub.
 
-        <img src="images/d1-mlops-workflow-detail-35-ml-model-pushed-to-dockerhub.png" width="600" />
-</details>
+        <img src="images/d1-mlops-workflow-detail-36-ml-model-pushed-release-version-to-dockerhub.png" width="600" />
 
 Reference:
 - [How to Create a Tag in a GitHub Repository: A Step-by-Step Guide](https://git.wtf/how-to-create-a-tag-in-a-github-repository-a-comprehensive-guide/).
 - [How To Create Git Tags](https://devconnected.com/how-to-create-git-tags/).
+</details>
 
 ### D2. Containerisation <img src="images/d2-docker-logo.png" width="60" /> And Microservices <img src="images/d2-microservices-logo.png" width="60" />
 
@@ -260,9 +265,7 @@ In addition to containerising our ML Model, we have also implemented industrial 
 1.  Pre-requisites For Containerisation And Microservices Demo:
     - |S/N|Required software|Version|
       |---|-----------------|-------|
-      | 1 | curl            |???|
-      | 2 | python          |???|
-      | 3 | Postman         |???|
+      | 1 | Postman sign-in account||
       |||
 
 2.  Use Postman to test the GET method.
@@ -283,51 +286,264 @@ EKS is the managed Kubernetes services of Amazon Web Services' (AWS) which offer
 The EKS is provisioned using Terraform, which is an open-source techology to allow us to deploy infrastructure using codes.
 
 <XXXdetails><summary><code style="color: aqua">Elastic Kubernetes Service (EKS) Deployment Demo</code></summary>
-
 1.  Pre-requisites For EKS Deployment Demo:
     - |S/N|Required software|Version|
       |---|-----------------|-------|
-      | 1 | terraform       |v1.8.4 or later.|
+      | 1 | terraform       |v1.8.5 or later.|
       | 2 | kubectl         |???|
       | 3 | AWS account with permission to provision resources.||
       | 4 | AWS credentials setup in local machine.||
       |||
 
-2.  Navigate to the folder terraform/aws and run the `terraform init` command.
+2.  Navigate to the folder terraform/aws:
 
-    <img src="images/d3-eks-detail-02-terraform-init.png" width="600" />
+    <img src="images/d3-eks-detail/d3-eks-detail-02-terraform-aws-folder-structure.png" width="600" />
 
-3.  Run the `terraform apply` command and specify `-var-file=prod.tfvars` as the argument:
+3.  Run the `terraform init` command to initialise and download any plugins.
+
+    <img src="images/d3-eks-detail/d3-eks-detail-03-terraform-init.png" width="600" />
+
+4.  Run the `terraform apply` command with the argument `-var-file=prod.tfvars` and press the `Enter` key.
     ```
     terraform apply -var-file=prod.tfvars
     ```
-    <img src="images/d3-eks-detail-03-terraform-apply-prod.png" width="600" />
+    <img src="images/d3-eks-detail/d3-eks-detail-04-terraform-apply-prod.png" width="600" />
 
-    Note that the command will provision the infrastructures (VPC, Network, Firewalls, Internet Gateway, EC2, etc) for the production environment. Please use the dev.tfvars to setup the development/testing environment.
+    Note that the command will provision the infrastructures (VPC, Network, Firewalls, Internet Gateway, EC2, etc) for the production environment. Please use the dev.tfvars to setup the development/testing environment, if required, in a separate run.
     ```
     terraform apply -var-file=dev.tfvars
     ```
-    <img src="images/d3-eks-detail-04-terraform-apply-dev.png" width="600" />
 
-4.  Upon prompted by the system, type `yes` and then press the `Enter` key:
+5.  Upon prompted by the system, type `yes` and then press the `Enter` key:
 
-    <img src="images/d3-eks-detail-05-terraform-apply-yes.png" width="600" />
+    <img src="images/d3-eks-detail/d3-eks-detail-05-terraform-apply-yes.png" width="600" />
 
-5.  Please wait for up to 20 minutes for the Terraform to provision the EKS cluster in AWS.<br>
-    Upon completion of the EKS cluster, you should be able to see the information about the cluster:
+6.  Please wait for up to 20 minutes for the Terraform to provision the EKS cluster in AWS.
 
-    <img src="images/d3-eks-detail-06-terraform-apply-output.png" width="600" />
+    <img src="images/d3-eks-detail/d3-eks-detail-06-terraform-apply-running.png" width="600" />
 
-6.  Please note down the details shown in the preceding step because the information is required in section D4 for setting up the
-    ArgoCD.
+7.  Upon completion of the EKS cluster, you should be able to see the information about the cluster:
 
-7.  Run the following command to update the kubectl configuration file (Located at ~/.kube/config).<br>
+    <img src="images/d3-eks-detail/d3-eks-detail-07-terraform-apply-output.png" width="600" />
+
+8.  Please note down the details shown in the preceding step because the information is required in section D4 for installing the ArgoCD.
+
+9.  After the cluster is created successfully, you need to configure your local machine to access to it.
+    For EKS, the command is:
     ```
-    kubectl config???
+    aws eks update-kubeconfig --region <REGION-CODE> --name <CLUSTER_NAME>
     ```
-    <img src="images/d3-eks-detail-07-kubectl-config.png" width="600" />
+    ```
+    Outputs:
 
-8.  You are ready to proceed to setup the ArgoCD described in the next section.
+    eks_cluster_endpoint = "https://16CDA750E4F24FE80B755AB8234E15D9.gr7.us-east-1.eks.amazonaws.com"
+    eks_cluster_name = "eks-prod-U44FzTQP" <<<<<< Need this for next step.
+    eks_cluster_region = "us-east-1" <<<<<< Need this for next step.
+    eks_cluster_security_group_id = "sg-012d2aff84ecc6568"
+    eks_cluster_version = "1.29"
+    ```
+
+10. Run the following command to update the kubectl configuration file (Located at ~/.kube/config), so that your local machine is configured to access the newly created EKS cluster.
+    ```
+    aws eks update-kubeconfig --region us-east-1 --name eks-prod-U44FzTQP
+    ```
+
+    <img src="images/d3-eks-detail/d3-eks-detail-08-update-kubeconfig.png" width="600" />
+
+11. Run some commands using kubectl to verify you are able to access the cluster.
+    ```
+    kubectl get namespaces
+    kubectl get pods --all-namespaces
+    kubectl cluster-info
+    ```
+    <img src="images/d3-eks-detail/d3-eks-detail-09-kubectl-test-commands.png" width="600" /><br>
+
+    <img src="images/d3-eks-detail/d3-eks-detail-10-kubectl-cluster-info.png" width="600" />
+
+12. You are ready to proceed to setup the ArgoCD described in the next section.
+
+13. Please remember to delete the resources that you deployed in the preceding steps when the resources are no longer required:
+    ```
+    terraform destroy -var-file=prod.tfvars
+    ```
+    <img src="images/d3-eks-detail/d3-eks-detail-11-terraform-destroy-yes.png" width="600" /><br>
+
+    <img src="images/d3-eks-detail/d3-eks-detail-12-terraform-destroy-completed.png" width="600" />
+</details>
+
+<XXXdetails><summary><code style="color: aqua">Azure Kubernetes Service (AKS) Deployment Demo</code></summary>
+1.  Pre-requisites For AKS Deployment Demo:
+    - |S/N|Required software|Version|
+      |---|-----------------|-------|
+      | 1 | terraform       |v1.8.5 or later.|
+      | 2 | kubectl         |???|
+      | 3 | Azure account with permission to provision resources.||
+      | 4 | Azure credentials setup in local machine.||
+      |||
+
+2.  Navigate to the folder terraform/aze:
+
+    <img src="images/d3-aks-detail/d3-aks-detail-02-terraform-aze-folder-structure.png" width="600" />
+
+3.  Run the `terraform init` command to initialise and download any plugins.
+
+    <img src="images/d3-aks-detail/d3-aks-detail-03-terraform-init.png" width="600" />
+
+4.  Run the `terraform apply` command with the argument `-var-file=prod.tfvars` and press the `Enter` key.
+    ```
+    terraform apply -var-file=prod.tfvars
+    ```
+    <img src="images/d3-aks-detail/d3-aks-detail-04-terraform-apply-prod.png" width="600" />
+
+    Note that the command will provision the infrastructures (VNet, Network, Firewalls, Internet Gateway, VMs, etc) for the production environment. Please use the dev.tfvars to setup the development/testing environment, if required, in a separate run.
+    ```
+    terraform apply -var-file=dev.tfvars
+    ```
+
+5.  Upon prompted by the system, type `yes` and then press the `Enter` key:
+
+    <img src="images/d3-aks-detail/d3-aks-detail-05-terraform-apply-yes.png" width="600" />
+
+6.  Please wait for up to 20 minutes for the Terraform to provision the EKS cluster in AWS.
+
+    <img src="images/d3-aks-detail/d3-aks-detail-06-terraform-apply-running.png" width="600" />
+
+7.  Upon completion of the AKS cluster, you should be able to see the information about the cluster:
+
+    <img src="images/d3-aks-detail/d3-aks-detail-07-terraform-apply-output.png" width="600" />
+
+8.  Please note down the details shown in the preceding step because the information is required in section D4 for installing the ArgoCD.
+
+9.  After the cluster is created successfully, you need to configure your local machine to access to it.
+    For AKS, the command is:
+    ```
+    az aks get-credentials --resource-group <RESOURCE-GROUP> --name <CLUSTER_NAME>
+    ```
+    ```
+    Outputs:
+
+    aks_cluster_location = "westus2"
+    aks_cluster_name = "amused-toucan-aks-prod" <<<<<< Need this for next step.
+    aks_cluster_resource_group_name = "amused-toucan-rg" <<<<<< Need this for next step.
+    aks_cluster_version = "1.29"
+    ```
+
+10. Run the following command to update the kubectl configuration file (Located at ~/.kube/config), so that your local machine is configured to access the newly created EKS cluster.
+    ```
+    az aks get-credentials --resource-group amused-toucan-rg --name amused-toucan-aks-prod
+    ```
+    <img src="images/d3-aks-detail/d3-aks-detail-08-update-kubeconfig.png" width="600" />
+
+11. Run some commands using kubectl to verify you are able to access the cluster.
+    ```
+    kubectl get namespaces
+    kubectl get pods --all-namespaces
+    kubectl cluster-info
+    ```
+    <img src="images/d3-aks-detail/d3-aks-detail-09-kubectl-test-commands.png" width="600" /><br>
+
+    <img src="images/d3-aks-detail/d3-aks-detail-10-kubectl-cluster-info.png" width="600" />
+
+12. You are ready to proceed to setup the ArgoCD described in the next section.
+
+13. Please remember to delete the resources that you deployed in the preceding steps when the resources are no longer required:
+    ```
+    terraform destroy -var-file=prod.tfvars
+    ```
+    <img src="images/d3-aks-detail/d3-aks-detail-11-terraform-destroy-yes.png" width="600" /><br>
+
+    <img src="images/d3-aks-detail/d3-aks-detail-12-terraform-destroy-completed.png" width="600" />
+</details>
+
+<XXXdetails><summary><code style="color: aqua">Google Kubernetes Engine (GKE) Deployment Demo</code></summary>
+1.  Pre-requisites For GKE Deployment Demo:
+    - |S/N|Required software|Version|
+      |---|-----------------|-------|
+      | 1 | terraform       |v1.8.5 or later.|
+      | 2 | kubectl         |???|
+      | 3 | Google cloud account with permission to provision resources.||
+      | 4 | Google cloud credentials setup in local machine.||
+      |||
+
+2.  Navigate to the folder terraform/gcp:
+
+    <img src="images/d3-gke-detail/d3-gke-detail-02-terraform-gcp-folder-structure.png" width="600" />
+
+3.  Run the `terraform init` command to initialise and download any plugins.
+
+    ![alt text](image.png)
+    <img src="images/d3-gke-detail/d3-gke-detail-03-terraform-init.png" width="600" />
+
+4.  Run the `terraform apply` command with the argument `-var-file=prod.tfvars` and press the `Enter` key.
+    ```
+    terraform apply -var-file=prod.tfvars
+    ```
+    <img src="images/d3-gke-detail/d3-gke-detail-04-terraform-apply-prod.png" width="600" />
+
+    Note that the command will provision the infrastructures (VNet, Network, Firewalls, Internet Gateway, VMs, etc) for the production environment. Please use the dev.tfvars to setup the development/testing environment, if required, in a separate run.
+    ```
+    terraform apply -var-file=dev.tfvars
+    ```
+
+5.  Upon prompted by the system, type `yes` and then press the `Enter` key:
+
+    <img src="images/d3-gke-detail/d3-gke-detail-05-terraform-apply-yes.png" width="600" />
+
+6.  Please wait for up to 20 minutes for the Terraform to provision the EKS cluster in AWS.
+
+    <img src="images/d3-gke-detail/d3-gke-detail-06-terraform-apply-running.png" width="600" />
+
+7.  Upon completion of the AKS cluster, you should be able to see the information about the cluster:
+
+    <img src="images/d3-gke-detail/d3-gke-detail-07-terraform-apply-output.png" width="600" />
+
+8.  Please note down the details shown in the preceding step because the information is required in section D4 for installing the ArgoCD.
+
+9.  After the cluster is created successfully, you need to configure your local machine to access to it.
+    For GKE, the command is:
+    ```
+    gcloud container clusters get-credentials <CLUSTER_NAME> --region <REGION-CODE> --project <PROJECT_ID>
+    ```
+    ```
+    Outputs:
+
+    gke_cluster_endpoint = "34.46.220.85"
+    gke_cluster_master_version = "1.29.5-gke.1091000"
+    gke_cluster_name = "gke-cluster-prod" <<<<<< Need this for next step.
+    gke_cluster_region = "us-central1" <<<<<< Need this for next step.
+    gke_cluster_regional = true
+    gke_cluster_zones = tolist([
+        "us-central1-b",
+        "us-central1-c",
+        "us-central1-f",
+    ])
+    ```
+
+10. Run the following command to update the kubectl configuration file (Located at ~/.kube/config), so that your local machine is configured to access the newly created GKE cluster.
+    ```
+    gcloud container clusters get-credentials gke-cluster-prod --region us-central1 --project enhanced-option-423814-n0
+    ```
+    <img src="images/d3-gke-detail/d3-gke-detail-08-update-kubeconfig.png" width="600" />
+
+11. Run some commands using kubectl to verify you are able to access the cluster.
+    ```
+    kubectl get namespaces
+    kubectl get pods --all-namespaces
+    kubectl cluster-info
+    ```
+    <img src="images/d3-gke-detail/d3-gke-detail-09-kubectl-test-commands.png" width="600" /><br>
+
+    <img src="images/d3-gke-detail/d3-gke-detail-10-kubectl-cluster-info.png" width="600" />
+
+12. You are ready to proceed to setup the ArgoCD described in the next section.
+
+13. Please remember to delete the resources that you deployed in the preceding steps when the resources are no longer required:
+    ```
+    terraform destroy -var-file=prod.tfvars
+    ```
+    <img src="images/d3-gke-detail/d3-gke-detail-11-terraform-destroy-yes.png" width="600" /><br>
+
+    <img src="images/d3-gke-detail/d3-gke-detail-12-terraform-destroy-completed.png" width="600" />
 </details>
 
 ### D4. ArgoCD <img src="images/d4-argocd-logo.png" width="60" />
