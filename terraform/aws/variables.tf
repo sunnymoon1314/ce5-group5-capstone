@@ -30,13 +30,13 @@ variable "network" {
 
 variable "k8s_cluster" {
   type = object({
-    name = optional(string, "eks")
+    name = optional(string, "eks-cluster")
   })
 }
 
 variable "node_group" {
   type = object({
-    name          = optional(string, "node-group-dev")
+    name          = optional(string, "node-group")
     instance_type = optional(string, "t2.micro")
     min_size      = optional(number, 1)
     max_size      = optional(number, 3)

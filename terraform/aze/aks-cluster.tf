@@ -8,7 +8,9 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "default" {
-  name = "${random_pet.prefix.id}-rg"
+  # 13.06.2024 Soon: Changed the resource group name to a fixed name.
+  # name = "${random_pet.prefix.id}-rg"
+  name = "aks-resource-group-rg"
   # location = "West US 2"
   location = "westus2"
 
@@ -18,7 +20,9 @@ resource "azurerm_resource_group" "default" {
 }
 
 resource "azurerm_kubernetes_cluster" "default" {
-  name                = "${random_pet.prefix.id}-aks-${var.env}"
+  # 13.06.2024 Soon: Changed the cluster name to a fixed name.
+  # name              = "${random_pet.prefix.id}-aks-${var.env}"
+  name                = "aks-cluster-${var.env}"
   location            = azurerm_resource_group.default.location
   resource_group_name = azurerm_resource_group.default.name
   dns_prefix          = "${random_pet.prefix.id}-k8s"

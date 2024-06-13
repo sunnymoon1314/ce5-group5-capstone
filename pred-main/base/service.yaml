@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pred-main-service
+  namespace: classifier
+  labels:
+    app.kubernetes.io/name: pred-main
+spec:
+  type: NodePort
+  ports:
+    - name: http
+      protocol: TCP
+      port: 5000
+      targetPort: 5000
+      nodePort: 30080
+  selector:
+    app.kubernetes.io/name: pred-main

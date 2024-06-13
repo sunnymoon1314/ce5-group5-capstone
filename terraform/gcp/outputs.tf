@@ -23,6 +23,11 @@ output "gke_cluster_master_version" {
   value = module.gke.master_version
 }
 
+output "kubeconfig_command" {
+  description = "Display the command that can be used to configure kubectl."
+  value = "gcloud container clusters get-credentials ${module.gke.name} --region ${var.zone} --project ${var.project_id}"
+}
+
 # 08.06.2024 Soon: Commented this.
 # output "network_self_link" {
 #   value = module.vpc.network_name

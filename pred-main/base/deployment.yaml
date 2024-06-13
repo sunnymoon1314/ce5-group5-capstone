@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pred-main
+  namespace: classifier
+  labels:
+    app.kubernetes.io/name: pred-main
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: pred-main
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: pred-main
+    spec:
+      containers:
+        # The image version is always set to the stable production version.
+        # This version tag is only over-written by dev to latest tag.
+        # If you use Image Updater, this is the only line to compare with the
+        # DockerHub if the version is revised.
+        - image: moonysun1314/ml-model:v1.0.2
+          imagePullPolicy: Always
+          name: pred-main
+          ports:
+            - containerPort: 5000
+              name: http
+              protocol: TCP
