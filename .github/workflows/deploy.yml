@@ -74,16 +74,16 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/ml-model:latest, ${{ secrets.DOCKERHUB_USERNAME }}/ml-model:${{ github.ref_name }}
 
-      - name: Update values.yaml
+      - name: Update deployment.yaml
         run: |
-          cd helm-app
-          sed -i 's|APP_VERSION:.*|APP_VERSION: '${{ github.ref_name }}'|' values.yaml
-          sed -i 's|tag:.*|tag: '${{ github.ref_name }}'|' values.yaml
-          sed -i 's|name: helm-app-configmap.*|name: helm-app-configmap-'${{ github.ref_name }}'|' values.yaml
+          cd pred-main\base
+          sed -i 's|image:.*|image: moonysun1314/ml-model:'${{ github.ref_name }}'|' deployment.yaml
+          # sed -i 's|tag:.*|tag: '${{ github.ref_name }}'|' deployment.yaml
+          # sed -i 's|name: helm-app-configmap.*|name: helm-app-configmap-'${{ github.ref_name }}'|' deployment.yaml
           git config --global user.name 'sunnymoon1314'
           git config --global user.email 'moonysun1314@gmail.com'
-          git add values.yaml
-          git commit -m "Update values.yaml"
+          git add deployment.yaml
+          git commit -m "Updated image version to ${{ github.ref_name }} in deployment.yaml."
           git push
 
   deploy:
