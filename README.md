@@ -321,7 +321,7 @@ The EKS is provisioned using Terraform, which is an open-source techology to all
 
 7.  Upon completion of the EKS cluster, you should be able to see the information about the cluster:
 
-    <img src="images/d3-eks-detail/d3-eks-detail-07-terraform-apply-output.png" width="600" />
+    <img src="images/d3-eks-detail/d3-eks-detail-07-terraform-apply-output-dev.png" width="600" />
 
 8.  Please note down the details shown in the preceding step because the information is required in section D4 for installing the ArgoCD.
 
@@ -420,6 +420,15 @@ The EKS is provisioned using Terraform, which is an open-source techology to all
     Outputs:
 
     aks_cluster_location = "westus2"
+    aks_cluster_name = "aks-cluster-prod" <<<<<< Need this for next step.
+    aks_cluster_resource_group_name = "aks-resource-group-rg" <<<<<< Need this for next step.
+    aks_cluster_version = "1.29"
+    kubeconfig_command = "az aks get-credentials --resource-group aks-resource-group-rg --name aks-cluster-prod"
+    ```
+    ```
+    Outputs:
+
+    aks_cluster_location = "westus2"
     aks_cluster_name = "aks-cluster-dev" <<<<<< Need this for next step.
     aks_cluster_resource_group_name = "aks-resource-group-rg" a<<<<<< Need this for next step.dsasd
     aks_cluster_version = "1.29"
@@ -492,7 +501,9 @@ The EKS is provisioned using Terraform, which is an open-source techology to all
 
 7.  Upon completion of the AKS cluster, you should be able to see the information about the cluster:
 
-    <img src="images/d3-gke-detail/d3-gke-detail-07-terraform-apply-output.png" width="600" />
+    <img src="images/d3-gke-detail/d3-gke-detail-07-terraform-apply-output-prod.png" width="600" /><br>
+
+    <img src="images/d3-gke-detail/d3-gke-detail-07-terraform-apply-output-dev.png" width="600" />
 
 8.  Please note down the details shown in the preceding step because the information is required in section D4 for installing the ArgoCD.
 
@@ -506,8 +517,8 @@ The EKS is provisioned using Terraform, which is an open-source techology to all
 
     gke_cluster_endpoint = "34.41.145.139"
     gke_cluster_master_version = "1.29.5-gke.1091000"
-    gke_cluster_name = "gke-cluster-prod"
-    gke_cluster_region = "us-central1"
+    gke_cluster_name = "gke-cluster-prod" <<<<<< Need this for next step.
+    gke_cluster_region = "us-central1" <<<<<< Need this for next step.
     gke_cluster_regional = true
     gke_cluster_zones = tolist([
         "us-central1-b",
@@ -639,7 +650,7 @@ GitOps using ArgoCD has these benefits:
     ```
     kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}"
     Ti1pLUhJaGM3NkU4cUpOUw==
-    
+
     echo Ti1pLUhJaGM3NkU4cUpOUw== | openssl base64 -d
     N-i-HIhc76E8qJNS <<<<<< This is the ArgoCD initial secret in base64.
     ```
@@ -674,34 +685,31 @@ GitOps using ArgoCD has these benefits:
     -   DESTINATION
         -   Cluster URL: https://kubernetes.default.svc
         -   Namespace: dev
-    -   Helm
-        -   appName: helm-app
-        -   configmap.data.CUSTOM_HEADER: This app was deployed with helm.
-        -   configmap.name: helm-app-configmap-v1.0.0
-        -   image.name: moonysun1314/ml-model
-        -   image.tag: v1.0.0
-        -   port: 5000
-    -   Helm
-        -   VALUES FILES: values.yml
+    -   Kustomize
+        -   IMAGES
+            -   moonysun1314/ml-model
+            -   latest
 
-    <img src="images/d4-argocd-detail/d4-argocd-detail-19-create-application-details-1.png" width="600" />
+    <img src="images/d4-argocd-detail/d4-argocd-detail-13-create-application-details-1.png" width="600" />
 
-    <img src="images/d4-argocd-detail/d4-argocd-detail-20-create-application-details-2.png" width="600" />
+    <img src="images/d4-argocd-detail/d4-argocd-detail-13-create-application-details-2.png" width="600" />
 
-    <img src="images/d4-argocd-detail/d4-argocd-detail-21-create-application-details-3.png" width="600" />
+    <img src="images/d4-argocd-detail/d4-argocd-detail-13-create-application-details-3.png" width="600" />
 
-![alt text](image.png)
-19. Then click the <img src="images/d4-argocd-detail/d4-argocd-detail-21-create-application.png" width="60" /> button at the top-left corner of the screen.
+19. Then click the <img src="images/d4-argocd-detail/d4-argocd-detail-14-create-application.png" width="60" /> button at the top-left corner of the screen.
 
 19. Please wait for the application to show healthy status (i.e. Synchronised/Healthy).
 
-    <img src="images/d4-argocd-detail/d4-argocd-detail-10-show-application.png" width="600" />
+    <img src="images/d4-argocd-detail/d4-argocd-detail-15-syncing-application.png" width="600" />
 
 22. Use this command to access the application.
     ```
-    kubectl port-foward service/helm-app 5000:5000 --namespace dev
+    kubectl get services -n argocd
+    kubectl port-forward service/pred-main-service 5000:5000 --namespace dev
     ```
-    <img src="images/d4-argocd-detail/d4-argocd-detail-23-port-forwarding-5000-to-5000.png" width="600" />
+    <img src="images/d4-argocd-detail/d4-argocd-detail-16-port-forwarding-5000-to-5000.png" width="600" /><br>
+
+    <img src="images/d4-argocd-detail/d4-argocd-detail-17-test-model-prediction.png" width="600" />
 
 20. Repeat step 18 and 19 to create a second application, if required.
 
@@ -714,20 +722,9 @@ GitOps using ArgoCD has these benefits:
 26. Release a new version of the ML model by creating a new tag (say v1.0.1) in GitHub and then approve and deploy the new version to the prod environment. You should be able to see ArgoCD synchronise the version from v1.0.0 to v1.0.1.
 
     <img src="images/d4-argocd-detail/d4-argocd-detail-27-auto-sync-upon-version-update.png" width="600" />
+</details>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+<XXXdetails><summary><code style="color: green">ArgoCD CLI Usage Instructions</code></summary>
 
 8. Login to ArgoCD via the CLI tool.
     ```
@@ -837,41 +834,3 @@ Image Source: [Unlocking Advanced Image Management with ArgoCD and ArgoCD Image 
 kustomize edit set image quay.io/redhatworkshops/welcome-php:ffcd15
 https://redhat-scholars.github.io/argocd-tutorial/argocd-tutorial/03-kustomize.html
 <img src="images/d4-argocd-detail-XX-kustomize-edit-set-image.png" width="600" />
-
-
-
-![alt text](image-5.png)
-
-
-![alt text](image-10.png)
-
-
-
-
-
-![alt text](image-11.png)
-
-![alt text](image-12.png)
-
-![alt text](image-13.png)
-
-![alt text](image-14.png)
-
-![alt text](image-15.png)
-
-![alt text](image-16.png)
-
-Outputs:
-
-aks_cluster_location = "westus2"
-aks_cluster_name = "aks-cluster-prod"
-aks_cluster_resource_group_name = "aks-resource-group-rg"
-aks_cluster_version = "1.29"
-kubeconfig_command = "az aks get-credentials --resource-group aks-resource-group-rg --name aks-cluster-prod"
-
-![alt text](image-17.png)
-
-![alt text](image-18.png)
-
-
-

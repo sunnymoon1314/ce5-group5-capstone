@@ -12,6 +12,6 @@ spec:
       protocol: TCP
       port: 5000
       targetPort: 5000
-      nodePort: 30080
+      nodePort: 30100
   selector:
     app.kubernetes.io/name: pred-main
