@@ -76,7 +76,8 @@ jobs:
 
       - name: Update deployment.yaml
         run: |
-          cd pred-main\base
+          cd pred-main
+          cd base
           sed -i 's|image:.*|image: moonysun1314/ml-model:'${{ github.ref_name }}'|' deployment.yaml
           # sed -i 's|tag:.*|tag: '${{ github.ref_name }}'|' deployment.yaml
           # sed -i 's|name: helm-app-configmap.*|name: helm-app-configmap-'${{ github.ref_name }}'|' deployment.yaml
