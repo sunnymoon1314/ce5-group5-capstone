@@ -22,6 +22,11 @@ output "aks_ingress_application_gateway" {
   value       = try(azurerm_kubernetes_cluster.default.ingress_application_gateway[0], null)
 }
 
+output "kubeconfig_command" {
+  description = "Display the command that can be used to configure kubectl."
+  value       = "az aks get-credentials --resource-group ${azurerm_kubernetes_cluster.default.resource_group_name} --name ${azurerm_kubernetes_cluster.default.name}"
+}
+
 # 08.06.2024 Soon: Commented this because it is sensitive information.
 # output "aks_cluster_host" {
 #  value = azurerm_kubernetes_cluster.default.kube_config.0.host

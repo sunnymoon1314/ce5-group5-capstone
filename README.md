@@ -5,7 +5,7 @@ Submitted On: __15 Jun 2024__
 
 ## <img src="images/3d-ball-icon/red-3d-ball.png" width="35" /> A. Project Title
 
-## Machine Learning Operations using GitHub Actions with automated deployment to instrumented Kubernetes clusters.
+## Machine Learning Operations using GitHub Actions with automated deployment to Kubernetes clusters.
 
 ## <img src="images/3d-ball-icon/orange-3d-ball.png" width="35" /> B. Business Use Case
 
@@ -39,8 +39,6 @@ Below is a summary of our proposal:
 
 6.  We will automate the deployment process to ensure the ML model in the production environment can be easily updated whenever there are new releases of the ML models.
 
-7.  We will install instrumenting software tools such as Prometheus and ML-Monitor to monitor the health status and predictive accuracy of the deployed ML model. If the predictive accuracy drops below the acceptable threshold limit, we will trigger the process to retrain the ML model, if necessary.
-
 Here is a summary of the proposed items:
 
 ### _Summary Of Proposed Solution_
@@ -55,7 +53,6 @@ Image Source: https://igboie.medium.com/kubernetes-ci-cd-with-github-github-acti
 |c2 |Docker/REST API<br>(Containerisation/Microservice)|The ML models created in __(c1)__ are containerised using Docker and published to DockerHub. The images are implemented as REST API services using Python/Flask.|
 |c3	|Kubernetes<br>(Orchestration platform)     |The services in __(c2)__ are deployed to Elastic Kubernetes Service (EKS) of AWS using Terraform.<br>EKS is a managed service and thus will handle the auto-scaling, self-healing and auto-provisioning of the required resources for us.|
 |c4	|ArgoCD<br>(CD workflow automation)|The configurations of EKS deployed in __(c3)__ is stored in a config repository.<br>ArgoCD is setup to monitor if there are changes to this config repository. Wnenever it detects any updates to the ML model versions and/or other settings such as number of replicas, new services added, etc, ArgoCD will refresh and propagate those changes to the Kubernetes cluster(s) automatically.|
-|c5 |Prometheus/Grafana<br>(Instrumentation)|The services in __(c2)__ are also monitored based on the various performance metrics generated from them. The metrics are stored in Prometheus and visualised using Grafana.|
 |||
 
 ## <img src="images/3d-ball-icon/green-3d-ball.png" width="35" /> D. Project Implementation Details
@@ -252,7 +249,7 @@ Reference(s):
 -   [How To Create Git Tags](https://devconnected.com/how-to-create-git-tags/).
 </details>
 
-### D2. Containerisation <img src="images/d2-docker-logo.png" width="60" /> And Microservices <img src="images/d2-microservices-logo.png" width="60" />
+### D2. Containerisation <img src="images/logo/d2-docker-logo.png" width="60" /> And Microservices <img src="images/logo/d2-microservices-logo.png" width="60" />
 
 We will containerise the model file created in the preceding step to a Docker image.
 
@@ -277,7 +274,7 @@ In addition to containerising our ML Model, we have also implemented industrial 
     <img src="images/d2-containerisation-detail-03-test-post-using-postman.png" width="600" />
 </details>
 
-### D3. Kubernetes <img src="images/d3-kubernetes-logo.png" width="60" />
+### D3. Kubernetes <img src="images/logo/d3-kubernetes-logo.png" width="60" />
 
 We have chosen to use Elastic Kubernetes Service (EKS) which is the managed Kubernetes services of Amazon Web Services' (AWS) as the deployment platform.
 
@@ -285,7 +282,7 @@ EKS is the managed Kubernetes services of Amazon Web Services' (AWS) which offer
 
 The EKS is provisioned using Terraform, which is an open-source techology to allow us to deploy infrastructure using codes.
 
-<details><summary><code style="color: aqua">Elastic Kubernetes Service (EKS) Deployment Instructions</code></summary>
+<XXXdetails><summary><code style="color: aqua">Elastic Kubernetes Service (EKS) Deployment Instructions</code></summary>
 1.  Pre-requisites For EKS Deployment Instructions:
     - |S/N|Required software|Version|
       |---|-----------------|-------|
@@ -336,18 +333,18 @@ The EKS is provisioned using Terraform, which is an open-source techology to all
     ```
     Outputs:
 
-    eks_cluster_endpoint = "https://16CDA750E4F24FE80B755AB8234E15D9.gr7.us-east-1.eks.amazonaws.com"
-    eks_cluster_name = "eks-prod-U44FzTQP" <<<<<< Need this for next step.
+    eks_cluster_endpoint = "https://0B7D242CD8556B4E1F622308C953BCE8.gr7.us-east-1.eks.amazonaws.com"
+    eks_cluster_name = "eks-cluster-dev" <<<<<< Need this for next step.
     eks_cluster_region = "us-east-1" <<<<<< Need this for next step.
-    eks_cluster_security_group_id = "sg-012d2aff84ecc6568"
+    eks_cluster_security_group_id = "sg-0d91e4c82b2a10693"
     eks_cluster_version = "1.29"
+    kubeconfig_command = "aws eks update-kubeconfig --region us-east-1 --name eks-cluster-dev"
     ```
 
 10. Run the following command to update the kubectl configuration file (Located at ~/.kube/config), so that your local machine is configured to access the newly created EKS cluster.
     ```
-    aws eks update-kubeconfig --region us-east-1 --name eks-prod-U44FzTQP
+    aws eks update-kubeconfig --region us-east-1 --name eks-cluster-dev
     ```
-
     <img src="images/d3-eks-detail/d3-eks-detail-08-update-kubeconfig.png" width="600" />
 
 11. Run some commands using kubectl to verify you are able to access the cluster.
@@ -371,7 +368,7 @@ The EKS is provisioned using Terraform, which is an open-source techology to all
     <img src="images/d3-eks-detail/d3-eks-detail-12-terraform-destroy-completed.png" width="600" />
 </details>
 
-<details><summary><code style="color: aqua">Azure Kubernetes Service (AKS) Deployment Instructions</code></summary>
+<XXXdetails><summary><code style="color: aqua">Azure Kubernetes Service (AKS) Deployment Instructions</code></summary>
 1.  Pre-requisites For AKS Deployment Instructions:
     - |S/N|Required software|Version|
       |---|-----------------|-------|
@@ -410,7 +407,7 @@ The EKS is provisioned using Terraform, which is an open-source techology to all
 
 7.  Upon completion of the AKS cluster, you should be able to see the information about the cluster:
 
-    <img src="images/d3-aks-detail/d3-aks-detail-07-terraform-apply-output.png" width="600" />
+    <img src="images/d3-aks-detail/d3-aks-detail-07-terraform-apply-output-dev.png" width="600" />
 
 8.  Please note down the details shown in the preceding step because the information is required in section D4 for installing the ArgoCD.
 
@@ -423,16 +420,17 @@ The EKS is provisioned using Terraform, which is an open-source techology to all
     Outputs:
 
     aks_cluster_location = "westus2"
-    aks_cluster_name = "amused-toucan-aks-prod" <<<<<< Need this for next step.
-    aks_cluster_resource_group_name = "amused-toucan-rg" <<<<<< Need this for next step.
+    aks_cluster_name = "aks-cluster-dev" <<<<<< Need this for next step.
+    aks_cluster_resource_group_name = "aks-resource-group-rg" a<<<<<< Need this for next step.dsasd
     aks_cluster_version = "1.29"
+    kubeconfig_command = "az aks get-credentials --resource-group aks-resource-group-rg --name aks-cluster-dev"
     ```
 
 10. Run the following command to update the kubectl configuration file (Located at ~/.kube/config), so that your local machine is configured to access the newly created EKS cluster.
     ```
-    az aks get-credentials --resource-group amused-toucan-rg --name amused-toucan-aks-prod
+    az aks get-credentials --resource-group aks-resource-group-rg --name aks-cluster-dev
     ```
-    <img src="images/d3-aks-detail/d3-aks-detail-08-update-kubeconfig.png" width="600" />
+    <img src="images/d3-aks-detail/d3-aks-detail-08-update-kubeconfig-prod.png" width="600" />
 
 11. Run some commands using kubectl to verify you are able to access the cluster.
     ```
@@ -455,7 +453,7 @@ The EKS is provisioned using Terraform, which is an open-source techology to all
     <img src="images/d3-aks-detail/d3-aks-detail-12-terraform-destroy-completed.png" width="600" />
 </details>
 
-<details><summary><code style="color: aqua">Google Kubernetes Engine (GKE) Deployment Instructions</code></summary>
+<XXXdetails><summary><code style="color: aqua">Google Kubernetes Engine (GKE) Deployment Instructions</code></summary>
 1.  Pre-requisites For GKE Deployment Instructions:
     - |S/N|Required software|Version|
       |---|-----------------|-------|
@@ -506,23 +504,40 @@ The EKS is provisioned using Terraform, which is an open-source techology to all
     ```
     Outputs:
 
-    gke_cluster_endpoint = "34.46.220.85"
+    gke_cluster_endpoint = "34.41.145.139"
     gke_cluster_master_version = "1.29.5-gke.1091000"
-    gke_cluster_name = "gke-cluster-prod" <<<<<< Need this for next step.
-    gke_cluster_region = "us-central1" <<<<<< Need this for next step.
+    gke_cluster_name = "gke-cluster-prod"
+    gke_cluster_region = "us-central1"
     gke_cluster_regional = true
     gke_cluster_zones = tolist([
         "us-central1-b",
         "us-central1-c",
         "us-central1-f",
     ])
+    kubeconfig_command = "gcloud container clusters get-credentials gke-cluster-prod --region us-central1-a --project enhanced-option-423814-n0"
+    ```
+    ```
+    Outputs:
+
+    gke_cluster_endpoint = "34.138.134.79"
+    gke_cluster_master_version = "1.29.5-gke.1091000"
+    gke_cluster_name = "gke-cluster-dev" <<<<<< Need this for next step.
+    gke_cluster_region = "us-east1" <<<<<< Need this for next step.
+    gke_cluster_regional = false
+    gke_cluster_zones = tolist([])
+    kubeconfig_command = "gcloud container clusters get-credentials gke-cluster-dev --region us-east1-b --project enhanced-option-423814-n0"
     ```
 
 10. Run the following command to update the kubectl configuration file (Located at ~/.kube/config), so that your local machine is configured to access the newly created GKE cluster.
     ```
     gcloud container clusters get-credentials gke-cluster-prod --region us-central1 --project enhanced-option-423814-n0
     ```
-    <img src="images/d3-gke-detail/d3-gke-detail-08-update-kubeconfig.png" width="600" />
+    <img src="images/d3-gke-detail/d3-gke-detail-08-update-kubeconfig-prod.png" width="600" /><br>
+
+    ```
+    gcloud container clusters get-credentials gke-cluster-dev --region us-east1-b --project enhanced-option-423814-n0
+    ```
+    <img src="images/d3-gke-detail/d3-gke-detail-08-update-kubeconfig-dev.png" width="600" />
 
 11. Run some commands using kubectl to verify you are able to access the cluster.
     ```
@@ -545,7 +560,7 @@ The EKS is provisioned using Terraform, which is an open-source techology to all
     <img src="images/d3-gke-detail/d3-gke-detail-12-terraform-destroy-completed.png" width="600" />
 </details>
 
-### D4. ArgoCD <img src="images/d4-argocd-logo.png" width="60" />
+### D4. ArgoCD <img src="images/logo/d4-argocd-logo.png" width="60" />
 
 After deployment of our ML model as an application in the Kubernetes cluster, we make use of ArgoCD to automate the continuous deployment pipeline.
 
@@ -575,8 +590,8 @@ GitOps using ArgoCD has these benefits:
     - |S/N|Required software|Version|
       |---|-----------------|-------|
       | 1 | kubectl         |???|
-      | 2 | ArgoCD GUI and CLI tool||
-      | 3 | A Kubernetes installed and configured in .kube/config.||
+      | 2 | kustomize       |???|
+      | 3 | A Kubernetes cluster installed and configured in .kube/config.||
       |||
 
 2.  Run the following command to create the argocd namespace.
@@ -589,329 +604,274 @@ GitOps using ArgoCD has these benefits:
     ```
     kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
     ```
-    <img src="images/d4-argocd-detail/d4-argocd-detail-03-install-manifest.png" width="600" /><br>
+    <img src="images/d4-argocd-detail/d4-argocd-detail-03-install-argocd.png" width="600" /><br>
 
-    <img src="images/d4-argocd-detail/d4-argocd-detail-04-install-manifest-2.png" width="600" />
+    <img src="images/d4-argocd-detail/d4-argocd-detail-04-install-argocd-2.png" width="600" />
 
-4.  Add the official Helm repository.
+4.  Apply the install.yaml manifest file to install ArgoCD Image Updater.
     ```
-    helm repo add stable https://charts.helm.sh/stable
+    kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj-labs/argocd-image-updater/stable/manifests/install.yaml
     ```
-    <img src="images/d4-argocd-detail/d4-argocd-detail-05-helm-repo-add.png" width="600" />
+    <img src="images/d4-argocd-detail/d4-argocd-detail-05-install-argocd-image-updater.png" width="600" /><br>
 
-6.  Update the Helm repositories.
-    ```
-    helm repo update
-    ```
-    <img src="images/d4-argocd-detail/d4-argocd-detail-06-helm-repo-update.png" width="600" />
-
-7.  Setup the application repository with its corresponding Helm chart.
-    ```
-    cd C:\Users\bunny\OneDrive\OneDrive_AddOn\github\ce5-group5-capstone\
-
-    mkdir helm-app
-
-    cd helm-app
-
-    helm create helm
-    ```
-
-8.  The command in the preceding step will create a new folder called __helm__ with the basic structures of a Helm chart.
-
-    <img src="images/d4-argocd-detail/d4-argocd-detail-07-helm-chart-folder-structure.png" width="600" />
-
-9.  Update the __helm/templates/deployment.yml__ file to configure it for our ML model.
-    ```
-    apiVersion: apps/v1
-    kind: Deployment
-    metadata:
-      name: app-deploy
-      labels:
-        app: app
-    spec:
-      replicas: 3
-      selector:
-        matchLabels:
-          app: app
-      template:
-        metadata:
-          labels:
-            app: app
-        spec:
-          containers:
-            - name: app
-              image: moonysun1314/ml-model:{{ .Values.env.APP_VERSION }}
-              ports:
-                - containerPort: 5000
-              env:
-              - name: NAME
-                value: 'Soon'
-              readinessProbe:
-                httpGet:
-                  path: /health
-                  port: 5000
-                initialDelaySeconds: 10
-                periodSeconds: 10
-                successThreshold: 1
-                failureThreshold: 3
-              livenessProbe:
-                httpGet:
-                  path: /health
-                  port: 5000
-                initialDelaySeconds: 10
-                periodSeconds: 10
-                timeoutSeconds: 5
-                successThreshold: 1
-                failureThreshold: 3
-    ```
-    <img src="images/d4-argocd-detail/d4-argocd-detail-08-helm-chart-deployment.png" width="600" />
-
-10. Update the __helm/templates/service.yml__ file to configure it for our ML model.
-    ```
-    apiVersion: v1
-    kind: Service
-    metadata:
-      name: app-service
-      labels:
-        app: app
-    spec:
-      type: NodePort
-      selector:
-        app: app
-      ports:
-        - protocol: TCP
-          port: 5000
-          targetPort: 5000
-          nodePort: 30080
-    ```
-    <img src="images/d4-argocd-detail/d4-argocd-detail-09-helm-chart-service.png" width="600" />
-
-11. Create a new file named __ingress.yml__ inside the templates folder with the following contents:
-    ```
-    apiVersion: networking.k8s.io/v1
-    kind: Ingress
-    metadata:
-      name: ingress
-      annotations:
-        nginx.ingress.kubernetes.io/rewrite-target: /
-    spec:
-      rules:
-        - http:
-            paths:
-              - path: /
-                pathType: Prefix
-                backend:
-                  service:
-                    name: app-service
-                    port:
-                      number: 5000
-    ```
-    <img src="images/d4-argocd-detail/d4-argocd-detail-10-helm-chart-ingress.png" width="600" />
-
-12. Update the __values.yml__ file located in the helm folder: Replace the content of the file with the following code:
-    ```
-    env:
-      APP_VERSION: v1.0.0
-    ```
-    <img src="images/d4-argocd-detail/d4-argocd-detail-11-helm-chart-values.png" width="600" />
-
-13. Use this command to verify the installation.
+5.  Use this command to verify the ArgoCD installation.
     ```
     kubectl get all --namespace argocd
     ```
-    <img src="images/d4-argocd-detail/d4-argocd-detail-12-verify-installation.png" width="600" />
+    <img src="images/d4-argocd-detail/d4-argocd-detail-06-verify-installation.png" width="600" />
+
+    Search for ArgoCD. It is argocd. And for the Image Updater, it is argocd-image-updater.
 
     Quite a lot of components are required for ArgoCD to function properly.
 
-14. We can access ArgoCD via its Graphical User Interface (GUI). But we need to use a mechanism
-    called “port-forwarding” on the service called service/argocd-server (which is listening on
-    port 80 and 443). By-pass the certificate check, if necessary.
+6. We can access ArgoCD via its Graphical User Interface (GUI). But we need to use a mechanism called “port-forwarding” on the service called service/argocd-server (which is listening on port 80 and 443). By-pass the certificate check, if necessary.
     ```
     kubectl get services -n argocd
     kubectl port-forward service/argocd-server --namespace argocd 8080:443
     ```
-    <img src="images/d4-argocd-detail/d4-argocd-detail-13-port-forwarding-443-to-8080.png" width="600" />
+    <img src="images/d4-argocd-detail/d4-argocd-detail-07-port-forwarding-443-to-8080.png" width="600" />
 
-15. Run the following command to get the initial password of ArgoCD. You will need it to login
+7. Run the following command to get the initial password of ArgoCD. You will need it to login
     to the ArgoCD GUI.
     ```
     kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
     ```
     ```
     kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}"
-    Wmw4a2hnUk1ObnNmZWg4LQ==
+    Ti1pLUhJaGM3NkU4cUpOUw==
     
-    echo Wmw4a2hnUk1ObnNmZWg4LQ== | openssl base64 -d
-    Zl8khgRMNnsfeh8- <<<<<< This is the ArgoCD initial secret in base64.
+    echo Ti1pLUhJaGM3NkU4cUpOUw== | openssl base64 -d
+    N-i-HIhc76E8qJNS <<<<<< This is the ArgoCD initial secret in base64.
     ```
-    <img src="images/d4-argocd-detail/d4-argocd-detail-14-decode-initial-password.png" width="600" />
+    <img src="images/d4-argocd-detail/d4-argocd-detail-08-decode-initial-password.png" width="600" />
 
-16. Go to the browser and enter the following address as the URL to access the ArgoCD GUI.
+8.  Go to the browser and enter the following address as the URL to access the ArgoCD GUI.
     ```
     http://localhost:8080
     ```
-    If prompted that the connection is not private, click the __Advanced__ button and then click the link _Proceed to localhost (unsafe)__.
+    If prompted that the connection is not private, click the __Advanced__ button and then click the link __Proceed to localhost (unsafe)__.
 
-    <img src="images/d4-argocd-detail/d4-argocd-detail-15-connection-not-private.png" width="600" />
+    <img src="images/d4-argocd-detail/d4-argocd-detail-09-connection-not-private.png" width="600" />
 
-17. When the ArgoCD GUI is up, enter __admin__ as the __Username__. For the __Password__, enter
-    __Zl8khgRMNnsfeh8-__ (Password you obtained in step 15). And then click the __SIGN IN__ button.
+9.  When the ArgoCD GUI is up, enter __admin__ as the __Username__. For the __Password__, enter __N-i-HIhc76E8qJNS__ (Password you obtained in step 7). And then click the __SIGN IN__ button.
 
-    <img src="images/d4-argocd-detail/d4-argocd-detail-16-argocd-login.png" width="600" /><br>
+    <img src="images/d4-argocd-detail/d4-argocd-detail-10-argocd-login.png" width="600" />
 
-    <img src="images/d4-argocd-detail/d4-argocd-detail-17-argocd-landing-page.png" width="600" />
+10. This is the ArgoCD landing page.
 
-18. Within the ArgoCD GUI, click <img src="images/d4-argocd-detail/d4-argocd-detail-18-argocd-new-app.png" width="60" /> and enter the following details:
-    Application Name: helm-app
-    Project Name: default
-    __AUTO-CREATE NAMESPACE__: Tick this option
-    Repository URL: C:\Users\bunny\OneDrive\OneDrive_AddOn\github\ce5-group5-capstone\helm-app\helm
-    Cluster URL: https://kubernetes.default.svc
-    Namespace: prod
-    ...
+    <img src="images/d4-argocd-detail/d4-argocd-detail-11-argocd-landing-page.png" width="600" />
 
-    Then click the <img src="images/d4-argocd-detail/d4-argocd-detail-19-create-application.png" width="60" /> button at the top-left corner of the screen.
+18. Within the ArgoCD GUI, click <img src="images/d4-argocd-detail/d4-argocd-detail-12-argocd-new-app.png" width="60" /> and enter the following details:
+    -   GENERAL:
+        -   Application Name: pred-main-dev
+        -   Project Name: default
+        -   SYNC POLICY: Automatic
+    -   SYNC OPTIONS
+        -   __AUTO-CREATE NAMESPACE__: Tick the checkbox
+    -   SOURCE
+        -   Repository URL: https://github.com/sunnymoon1314/ce5-group5-capstone
+        -   Path: helm-app/helm
+    -   DESTINATION
+        -   Cluster URL: https://kubernetes.default.svc
+        -   Namespace: dev
+    -   Helm
+        -   appName: helm-app
+        -   configmap.data.CUSTOM_HEADER: This app was deployed with helm.
+        -   configmap.name: helm-app-configmap-v1.0.0
+        -   image.name: moonysun1314/ml-model
+        -   image.tag: v1.0.0
+        -   port: 5000
+    -   Helm
+        -   VALUES FILES: values.yml
 
-    <img src="images/d4-argocd-detail-20-create-application-details.png" width="600" />
+    <img src="images/d4-argocd-detail/d4-argocd-detail-19-create-application-details-1.png" width="600" />
+
+    <img src="images/d4-argocd-detail/d4-argocd-detail-20-create-application-details-2.png" width="600" />
+
+    <img src="images/d4-argocd-detail/d4-argocd-detail-21-create-application-details-3.png" width="600" />
+
+![alt text](image.png)
+19. Then click the <img src="images/d4-argocd-detail/d4-argocd-detail-21-create-application.png" width="60" /> button at the top-left corner of the screen.
 
 19. Please wait for the application to show healthy status (i.e. Synchronised/Healthy).
 
-    <img src="images/d4-argocd-detail/d4-argocd-detail-21-show-application.png" width="600" />
+    <img src="images/d4-argocd-detail/d4-argocd-detail-10-show-application.png" width="600" />
+
+22. Use this command to access the application.
+    ```
+    kubectl port-foward service/helm-app 5000:5000 --namespace dev
+    ```
+    <img src="images/d4-argocd-detail/d4-argocd-detail-23-port-forwarding-5000-to-5000.png" width="600" />
 
 20. Repeat step 18 and 19 to create a second application, if required.
+
+21. Use this command to check whether our application(s) are running. The number of pods should tally with the number of replicas in the deployment.yml manifest file.
+    ```
+    kubectl get all --namespace dev
+    ```
+    <img src="images/d4-argocd-detail/d4-argocd-detail-22-check-application-running.png" width="600" />
+
+26. Release a new version of the ML model by creating a new tag (say v1.0.1) in GitHub and then approve and deploy the new version to the prod environment. You should be able to see ArgoCD synchronise the version from v1.0.0 to v1.0.1.
+
+    <img src="images/d4-argocd-detail/d4-argocd-detail-27-auto-sync-upon-version-update.png" width="600" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+8. Login to ArgoCD via the CLI tool.
+    ```
+    argocd login 127.0.0.1:8080
+    ```
+    <img src="images/d4-argocd-detail/d4-argocd-detail-05-helm-repo-addXXX.png" width="600" />
+
+![alt text](image-2.png)
+
+11. Username is admin and the Password is __Zl8khgRMNnsfeh8-__ (Password you obtained in step 8).
+
+12. Type `argocd` and press `Enter` to list all the commands available using argocd.
+
+13. ```
+    argocd app list
+    ```
+    ```
+    argocd app create ml-model-prod \
+    --repo https://github.com/sunnymoon1314/capstone.git \
+    --path predict-maintenance/overlays/prod \
+    --dest-server https://kubernetes.default.svc \
+    --dest-namespace prod
+    --namespace prod
+
+    argocd app sync argocd/ml-model-prod
+    ```
+
+    -   GENERAL:
+        -   Application Name: helm-app-dev
+        -   Project Name: default
+        -   SYNC POLICY: Automatic
+    -   SYNC OPTIONS
+        -   __AUTO-CREATE NAMESPACE__: Tick the checkbox
+    -   SOURCE
+        -   Repository URL: https://github.com/sunnymoon1314/ce5-group5-capstone
+        -   Path: helm-app/helm
+    -   DESTINATION
+        -   Cluster URL: https://kubernetes.default.svc
+        -   Namespace: dev
+
+14. Use the `argocd app list` command to check whether ArgoCD is synchronising the application status. Please allow for sometime for ArgoCD to detect the changes made.
+
+15. Use the `argocd app diff` command to see what changes have been made.
+    ```
+    argocd app diff ml-model-prod
+    ```
+    This can also be checked in the GUI.
+![alt text](image-3.png)
+
+14. Use the `argocd app history` command to check the previous versions of the selected application.
+    ```
+    argocd app history ml-model-prod
+    ```
+
+14. Use the `argocd app rollback` command to revert the selected application to the previous version, for example, if the current version is found to be unstable.
+    ```
+    argocd app rollback ml-model-prod 0 <<<<<< 0 is the ID of the desired version to rollback to.
+    ```
+
+    ```
+    argocd get pods --namespace prod
+    ```
+
+14. Use the `argocd app get` command to get more information about the selected application.
+    ```
+    argocd app get ml-model-prod
+    ```
+
+14. Use the `argocd app logs` command to get more information about the previous version(s) of the application.
+    ```
+    argocd app get ml-model-prod
+    ```
+
+14. Use the `argocd app set` command to change any parameter(s), such as path, self-heal, sync-policy, etc.
+    ```
+    argocd app get ml-model-prod
+    ```
+
+
+
+
+
+
+
+14. Use the `argocd app delete` command to delete the application that you no longer need.
+    ```
+    argocd app delete ml-model-prod
+    ```
 
 Reference(s):
 -   [Deploy using ArgoCD and Github Actions](https://medium.com/@mssantossousa/deploy-using-argocd-and-github-actions-888f7370e480)
 </details>
 
-### D5. Prometheus <img src="images/d5-prometheus-logo.png" width="60" /> And Grafana <img src="images/d5-grafana-logo.png" width="75" height="55"/>
-
-Although Kubernetes has self-healing capability, it is not desirable if there are indeed outages in the deployed application.
-
-Very often, we will want to monitor the ML model not only for its performance, latency and predictive accuracy, we also want to perform health check on the operating environment to give insights on whether the operating environment is working as per our expectation.
-
-In the program codes that we used for training the ML model, we have also implemented instrumentation capability to make the model itself export relevant ML-related metrics (such as data and model drift, prediction accuracy, classification and regression metrics, etc). These metrics can then be configured in the instrumentation software for us to analyse the data for performance, operation, troubleshooting and optimisation purpose.
-
-#### _ML Monitoring_
-Image Source: https://bowtiedraptor.substack.com/p/mlops-18-monitoring-with-prometheus
-
-<img src="images/d5-prometheus-ml-monitoring.png" width="600" />
-
-#### _ML Monitoring With Prometheus And Grafana_
-Image Source: https://bowtiedraptor.substack.com/p/mlops-18-monitoring-with-prometheus
-
-<img src="images/d5-prometheus-ml-monitoring-with-prometheus-and-grafana.png" width="600" />
-
-<XXXdetails><summary><code style="color: blue">Prometheus And Grafana Installation Instructions</code></summary>
-
-1.  Pre-requisites For Prometheus And Grafana Installation Instructions:
-    - |S/N|Required software|Version|
-      |---|-----------------|-------|
-      | 1 | helm            |vXXXX or later.|
-      | 2 | kubectl         |???|
-      | 3 | A Kubernetes installed and configured in .kube/config.||
-      |||
-
-2.  Go to https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus and locate the
-    prometheus chart.
-
-    <img src="images/d5-prometheus-detail-02-select-prometheus.png" width="600" />
-
-3.  Run the following command to add the prometheus chart to the Helm repository.
-    ```
-    helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-    ```
-    <img src="images/d5-prometheus-detail-03-add-prometheus-to-helm.png" width="600" />
-
-4.  Update the Helm repository with this command.
-    ```
-    helm repo update
-    ```
-    <img src="images/d5-prometheus-detail-04-update-helm.png" width="600" />
-
-5.  Install Prometheus using this command.
-    ```
-    kubectl install prometheus prometheus-community/prometheus
-    ```
-    <img src="images/d5-prometheus-detail-05-install-prometheus.png" width="600" />
-
-6.  Verify the installation.
-    ```
-    kubectl get pods
-    ```
-    <img src="images/d5-prometheus-detail-06-verify-installation.png" width="600" />
-
-    Please wait for few minutes for all the pods to be ready in Running status. These are all the components that are required for Prometheus to function properly.
-
-7.  In order to access Prometheus from outside the cluster, we need to expose the node port.
-    ```
-    kubectl get services <<< NEED TO ADD NAMESPACE???
-    kubectl expose service prometheus-server --type=NodePort --target-port=9090 --name=prometheus-server-ext
-    ```
-    <img src="images/d5-prometheus-detail-07-expose-prometheus-server.png" width="600" />
-
-    You will see there is one extra service (with the name of prometheus-server-ext) created.
-
-8.  Go to the browser and enter `xxx` as the URL. The port is the 5-digit number associated with the newly created
-    service prometheus-server-ext.
-
-    <img src="images/d5-prometheus-detail-08-prometheus-gui.png" width="600" />
-
-9.  Within Prometheus GUI, go to Status/Targets...
-
-    <img src="images/d5-prometheus-detail-09-prometheus-gui-target-status.png" width="600" />
-
-    <img src="images/d5-prometheus-detail-10-prometheus-gui-target-status-details.png" width="600" />
-
-    <img src="images/d5-prometheus-detail-10-prometheus-gui-metrics.png" width="600" />
-
-10. To install Grafana, run the following command:
-    ```
-    kubectl get pods
-    ```
-    <img src="images/d5-prometheus-detail-06-verify-installation.png" width="600" />
-
-11. XXX:
-    ```
-    XXX
-    ```
-    <img src="images/d5-prometheus-detail-06-verify-installation.png" width="600" />
-
-12. XXX:
-    ```
-    XXX
-    ```
-    <img src="images/d5-prometheus-detail-06-verify-installation.png" width="600" />
-
-13. XXX:
-    ```
-    XXX
-    ```
-    <img src="images/d5-prometheus-detail-06-verify-installation.png" width="600" />
-
-14. XXX:
-    ```
-    XXX
-    ```
-    <img src="images/d5-prometheus-detail-06-verify-installation.png" width="600" />
-
-15. XXX:
-    ```
-    XXX
-    ```
-    <img src="images/d5-prometheus-detail-06-verify-installation.png" width="600" />
-
-16. XXX:
-    ```
-    XXX
-    ```
-    <img src="images/d5-prometheus-detail-06-verify-installation.png" width="600" />
-</details>
-
-## <img src="images/3d-ball-icon/blue-3d-ball.png" width="35" /> E. Project Summary
+## <img src="images/3d-ball-icon/green-3d-ball.png" width="35" /> D. Project Summary
 
 Lessons learnt and challenges faced.
 
-## <img src="images/3d-ball-icon/indigo-3d-ball.png" width="35" /> F. Suggestions For Future Work
+## <img src="images/3d-ball-icon/blue-3d-ball.png" width="35" /> E. Suggestions For Future Work
 
-## <img src="images/3d-ball-icon/violet-3d-ball.png" width="35" /> G. References
+## <img src="images/3d-ball-icon/indigo-3d-ball.png" width="35" /> F. References
+
+### _ArgoCD Image Updater_
+Image Source: [Unlocking Advanced Image Management with ArgoCD and ArgoCD Image Updater](https://medium.com/@kittipat_1413/unlocking-advanced-image-management-with-argocd-and-argocd-image-updater-b3c99ab9723a)
+
+<img src="images/d4-argocd-detail-XX-argocd-image-updater.png" width="600" />
+
+kustomize edit set image quay.io/redhatworkshops/welcome-php:ffcd15
+https://redhat-scholars.github.io/argocd-tutorial/argocd-tutorial/03-kustomize.html
+<img src="images/d4-argocd-detail-XX-kustomize-edit-set-image.png" width="600" />
+
+
+
+![alt text](image-5.png)
+
+
+![alt text](image-10.png)
+
+
+
+
+
+![alt text](image-11.png)
+
+![alt text](image-12.png)
+
+![alt text](image-13.png)
+
+![alt text](image-14.png)
+
+![alt text](image-15.png)
+
+![alt text](image-16.png)
+
+Outputs:
+
+aks_cluster_location = "westus2"
+aks_cluster_name = "aks-cluster-prod"
+aks_cluster_resource_group_name = "aks-resource-group-rg"
+aks_cluster_version = "1.29"
+kubeconfig_command = "az aks get-credentials --resource-group aks-resource-group-rg --name aks-cluster-prod"
+
+![alt text](image-17.png)
+
+![alt text](image-18.png)
+
+
+

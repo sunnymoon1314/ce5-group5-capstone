@@ -9,7 +9,7 @@ network = {
 }
 
 k8s_cluster = {
-  name = "eks-prod"
+  name = "eks-cluster-prod"
 }
 
 node_group = {
