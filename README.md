@@ -275,7 +275,7 @@ The EKS cluster is provisioned using Terraform, which is an open-source technolo
     - |S/N|Required software|Version|
       |---|-----------------|-------|
       | 1 | terraform       |v1.8.5 or later.|
-      | 2 | kubectl         |???|
+      | 2 | kubectl         |v1.30.2 or later.|
       | 3 | AWS account with permission to provision resources.||
       | 4 | AWS credentials setup in local machine.||
       |||
@@ -388,7 +388,7 @@ The EKS cluster is provisioned using Terraform, which is an open-source technolo
 
 14. Please wait for few minutes till all the pods are in the Running status. Use the below command to check the status of the pods.
     ```
-    kustomize get pods -A
+    kubectl get pods -A
     ```
     <img src="images/d3-eks-detail/d3-eks-detail-15-one-pod-still-pending.png" width="600" />
 
@@ -412,7 +412,7 @@ Reference(s):
     - |S/N|Required software|Version|
       |---|-----------------|-------|
       | 1 | terraform       |v1.8.5 or later.|
-      | 2 | kubectl         |???|
+      | 2 | kubectl         |v1.30.2 or later.|
       | 3 | Azure account with permission to provision resources.||
       | 4 | Azure credentials setup in local machine.||
       |||
@@ -431,7 +431,7 @@ Reference(s):
     ```
     <img src="images/d3-aks-detail/d3-aks-detail-04-terraform-apply-prod.png" width="600" />
 
-    Note that the command will provision the infrastructures (VNet, Network, Firewalls, Internet Gateway, VMs, etc) for the production environment. Please use the dev.tfvars to setup the development/testing environment, if required, in a separate run.
+    Note that the command will provision the infrastructures (Virtual Network, NAT Gateways, Network Security Group, Internet Gateway, AzureVM, etc) for the production environment. Please use the dev.tfvars to setup the development/testing environment, if required, in a separate run.
     ```
     terraform apply -var-file=dev.tfvars
     ```
@@ -440,7 +440,7 @@ Reference(s):
 
     <img src="images/d3-aks-detail/d3-aks-detail-05-terraform-apply-yes.png" width="600" />
 
-6.  Please wait for up to 20 minutes for the Terraform to provision the EKS cluster in AWS.
+6.  Please wait for up to 10 minutes for the Terraform to provision the AKS cluster in Azure.
 
     <img src="images/d3-aks-detail/d3-aks-detail-06-terraform-apply-running.png" width="600" />
 
@@ -510,9 +510,9 @@ Reference(s):
 
 13. Please wait for few minutes till all the pods are in the Running status. Use the below command to check the status of the pods.
     ```
-    kustomize get pods -A
+    kubectl get pods -A
     ```
-    <img src="images/d3-aks-detail/d3-aks-detail-12-one-pod-still-pending.png" width="600" />
+    <img src="images/d3-aks-detail/d3-aks-detail-12-all-pod-running.png" width="600" />
 
 14. You are ready to proceed to setup the ArgoCD described in section D4.
 
@@ -534,7 +534,7 @@ Reference(s):
     - |S/N|Required software|Version|
       |---|-----------------|-------|
       | 1 | terraform       |v1.8.5 or later.|
-      | 2 | kubectl         |???|
+      | 2 | kubectl         |v1.30.2 or later.|
       | 3 | Google cloud account with permission to provision resources.||
       | 4 | Google cloud credentials setup in local machine.||
       |||
@@ -553,7 +553,7 @@ Reference(s):
     ```
     <img src="images/d3-gke-detail/d3-gke-detail-04-terraform-apply-prod.png" width="600" />
 
-    Note that the command will provision the infrastructures (VNet, Network, Firewalls, Internet Gateway, VMs, etc) for the production environment. Please use the dev.tfvars to setup the development/testing environment, if required, in a separate run.
+    Note that the command will provision the infrastructures (Virtual Private Cloud, Cloud NAT, Compute Engine Firewall Rules, Internet Gateway, Compute Engines, etc) for the production environment. Please use the dev.tfvars to setup the development/testing environment, if required, in a separate run.
     ```
     terraform apply -var-file=dev.tfvars
     ```
@@ -635,9 +635,9 @@ Reference(s):
 
 13. Please wait for few minutes till all the pods are in the Running status. Use the below command to check the status of the pods.
     ```
-    kustomize get pods -A
+    kubectl get pods -A
     ```
-    <img src="images/d3-gke-detail/d3-gke-detail-12-one-pod-still-pending.png" width="600" />
+    <img src="images/d3-gke-detail/d3-gke-detail-12-all-pod-running.png" width="600" />
 
 14. You are ready to proceed to setup the ArgoCD described in section D4.
 
@@ -665,7 +665,9 @@ To enable GitOps to work, it is a best practice to have 2 repositories. One for 
 
 However, ArgoCD is only a continuous deployment (CD) tool and we still require a pipeline for continuous integration (CI) that will test and build our application.
 
-<img src="images/d4-argocd-automated-cd-workflow-temp.png" width="600" />
+<img src="images/d4-argocd-automated-cd-workflow-temp.png" width="600" /><br>
+
+<img src="images/d4-argocd-detail-argocd-image-updater_temp.png" width="600" />
 
 When a developer updates the application source codes, he will test and then build an image which will be pushed to a container repository. The CI pipeline will the trigger updates to the configuration repository (e.g. update the image version) which will cause ArgoCD to synchronise.
 
@@ -682,9 +684,9 @@ GitOps using ArgoCD has these benefits:
 1.  Pre-requisites For ArgoCD Installation (Using Manifest) Instructions:
     - |S/N|Required software|Version|
       |---|-----------------|-------|
-      | 1 | kubectl         |???|
-      | 2 | kustomize       |???|
-      | 3 | openssl         |???|
+      | 1 | kubectl         |v1.30.2 or later.|
+      | 2 | kustomize       |v5.3.0 or later.|
+      | 3 | openssl         |3.3.0 or later.|
       | 4 | A Kubernetes cluster installed and configured in .kube/config.||
       |||
 
@@ -702,7 +704,7 @@ GitOps using ArgoCD has these benefits:
 
     <img src="images/d4-argocd-detail/d4-argocd-detail-04-install-argocd-2.png" width="600" />
 
-4.  Apply the __install.yaml__ manifest file to install ArgoCD Image Updater.
+4.  Apply the __install.yaml__ manifest file to install ArgoCD Image Updater. SKIP THIS STEP. KIV
     ```
     kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj-labs/argocd-image-updater/stable/manifests/install.yaml
     ```
@@ -713,8 +715,6 @@ GitOps using ArgoCD has these benefits:
     kubectl get all --namespace argocd
     ```
     <img src="images/d4-argocd-detail/d4-argocd-detail-06-verify-installation.png" width="600" />
-
-    Search for ArgoCD. It is argocd. And for the Image Updater, it is argocd-image-updater.
 
     Quite a lot of components are required for ArgoCD to function properly.
 
@@ -736,7 +736,7 @@ GitOps using ArgoCD has these benefits:
 
     echo Ti1pLUhJaGM3NkU4cUpOUw== | openssl base64 -d
     N-i-HIhc76E8qJNS <<<<<< This is the ArgoCD initial secret in base64.
-    ```
+    ```jTqherQrBb25OBQQ
     <img src="images/d4-argocd-detail/d4-argocd-detail-08-decode-initial-password.png" width="600" />
 
 8.  Go to the browser and enter the following address as the URL to access the ArgoCD GUI.
@@ -783,12 +783,14 @@ GitOps using ArgoCD has these benefits:
 
 13. Please wait for the application to show healthy status (i.e. Synchronised/Healthy).
 
-    <img src="images/d4-argocd-detail/d4-argocd-detail-15-syncing-application.png" width="600" />
+    <img src="images/d4-argocd-detail/d4-argocd-detail-15-sync-application.png" width="600" /><br>
+
+    <img src="images/d4-argocd-detail/d4-argocd-detail-15-sync-application-2.png" width="600" />
 
 14. Use this command to access the application.
     ```
     kubectl get services -n argocd
-    kubectl port-forward service/pred-main-service 5000:5000 --namespace dev
+    kubectl port-forward service/pred-main-service 5000:5000 --namespace prod
     ```
     <img src="images/d4-argocd-detail/d4-argocd-detail-16-port-forwarding-5000-to-5000.png" width="600" /><br>
 
@@ -802,34 +804,55 @@ GitOps using ArgoCD has these benefits:
 1.  With the 3 Kubernetes clusters provisioned at the respective cloud providers, we are now ready to setup ArgoCD to manage Kubernetes clusters in a multi-cloud setting.
 
 2.  Here are the details of the 3 clusters provisioned at the local machine:
-    - |S/N|Kubernetes|Context         |Namespace|
-      |---|----------|----------------|---------|
-      | 1 | EKS      |eks-cluster-prod| prod    |
-      | 2 | AKS      |aks-cluster-prod| prod    |
-      | 3 | GKE      |gke-cluster-prod| prod    |
+    - |S/N|Kubernetes|Context         |Namespace|Remarks                                  |
+      |---|----------|----------------|---------|-----------------------------------------|
+      | 1 | EKS      |eks-cluster-prod| prod    |                                         |
+      | 2 | AKS      |aks-cluster-prod| prod    |This the context with ArgoCD installed.  |
+      | 3 | GKE      |gke-cluster-prod| prod    |                                         |
       ||||
 
 3.  Check the context in kubeconfig by executing the following command:
     ```
     kubectl config get-contexts
     ```
-
-    KIV Image to show get-contexts.
     <img src="images/d4-argocd-detail/d4-argocd-detail-20-get-contexts.png" width="600" />
 
-    Note that for EKS, the original namespace may be too long because it is based on ARN notation. If necessary, you can rename it using the `kubectl config rename-context` command as I showed previously in EKS installation Instructions.
+    Note that for EKS or GKE, the original namespace may be too long because it is based on ARN notation. If necessary, you can rename it using the `kubectl config rename-context` command as I showed previously in EKS installation Instructions.
 
-4.  Use the following commands to add both the AKS and GKE clusters to ArgoCD:
+4.  The pods details of the respective contexts for reference:
+    eks-cluster-prod context with 3 pods deployed.
+![alt text](image.png) EKS context
+
+    aks-cluster-prod context with 3 pods deployed. ArgoCD is also installed in this context.
+![alt text](image-1.png) AKS context with ArgoCD
+
+    asdasd context with 3 pods deployed.
+![alt text](image-2.png) GKE context
+
+5.  Go to the Settings/Clusters tab.
+
+![alt text](image-3.png)
+
+5.  First login to argocd CLI:
+
+![alt text](image-7.png)
+
+![alt text](image-6.png)
+Use the following commands to add both the EKS and GKE clusters to ArgoCD:
     ```
-    argocd cluster add aks-cluster-prod
+    argocd cluster add eks-cluster-prod
     
-    argocd cluster add gke-cluster-prod
+    argocd cluster add gke_enhanced-option-423814-n0_us-central1_gke-cluster-prod
     ```
 
-    KIV Images to show add AKS and GKE.
-    <img src="images/d4-argocd-detail/d4-argocd-detail-21-add-aks-cluster.png" width="600" /><br>
+    KIV Images to show add EKS and GKE.
+    <img src="images/d4-argocd-detail/d4-argocd-detail-21-add-eks-cluster.png" width="600" /><br>
+![alt text](image-4.png)
+![alt text](image-8.png)
 
     <img src="images/d4-argocd-detail/d4-argocd-detail-22-add-gke-cluster.png" width="600" />
+![alt text](image-5.png)
+![alt text](image-9.png)
 
 5.  Go to the ArgoCD GUI Landing Page and select Settings from the left panel and then select the Clusters tab. Verify the clusters have been added to ArgoCD:
 
@@ -838,12 +861,19 @@ GitOps using ArgoCD has these benefits:
 
 6.  Here is the list of applications deployed in the 3 clusters:
 
-    KIV Image to show 3 clusters.
-    <img src="images/d4-argocd-detail/d4-argocd-detail-24-show-all-clusters.png" width="600" />
-
+    KIV Image to show 3 clusters on GUI.
+    <img src="images/d4-argocd-detail/d4-argocd-detail-24-show-all-clusters-gui.png" width="600" />
+![alt text](image-10.png)
+7.  Can also list the clusters using the command:
+    ```
+    argocd cluster list
+    ```
+    KIV Image to show 3 clusters via command line.
+    <img src="images/d4-argocd-detail/d4-argocd-detail-25-show-all-clusters-cli.png" width="600" />
+![alt text](image-11.png)
 7.  Change the number of replicas in the base\deployment.yaml file from 3 to 6 and ArgoCD should be able to detect the change and synchronise all the clusters to show 6 pods per cluster.
 
-    <img src="images/d4-argocd-detail/d4-argocd-detail-25-show-applications-after-sync.png" width="600" />
+    <img src="images/d4-argocd-detail/d4-argocd-detail-26-show-applications-after-sync.png" width="600" />
 
 Reference(s):
 -   [Set up multi-environment on Argo CD – Part 1](https://blog.nashtechglobal.com/practical-management-of-gitops-deployments-across-multiple-clusters-part-1)
@@ -999,11 +1029,16 @@ Reference(s):
 Through the hands-on experience while implementing this project, I have learnt the following concepts:
 -   CI/CD pipeline using GitHub Actions.
 -   Containerisation: Any software, databases, ML models, can be containerised and run as Docker containers!!!
--   Microservices: This is a new software architecture design pattern versus the legacy and monolithic way of implementing software system as a single executable.
 -   Kubernetes: This is a very versatile container orchestration platform that has auto-healing capability. The story does not end here because the functionalities of Kubernetes can be enhanced and extended via the mechanism called Custom Resource Definitions.
--   Infrastructure-as-codes using Terraform. It is so effortless to provision Kubernetes clusters using IaC.
+-   Infrastructure-as-codes using Terraform. It is so effortless to provision infrastructures and Kubernetes clusters using IaC.
 
-Though the 6-month course has ended, but the learning journey continues.
+Some of the challenges I faced:
+
+-   On __GitHub Actions__: This is a tool for coders!!! There are so many contributions from the community and sometimes I was lost as to which actions should be the appropriate one to use.
+-   On __ArgoCD__: It was quite impossible to trial and error on certain tools (such as ArgoCD) if you do not understand some of the basic concepts such as Helm charts and Kustomize. So I had to take a few steps back to learn the basics before the actual hands-on using ArgoCD.
+-   On __Terraform__: Some of the attributes were only introduced in new versions of the Terraform provider. For example, deletion_protection must be explicitly set to false in order to destroy the resources. I was panicked because I was not able to destroy the resources using `terraform destroy` and that will mean cost incurred for the running resources. Luckily I found the solution from stackoverflow.com that you can update deletion_protectio by editing the terraform state file directly!!!
+
+Most of the other issues I encountered could be resolved by browsing through the suggestions and answers provided by gurus in the stackoverflow.com channel as well as via their blog posts.
 
 ## <img src="images/3d-ball-icon/indigo-3d-ball.png" width="35" /> E. Suggestions For Future Work
 
