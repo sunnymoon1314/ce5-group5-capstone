@@ -9,3 +9,5 @@ replicas:
 - name: pred-main
   count: 3
 
+patchesStrategicMerge:
+- service.yaml

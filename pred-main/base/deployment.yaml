@@ -20,7 +20,7 @@ spec:
         # This version tag is only over-written by dev to latest tag.
         # If you use Image Updater, this is the only line to compare with the
         # DockerHub if the version is revised.
-        - image: moonysun1314/ml-model:v1.0.2
+        - image: moonysun1314/ml-model:v1.0.0
           imagePullPolicy: Always
           name: pred-main
           ports:
