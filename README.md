@@ -7,41 +7,23 @@ Submitted On: __15 Jun 2024__
 
 ## Machine Learning Operations using GitHub Actions with automated deployment to Kubernetes clusters.
 
-## <img src="images/3d-ball-icon/orange-3d-ball.png" width="35" /> B. Business Use Case
+## <img src="images/3d-ball-icon/orange-3d-ball.png" width="35" /> B. Project Objectives
 
-Data Driven Cloud Consultancy Services is a company that specialises in providing customised AI-powered cloud solutions to its clients.
+In this project, I have worked towards meeting the requirements of the project use case scenario 1, i.e. to build a Continuous Integration/Continous Deployment (CI/CD) pipeline to automate the test/build/deploy processes in the Software Development Life Cycle (SDLC).
 
-We have been approached by one of our prospective client which is a small-medium-sized company specialising in producting paper boxes in their factories.
+Here are the specific objectives that I want to show case in this project: 
+-   To apply open-source tool such as GitHub Actions, to create a CI/CD pipeline that enables us to automate the life cycle processes for the Artificial Intelligence/Machine Learning (AI/ML) domain.
+-   To automate the CD process using ArgoCD, which is an open-source tool for automatic application deployment.
+-   To demonstrate the steps using managed Kubernetes services offered by the 3 major cloud providers, i.e.:
+    -   Amazon Web Services (AWS)
+    -   Microsoft Azure
+    -   Google Cloud Platform
 
-In order to ensure the machines are operationally healthy and functioning on a daily basis, the company has to schedule for planned maintenance of the machinery on a regular basis.
+To facilitate my presentation of the project details, I have included step-by-step instructions at the end of the respective sections for your ease of reference.
 
-The company has more than 20 different makes and models of machineries used in the fabrication process, and it has always been daunting for the company to monitor the operational status of the various machines, to ensure there is minimal downtime due to breakdown and faults in the machines.
+## <img src="images/3d-ball-icon/yellow-3d-ball.png" width="35" /> C. Project Summary
 
-The company thus approached us for professional advice and assessment whether there are cost-effective ways to schedule for preventive maintenance and to reduce any impact caused by machine breakdown.
-
-## <img src="images/3d-ball-icon/yellow-3d-ball.png" width="35" /> C. Project Proposal
-
-Corrective and preventive maintenance is often a major part of manufacturing industries. Although this process is complex and expensive when conducted with conventional approaches, machine learning has now made it easier to discover meaningful insights and hidden patterns in factory data.
-
-Because this process helps in reducing risks associated with unexpected failures, companies can also reduce unnecessary expenses by implementing machine learning models (ML models). What’s more, artificial intelligence and machine learning algorithms work in collaboration to analyze historical data and ensure workflow visualization.
-
-Below is a summary of our proposal:
-
-1.  We will conduct on-site survey of their factories and assessed the position(s) on each of the machines where sensors/IoT devices can be attached to capture data on temperature, sound, humidity, rotation speed, and other statistics that can help to detect fault in the machine.
-
-2.  These sensor data will be collected and uploaded to the cloud and stored in AWS S3 bucket.
-
-3.  The data in S3 will be cleaned and pre-processecd to remove any invalid data.
-
-4.  We will load the data in the S3 buckets to train and build a ML model which is able to predict whether the machine that produced the data is about to fail or require any attention for corrective maintenance.
-
-5.  The trained ML models will be containerised and deployed as RESTAPI endpoints to Kubernetes clusters.
-
-6.  We will automate the deployment process to ensure the ML model in the production environment can be easily updated whenever there are new releases of the ML models.
-
-Here is a summary of the proposed items:
-
-### _Summary Of Proposed Solution_
+### _Summary Of Presentation Items_
 Image Source: https://igboie.medium.com/kubernetes-ci-cd-with-github-github-actions-and-argo-cd-36b88b6bda64
 
 <img src="images/c-summary-proposed-solution.png" width="600" />
@@ -51,55 +33,59 @@ Image Source: https://igboie.medium.com/kubernetes-ci-cd-with-github-github-acti
 |---|------------------------------------|-----------------------------| 
 |c1 |GitHub Actions<br>(CI pipeline)  |GitHub Actions is used to implement a CI pipeline to create the ML model.|
 |c2 |Docker/REST API<br>(Containerisation/Microservice)|The ML models created in __(c1)__ are containerised using Docker and published to DockerHub. The images are implemented as REST API services using Python/Flask.|
-|c3	|Kubernetes<br>(Orchestration platform)     |The services in __(c2)__ are deployed to Elastic Kubernetes Service (EKS) of AWS using Terraform.<br>EKS is a managed service and thus will handle the auto-scaling, self-healing and auto-provisioning of the required resources for us.|
-|c4	|ArgoCD<br>(CD workflow automation)|The configurations of EKS deployed in __(c3)__ is stored in a config repository.<br>ArgoCD is setup to monitor if there are changes to this config repository. Wnenever it detects any updates to the ML model versions and/or other settings such as number of replicas, new services added, etc, ArgoCD will refresh and propagate those changes to the Kubernetes cluster(s) automatically.|
+|c3	|Kubernetes<br>(Orchestration platform)     |The services in __(c2)__ are deployed to Kubernetes clusters using Terraform.<br>Kubernetes is an open-source cloud technology that can handle the auto-scaling, self-healing and auto-provisioning of the required resources for us.|
+|c4	|ArgoCD<br>(CD workflow automation)|The configurations of Kubernetes deployed in __(c3)__ are stored in a configuration repository.<br>ArgoCD is setup to monitor if there are changes to this configuration repository. Wnenever it detects any updates to the ML model versions and/or other settings such as number of replicas, new services added, etc, ArgoCD will refresh and propagate those changes to the Kubernetes cluster(s) automatically.|
 |||
 
 ## <img src="images/3d-ball-icon/green-3d-ball.png" width="35" /> D. Project Implementation Details
 
 ### D1. MLOps CI/CD Pipeline
 
-GitHub Actions has been a very successful automation tool used by software developers to automate the software development life cycle from development stage right through to the deployment stage.
+GitHub Actions has been a very successful automation tool used by software developers to automate the SDLC from development stage right through to the deployment stage.
 
-In this project, we will also leverage GitHub Actions as the tool to automate the MLOps workflow.
-
-#### _DevOps CI/CD pipeline (Software Engineering) versus MLOps CI/CD pipeline (Machine Learning)_
+#### _Figure D1. DevOps CI/CD pipeline (Software Engineering) versus MLOps CI/CD pipeline (Machine Learning)_
 <img src="images/d1-devops-cicd-pipeline.png" width="400" /> <img src="images/d1-mlops-cicd-pipeline.png" width="380" />
 
-#### _Different roles involved in MLOps workflow._
-<img src="images/d1-mlops-different-roles-involved-in-workflow.png" width="600" />
+It can be seen from the above images there are subtle differences in the 2 domains but these processes can all be automated using GitHub Actions.
 
-#### _MLOps workflow using GitHub Actions._
+#### _Figure D2. Different roles involved in MLOps workflow._
+<img src="images/d1-mlops-different-roles-involved-in-workflow.png" width="600" /><br>
+
+Note the parties involved in the MLOps processes are: Data Engineers, Data Scientists, MLOps Engineers, Web Developers and Operations Support.
+
+The equivant of the DevOps Engineers are the MLOps Engineers in the ML domain. Whereas DevOps Engineers need to understand SDLC principles and concepts at high-level to be able to collaborate with Software Developers, MLOps Engineers need to understand data science principles and concepts at high-level to be able to work with Data Scientists.
+
+#### _Figure D3. MLOps workflow using GitHub Actions._
 <img src="images/d1-mlops-github-action-workflow.png" width="600" /><br>
 
 In the ML domain, the actual development or the training/fine-tuning of the program codes is usually done by a data scientist. Hence, the Trunk-based development approach (versus the more complex variation using Feature branching) is more suitable as the branching strategy for MLOps workflow.
 
 Reference: https://www.freecodecamp.org/news/what-is-trunk-based-development/
 
-In our MLOps workflow, there are mainly 3 events that will trigger the MLOps pipeline into action:
+In the MLOps workflow, there are mainly 3 events that will trigger the MLOps pipeline into action:
 
-1.  __Push event at dev branch__
+1.  __Push event at dev branch__ (Indicated by (5))
 
-    -  The trained ML model as well as training results will saved as GitHub artifacts for audit trail purpose.
+    -  The trained ML model as well as training results will be saved as artifacts for audit trail purpose.
 
-2.  __Pull request from dev branch to main branch__
+2.  __Pull request from dev branch to main branch__ (Indicated by (6), (7))
 
-    -   New pull requests to merge changes from dev to the main branch are subjected to approval by a manager/senior data scientist to validate and assess the ML model training results, which are available as GitHub artifacts.
+    -   New pull requests to merge changes from dev to the main branch are subjected to approval by a manager/senior data scientist who will validate and assess the ML model training results, which are available as GitHub artifacts.
     -   Upon acceptance of the test results and approval of the pull request, the changes and the latest source codes are merged back to the main branch.
     -   The ML model file (one of the files in the GitHub artifacts) will be used to build the Docker image and tagged as ml-model:latest (note that this is a developer build and not to be released to production environment) and is pushed to the DockerHub.
     -   If the pull request is rejected for some reasons, the pending CI workflow/job will be cancelled by GitHub Actions and no ml-model:latest will be pushed to the DockerHub.
 
-3.  __Release event on the main branch with vx.x.x semantic version tag__
+3.  __Release event on the main branch with vx.x.x semantic version tag__ (Indicated by (8))
 
     -   This is a step that requires due diligence on the testing/QA team to schedule the deployment of the release version of the ML model to the production environment.
     -   Upon creation of the release tag, the event will trigger the CD process:
         -   Push to DockerHub with 2 images with respective tag of latest and vx.x.x.
-        -   Update the values.yaml file in the application config repository to the new release version vx.x.x.
+        -   Update the image tag version in the ArgoCD application config repository to the new release version vx.x.x.
         -   Deployment of the release version vx.x.x of the ML model to the test/dev system is auto-sync via ArgoCD UI or CLI.
         -   Deployment of the release version vx.x.x of the ML model to the production system is manually synchronised via ArgoCD UI or CLI.
     -   If the release is rejected for some reasons, the pending CD workflow/job will be cancelled by GitHub Actions.
 
-<details><summary><code style="color: yellow">MLOps CI/CD Pipeline Event Details</code></summary>
+<details><summary><code style="color: lightgreen">MLOps CI/CD Pipeline Event Details</code></summary>
 
 1.  __Push event at dev branch__
 
@@ -107,11 +93,11 @@ In our MLOps workflow, there are mainly 3 events that will trigger the MLOps pip
 
         <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-02-git-push-dev.png" width="600" />
 
-    -   train-build.yml workflow running in progress...
+    -   __train-build.yml__ workflow running...
 
         <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-03-train-build-running.png" width="600" />
 
-    -   train-build.yml workflow completed.
+    -   __train-build.yml__ workflow completed.
 
         <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-04-train-build-completed.png" width="600" />
 
@@ -127,11 +113,11 @@ In our MLOps workflow, there are mainly 3 events that will trigger the MLOps pip
 
         <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-07-create-pull-request.png" width="600" />
 
-    -   Select dev from the Compare list.
+    -   Select __dev__ from the __Compare list__.
 
         <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-08-select-compare-dev.png" width="600" />
 
-    -   The changes made in the dev branch will be listed for your reference. Click the __Create pull request__ to effect the creation.
+    -   The changes made in the __dev__ branch will be listed for your reference. Click the __Create pull request__ to effect the creation.
 
         <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-09-changes-in-dev.png" width="600" />
 
@@ -139,7 +125,7 @@ In our MLOps workflow, there are mainly 3 events that will trigger the MLOps pip
 
         <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-10-pull-request-description.png" width="600" />
 
-    -   The list of pending pull request(s) will be listed in the Pull requests tab.
+    -   The list of pending pull request(s) will be listed in the __Pull requests__ tab.
 
         <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-11-pull-request-pending.png" width="600" />
 
@@ -164,23 +150,23 @@ In our MLOps workflow, there are mainly 3 events that will trigger the MLOps pip
 
         <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-16-pull-request-email.png" width="600" />
 
-    -   Within the notification email, click the Review pending deployments.
+    -   Within the notification email, click the __Review pending deployments__ link.
 
         <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-17-pull-request-review-pending-deployments.png" width="600" />
 
-    -   In the approval screen, notice the build-and-push-image-to-docker-hub job is waiting for review. If necessary, the artifacts are also available at the bottom of the screen for validation.
+    -   In the approval screen, notice the __build-and-push-image-to-docker-hub__ job is waiting for review. If necessary, the artifacts are also available at the bottom of the screen for validation.
 
         <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-18-pull-request-review-deployments.png" width="600" />
 
     -   Once the artifacts are checked and all in order, Click __Review deployments__ and on the next screen, tick the prod checkbox and then click the __Approve and deploy__ button.
 
-    -   The ml-model:latest image is now pushed to the DockerHub upon approval.
+    -   The __ml-model:latest__ image is now pushed to the DockerHub upon approval.
 
         <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-19-pull-request-approved.png" width="600" /><br>
 
         <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-20-build-and-push-image-to-docker-hub-completed.png" width="600" />
 
-    -   Open the Docker Desktop and check that the ml-model:latest is now pushed to the DockerHub.
+    -   Open the Docker Desktop and check that the __ml-model:latest__ is now pushed to the DockerHub.
 
         <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-21-ml-model-pushed-to-dockerhub.png" width="600" />
 
@@ -202,7 +188,7 @@ In our MLOps workflow, there are mainly 3 events that will trigger the MLOps pip
         ```
         <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-25-create-release-tag.png" width="600" />
 
-    -   Use the following command to update the tag in the remote repository.
+    -   Use the `git push origin` command to update the tag in the remote repository.
 
         <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-26-update-remote-repository.png" width="600" />
 
@@ -216,7 +202,7 @@ In our MLOps workflow, there are mainly 3 events that will trigger the MLOps pip
 
         <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-29-available-tag-list.png" width="600" />
 
-    -   Click the __Tag__ you want to use as the release version.
+    -   Click the __vx.x.x__ (in this case v1.0.0) you want to use as the release version.
 
         <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-30-selected-tag.png" width="600" />
 
@@ -232,15 +218,15 @@ In our MLOps workflow, there are mainly 3 events that will trigger the MLOps pip
 
         <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-33-release-review-pending-deployments.png" width="600" />
 
-    -   The deploy.yml will run and update the DockerHub with new images (the existing latest tag as well as the v1.0.0).
+    -   The __deploy.yml__ will run and update the DockerHub with new images (the existing latest tag as well as the v1.0.0).
 
         <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-34-release-review-pending-deployments.png" width="600" />
 
-    -   Deploy workflow in action...
+    -   __deploy.yml__ in action...
 
         <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-35-ml-model-deploy_workflow-running.png" width="600" />
 
-    -   Open the Docker Desktop and check that the ml-model:latest and ml-model:v1.0.0 are now pushed to the DockerHub.
+    -   Open the Docker Desktop and check that the __ml-model:latest__ and __ml-model:v1.0.0__ are now pushed to the DockerHub.
 
         <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-36-ml-model-pushed-release-version-to-dockerhub.png" width="600" />
 
@@ -257,7 +243,7 @@ Containerisation is one of the cloud-native techologies that we should always ex
 
 In addition to containerising our ML Model, we have also implemented industrial standard protocol using the REST API so that our image can be easily accessed via the HTTP GET and POST method using our internet browser.
 
-<details><summary><code style="color: yellow">Containerisation And Microservices Testing Instructions</code></summary>
+<xxxdetails><summary><code style="color: lightgreen">Containerisation And Microservices Testing Instructions</code></summary>
 
 1.  Pre-requisites For Containerisation And Microservices Testing Instructions:
     - |S/N|Required software|Version|
@@ -282,7 +268,7 @@ EKS is the managed Kubernetes services of Amazon Web Services' (AWS) which offer
 
 The EKS is provisioned using Terraform, which is an open-source techology to allow us to deploy infrastructure using codes.
 
-<XXXdetails><summary><code style="color: aqua">Elastic Kubernetes Service (EKS) Deployment Instructions</code></summary>
+<XXXdetails><summary><code style="color: lightgreen">Elastic Kubernetes Service (EKS) Deployment Instructions</code></summary>
 1.  Pre-requisites For EKS Deployment Instructions:
     - |S/N|Required software|Version|
       |---|-----------------|-------|
@@ -368,7 +354,7 @@ The EKS is provisioned using Terraform, which is an open-source techology to all
     <img src="images/d3-eks-detail/d3-eks-detail-12-terraform-destroy-completed.png" width="600" />
 </details>
 
-<XXXdetails><summary><code style="color: aqua">Azure Kubernetes Service (AKS) Deployment Instructions</code></summary>
+<XXXdetails><summary><code style="color: lightgreen">Azure Kubernetes Service (AKS) Deployment Instructions</code></summary>
 1.  Pre-requisites For AKS Deployment Instructions:
     - |S/N|Required software|Version|
       |---|-----------------|-------|
@@ -462,7 +448,7 @@ The EKS is provisioned using Terraform, which is an open-source techology to all
     <img src="images/d3-aks-detail/d3-aks-detail-12-terraform-destroy-completed.png" width="600" />
 </details>
 
-<XXXdetails><summary><code style="color: aqua">Google Kubernetes Engine (GKE) Deployment Instructions</code></summary>
+<XXXdetails><summary><code style="color: lightgreen">Google Kubernetes Engine (GKE) Deployment Instructions</code></summary>
 1.  Pre-requisites For GKE Deployment Instructions:
     - |S/N|Required software|Version|
       |---|-----------------|-------|
@@ -595,7 +581,7 @@ GitOps using ArgoCD has these benefits:
 - We can implement blue/green deployment and/or canary deployment with ease.
 - We can always rollback to the previous working version should the new version is not stable.
 
-<XXXdetails><summary><code style="color: green">ArgoCD Installation (Using Manifest) Instructions</code></summary>
+<XXXdetails><summary><code style="color: lightgreen">ArgoCD Installation (Using Manifest) Instructions</code></summary>
 
 1.  Pre-requisites For ArgoCD Installation (Using Manifest) Instructions:
     - |S/N|Required software|Version|
@@ -713,26 +699,58 @@ GitOps using ArgoCD has these benefits:
 
 20. Repeat step 18 and 19 to create a second application, if required.
 
-21. Use this command to check whether our application(s) are running. The number of pods should tally with the number of replicas in the deployment.yml manifest file.
-    ```
-    kubectl get all --namespace dev
-    ```
-    <img src="images/d4-argocd-detail/d4-argocd-detail-22-check-application-running.png" width="600" />
+21. In the preceding steps at 4 and 5, we have installed ArgoCD Image Updater (ArgoCD IU). Additional steps are required to configure the software so that it has the credentials to track any updates in the Image Registry (i.e. DockerHub). Here we will setup the credentials for the ArgoCD IU to access to public repositories only.
 
-26. Release a new version of the ML model by creating a new tag (say v1.0.1) in GitHub and then approve and deploy the new version to the prod environment. You should be able to see ArgoCD synchronise the version from v1.0.0 to v1.0.1.
+22. First, we create a Kubernetes Secret representing the Git credentials, so the updated manifests can be pushed to the repository. The secret must be at the Argo CD namespace and, in this case, we name it git-creds.
+    ```
+    kubectl -n argocd create secret generic git-creds --from-literal=username=sunnymoon1314 --from-literal=password=<git_password_or_token>
+    ```
+    Replace <git_password_or_token> by the GitHub Personal Access Token (PAT) which is in the form ghp_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX.
 
-    <img src="images/d4-argocd-detail/d4-argocd-detail-27-auto-sync-upon-version-update.png" width="600" />
+23. Add an Application manifest annotated with ArgoCD IU annotations.
+
+    <img src="images/d4-argocd-detail/d4-argocd-detail-18-application-annotation-yaml.png" width="600" />
+
+24. Apply the manifest to deploy the application first version and enable ArgoCD IU to update the repository when a new image is pushed to the container registry:
+    ```
+    cd C:\Users\bunny\OneDrive\OneDrive_AddOn\github\ce5-group5-capstone\pred-main\base
+
+    kubectl apply -f pred-main-app.yaml
+    ```
+
+25. At this point, version 1.0.1 is up and running in the pred-main namespace. Let us generate a new image version to validate that the new image is in the repository.
+
+26. To simplify the process, we will tag the image with version 1.1.0 as it was a new one.
+
+27. Wait for about two minutes until the change is detected and the controller triggers the repository update. We can use the `kubectl logs` command to validate the triggering process.
+    ```
+    kubectl logs argocd-image-updater-59c45cbc5c-kjjtp -f -n argocd
+    ```
+    ```
+    ...
+    time="2022-06-20T21:19:05Z" level=info msg="Setting new image to
+    moonysun1314/ml-model:1.1.0" alias=myalias application=pred-main-app
+    image_name=moonysun1314/ml-model image_tag=1.0.0 registry=docker.io
+    time="2022-06-20T21:19:05Z" level=info msg="Successfully updated image
+    'moonysun1314/ml-model:1.0.0' to 'moonysun1314/ml-model:1.1.0', but
+    pending spec update (dry run=false)" alias=myalias application=pred-main-app
+    image_name=moonysun1314/ml-model image_tag=1.0.0 registry=docker.io
+    time="2022-06-20T21:19:05Z" level=info msg="Committing 1 parameter update(s)
+    for application pred-main-app" application=pred-main-app
+    ...
+    ```
+
+XX. Release a new version of the ML model by creating a new tag (say v1.0.1) in GitHub and then approve and deploy the new version to the prod environment. You should be able to see ArgoCD synchronise the version from v1.0.0 to v1.0.1.
+
+    <img src="images/d4-argocd-detail/d4-argocd-detail-23-auto-sync-upon-version-update.png" width="600" />
 </details>
 
-<XXXdetails><summary><code style="color: green">ArgoCD CLI Usage Instructions</code></summary>
+<details><summary><code style="color: lightgreen">ArgoCD CLI Usage Instructions</code></summary>
 
 8. Login to ArgoCD via the CLI tool.
     ```
     argocd login 127.0.0.1:8080
     ```
-    <img src="images/d4-argocd-detail/d4-argocd-detail-05-helm-repo-addXXX.png" width="600" />
-
-![alt text](image-2.png)
 
 11. Username is admin and the Password is __Zl8khgRMNnsfeh8-__ (Password you obtained in step 8).
 
@@ -772,7 +790,6 @@ GitOps using ArgoCD has these benefits:
     argocd app diff ml-model-prod
     ```
     This can also be checked in the GUI.
-![alt text](image-3.png)
 
 14. Use the `argocd app history` command to check the previous versions of the selected application.
     ```
@@ -813,18 +830,17 @@ GitOps using ArgoCD has these benefits:
     ```
     argocd app delete ml-model-prod
     ```
-
 Reference(s):
 -   [Deploy using ArgoCD and Github Actions](https://medium.com/@mssantossousa/deploy-using-argocd-and-github-actions-888f7370e480)
 </details>
 
-## <img src="images/3d-ball-icon/green-3d-ball.png" width="35" /> D. Project Summary
+## <img src="images/3d-ball-icon/blue-3d-ball.png" width="35" /> E. Project Conclusion
 
 Lessons learnt and challenges faced.
 
-## <img src="images/3d-ball-icon/blue-3d-ball.png" width="35" /> E. Suggestions For Future Work
+## <img src="images/3d-ball-icon/indigo-3d-ball.png" width="35" /> E. Suggestions For Future Work
 
-## <img src="images/3d-ball-icon/indigo-3d-ball.png" width="35" /> F. References
+## <img src="images/3d-ball-icon/violet-3d-ball.png" width="35" /> F. References
 
 ### _ArgoCD Image Updater_
 Image Source: [Unlocking Advanced Image Management with ArgoCD and ArgoCD Image Updater](https://medium.com/@kittipat_1413/unlocking-advanced-image-management-with-argocd-and-argocd-image-updater-b3c99ab9723a)
