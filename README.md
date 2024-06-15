@@ -132,7 +132,7 @@ In the MLOps workflow, there are mainly 3 events that will trigger the MLOps pip
 
     -   The requestor will select the pull request to submit for approval, by clicking on the name of the branch name next to the checkbox.
 
-        <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-12-pull-request-selected.png" width="600" />
+        <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-12-pull-request-selected_WRONG_IMAGE.png" width="600" />
 
     -   Within the pull request page, scroll to the bottom of the screen and add a comment, if any.
         And then click the __Merge pull request__ button.
@@ -269,7 +269,7 @@ EKS is the managed Kubernetes services of Amazon Web Services' (AWS) which offer
 
 The EKS cluster is provisioned using Terraform, which is an open-source technology to allow us to deploy infrastructure using codes.
 
-<XXXdetails><summary><code style="color: lightgreen">Elastic Kubernetes Service (EKS) Deployment Instructions</code></summary>
+<details><summary><code style="color: lightgreen">Elastic Kubernetes Service (EKS) Deployment Instructions</code></summary>
 
 1.  Pre-requisites For EKS Deployment Instructions:
     - |S/N|Required software|Version|
@@ -406,7 +406,7 @@ Reference(s):
 -   [Provision an EKS cluster (AWS)](https://developer.hashicorp.com/terraform/tutorials/kubernetes/eks).
 </details>
 
-<XXXdetails><summary><code style="color: lightgreen">Azure Kubernetes Service (AKS) Deployment Instructions</code></summary>
+<details><summary><code style="color: lightgreen">Azure Kubernetes Service (AKS) Deployment Instructions</code></summary>
 
 1.  Pre-requisites For AKS Deployment Instructions:
     - |S/N|Required software|Version|
@@ -528,7 +528,7 @@ Reference(s):
 -   [Provision an AKS cluster (Azure)](https://developer.hashicorp.com/terraform/tutorials/kubernetes/aks).
 </details>
 
-<XXXdetails><summary><code style="color: lightgreen">Google Kubernetes Engine (GKE) Deployment Instructions</code></summary>
+<details><summary><code style="color: lightgreen">Google Kubernetes Engine (GKE) Deployment Instructions</code></summary>
 
 1.  Pre-requisites For GKE Deployment Instructions:
     - |S/N|Required software|Version|
@@ -679,7 +679,7 @@ GitOps using ArgoCD has these benefits:
 - We can implement blue/green deployment and/or canary deployment with ease.
 - We can always rollback to the previous working version should the new version is not stable.
 
-<XXXdetails><summary><code style="color: lightgreen">ArgoCD Installation (Using Manifest) Instructions</code></summary>
+<details><summary><code style="color: lightgreen">ArgoCD Installation (Using Manifest) Instructions</code></summary>
 
 1.  Pre-requisites For ArgoCD Installation (Using Manifest) Instructions:
     - |S/N|Required software|Version|
@@ -736,7 +736,7 @@ GitOps using ArgoCD has these benefits:
 
     echo Ti1pLUhJaGM3NkU4cUpOUw== | openssl base64 -d
     N-i-HIhc76E8qJNS <<<<<< This is the ArgoCD initial secret in base64.
-    ```jTqherQrBb25OBQQ
+    ```
     <img src="images/d4-argocd-detail/d4-argocd-detail-08-decode-initial-password.png" width="600" />
 
 8.  Go to the browser and enter the following address as the URL to access the ArgoCD GUI.
@@ -821,59 +821,51 @@ GitOps using ArgoCD has these benefits:
 
 4.  The pods details of the respective contexts for reference:
     eks-cluster-prod context with 3 pods deployed.
-![alt text](image.png) EKS context
+
+    <img src="images/d4-argocd-detail/d4-argocd-detail-23-eks-context.png" width="600" />
 
     aks-cluster-prod context with 3 pods deployed. ArgoCD is also installed in this context.
-![alt text](image-1.png) AKS context with ArgoCD
 
-    asdasd context with 3 pods deployed.
-![alt text](image-2.png) GKE context
+    <img src="images/d4-argocd-detail/d4-argocd-detail-21-aks-context.png" width="600" />
+
+    GKE context
+
+    <img src="images/d4-argocd-detail/d4-argocd-detail-22-gke-context.png" width="600" />
 
 5.  Go to the Settings/Clusters tab.
 
-![alt text](image-3.png)
+    <img src="images/d4-argocd-detail/d4-argocd-detail-24-settings-clusters-tab.png" width="600" />
 
-5.  First login to argocd CLI:
+6.  First login to argocd CLI:
 
-![alt text](image-7.png)
+    <img src="images/d4-argocd-detail/d4-argocd-detail-25-argocd-cli-login.png" width="600" />
 
-![alt text](image-6.png)
-Use the following commands to add both the EKS and GKE clusters to ArgoCD:
+7.  Use the following commands to add both the EKS and GKE clusters to ArgoCD:
     ```
     argocd cluster add eks-cluster-prod
     
     argocd cluster add gke_enhanced-option-423814-n0_us-central1_gke-cluster-prod
     ```
 
-    KIV Images to show add EKS and GKE.
-    <img src="images/d4-argocd-detail/d4-argocd-detail-21-add-eks-cluster.png" width="600" /><br>
-![alt text](image-4.png)
-![alt text](image-8.png)
+    <img src="images/d4-argocd-detail/d4-argocd-detail-26-add-clusters.png" width="600" />
 
-    <img src="images/d4-argocd-detail/d4-argocd-detail-22-add-gke-cluster.png" width="600" />
-![alt text](image-5.png)
-![alt text](image-9.png)
+    <img src="images/d4-argocd-detail/d4-argocd-detail-27-add-eks-cluster.png" width="600" /><br>
 
-5.  Go to the ArgoCD GUI Landing Page and select Settings from the left panel and then select the Clusters tab. Verify the clusters have been added to ArgoCD:
+    <img src="images/d4-argocd-detail/d4-argocd-detail-28-add-gke-cluster.png" width="600" />
 
-    KIV Image to show Settings/Clusters tab.
-    <img src="images/d4-argocd-detail/d4-argocd-detail-23-settings-clusters.png" width="600" />
+8.  Go to the ArgoCD GUI Landing Page and select Settings from the left panel and then select the Clusters tab. Verify the clusters have been added to ArgoCD:
 
-6.  Here is the list of applications deployed in the 3 clusters:
+    <img src="images/d4-argocd-detail/d4-argocd-detail-29-settings-clusters-gui.png" width="600" />
 
-    KIV Image to show 3 clusters on GUI.
-    <img src="images/d4-argocd-detail/d4-argocd-detail-24-show-all-clusters-gui.png" width="600" />
-![alt text](image-10.png)
-7.  Can also list the clusters using the command:
+9.  Can also list the clusters using the command line:
     ```
     argocd cluster list
     ```
-    KIV Image to show 3 clusters via command line.
-    <img src="images/d4-argocd-detail/d4-argocd-detail-25-show-all-clusters-cli.png" width="600" />
-![alt text](image-11.png)
-7.  Change the number of replicas in the base\deployment.yaml file from 3 to 6 and ArgoCD should be able to detect the change and synchronise all the clusters to show 6 pods per cluster.
+    <img src="images/d4-argocd-detail/d4-argocd-detail-30-show-all-clusters-cli.png" width="600" />
 
-    <img src="images/d4-argocd-detail/d4-argocd-detail-26-show-applications-after-sync.png" width="600" />
+10. Change the number of replicas in the base\deployment.yaml file from 3 to 6 and ArgoCD should be able to detect the change and synchronise all the clusters to show 6 pods per cluster.
+
+    <img src="images/d4-argocd-detail/d4-argocd-detail-31-show-applications-after-sync.png" width="600" />
 
 Reference(s):
 -   [Set up multi-environment on Argo CD – Part 1](https://blog.nashtechglobal.com/practical-management-of-gitops-deployments-across-multiple-clusters-part-1)
