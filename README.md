@@ -9,17 +9,15 @@ Submitted On: __15 Jun 2024__
 
 ## <img src="images/3d-ball-icon/orange-3d-ball.png" width="35" /> B. Project Objectives
 
-In this project, I have worked towards meeting the requirements of the project use case scenario 1, i.e. to build a Continuous Integration/Continous Deployment (CI/CD) pipeline to automate the test/build/deploy processes in the Software Development Life Cycle (SDLC).
-
-Here are the specific objectives that I want to show case in this project: 
--   To apply open-source tool such as GitHub Actions, to create a CI/CD pipeline that enables us to automate the life cycle processes for the Artificial Intelligence/Machine Learning (AI/ML) domain.
+In this project, I want to meet the following objectives: 
+-   To use open-source tool such as GitHub Actions, to create a Continuous Integration/Continous Deployment (CI/CD) pipeline that automates the life cycle processes for the Artificial Intelligence/Machine Learning (AI/ML) domain.
 -   To automate the CD process using ArgoCD, which is an open-source tool for automatic application deployment.
--   To demonstrate the steps using managed Kubernetes services offered by the 3 major cloud providers, i.e.:
-    -   Elastic Kubernetes Service (EKS) from Amazon Web Services (AWS)
-    -   Azure Kubernetes Service (AKS) Microsoft Azure
-    -   Google Kubernetes Engine (GKE) from Google Cloud Platform
+-   To deploy the ML model to managed Kubernetes services offered by the 3 major cloud providers, i.e.:
+    -   Elastic Kubernetes Service (EKS) of Amazon Web Services (AWS)
+    -   Azure Kubernetes Service (AKS) of Microsoft Azure
+    -   Google Kubernetes Engine (GKE) of Google Cloud Platform
 
-To facilitate my presentation of the project details, I have included step-by-step instructions at the end of each section for your ease of reference.
+Step-by-step instructions are provided at the end of each section for your ease of reference of the project details.
 
 ## <img src="images/3d-ball-icon/yellow-3d-ball.png" width="35" /> C. Project Summary
 
@@ -41,7 +39,7 @@ Image Source: https://igboie.medium.com/kubernetes-ci-cd-with-github-github-acti
 
 ### D1. MLOps CI/CD Pipeline
 
-GitHub Actions has been a very successful automation tool used by software developers to automate the SDLC from development stage right through to the deployment stage.
+GitHub Actions has been a very successful automation tool used by software developers to automate the Software Development Life Cycle (SDLC) from development stage right through to the deployment stage.
 
 #### _Figure D1. DevOps CI/CD pipeline (Software Engineering) versus MLOps CI/CD pipeline (Machine Learning)_
 <img src="images/d1-devops-cicd-pipeline.png" width="400" /> <img src="images/d1-mlops-cicd-pipeline.png" width="380" />
@@ -86,7 +84,7 @@ In the MLOps workflow, there are mainly 3 events that will trigger the MLOps pip
         -   Deployment of the release version vx.x.x of the ML model to the production system is manually synchronised via ArgoCD UI or CLI.
     -   If the release is rejected for some reasons, the pending CD workflow/job will be cancelled by GitHub Actions.
 
-<details><summary><code style="color: lightgreen">MLOps CI/CD Pipeline Event Details</code></summary>
+<XXXdetails><summary><code style="color: lightgreen">MLOps CI/CD Pipeline Event Details</code></summary>
 
 1.  __Push event at dev branch__
 
@@ -132,7 +130,7 @@ In the MLOps workflow, there are mainly 3 events that will trigger the MLOps pip
 
     -   The requestor will select the pull request to submit for approval, by clicking on the name of the branch name next to the checkbox.
 
-        <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-12-pull-request-selected.png" width="600" />
+        <img src="images/d1-mlops-workflow-detail/d1-mlops-workflow-detail-12-pull-request-selected_WRONG_IMAGE.png" width="600" />
 
     -   Within the pull request page, scroll to the bottom of the screen and add a comment, if any.
         And then click the __Merge pull request__ button.
@@ -244,7 +242,7 @@ Containerisation is one of the cloud-native technologies that we should always e
 
 In addition to containerising our ML Model, we have also implemented industrial standard protocol using the REST API so that our image can be easily accessed via the HTTP GET and POST method using our internet browser.
 
-<details><summary><code style="color: lightgreen">Containerisation And Microservices Testing Instructions</code></summary>
+<XXXdetails><summary><code style="color: lightgreen">Containerisation And Microservices Testing Instructions</code></summary>
 
 1.  Pre-requisites For Containerisation And Microservices Testing Instructions:
     - |S/N|Required software|Version|
@@ -528,7 +526,7 @@ Reference(s):
 -   [Provision an AKS cluster (Azure)](https://developer.hashicorp.com/terraform/tutorials/kubernetes/aks).
 </details>
 
-<XXXdetails><summary><code style="color: lightgreen">Google Kubernetes Engine (GKE) Deployment Instructions</code></summary>
+<xxxdetails><summary><code style="color: lightgreen">Google Kubernetes Engine (GKE) Deployment Instructions</code></summary>
 
 1.  Pre-requisites For GKE Deployment Instructions:
     - |S/N|Required software|Version|
@@ -736,7 +734,7 @@ GitOps using ArgoCD has these benefits:
 
     echo Ti1pLUhJaGM3NkU4cUpOUw== | openssl base64 -d
     N-i-HIhc76E8qJNS <<<<<< This is the ArgoCD initial secret in base64.
-    ```jTqherQrBb25OBQQ
+    ```
     <img src="images/d4-argocd-detail/d4-argocd-detail-08-decode-initial-password.png" width="600" />
 
 8.  Go to the browser and enter the following address as the URL to access the ArgoCD GUI.
@@ -757,7 +755,7 @@ GitOps using ArgoCD has these benefits:
 
 11. Within the ArgoCD GUI, click <img src="images/d4-argocd-detail/d4-argocd-detail-12-argocd-new-app.png" width="60" /> and enter the following details:
     -   GENERAL:
-        -   Application Name: pred-main-prod
+        -   Application Name: pred-main-aks-prod
         -   Project Name: default
         -   SYNC POLICY: Automatic
     -   SYNC OPTIONS
@@ -817,70 +815,124 @@ GitOps using ArgoCD has these benefits:
     ```
     <img src="images/d4-argocd-detail/d4-argocd-detail-20-get-contexts.png" width="600" />
 
-    Note that for EKS or GKE, the original namespace may be too long because it is based on ARN notation. If necessary, you can rename it using the `kubectl config rename-context` command as I showed previously in EKS installation Instructions.
+    Note that for EKS or GKE, the original namespace may be too long when generated by Terraform. If necessary, you can rename the context name using the `kubectl config rename-context` command as I showed previously in EKS installation Instructions.
+
+    Henceforth, I assumed the contexts are called eks-cluster-prod, aks-cluster-prod and gke-cluster-prod for EKS, AKS and GKE cluster respectively.
 
 4.  The pods details of the respective contexts for reference:
-    eks-cluster-prod context with 3 pods deployed.
-![alt text](image.png) EKS context
-
     aks-cluster-prod context with 3 pods deployed. ArgoCD is also installed in this context.
-![alt text](image-1.png) AKS context with ArgoCD
 
-    asdasd context with 3 pods deployed.
-![alt text](image-2.png) GKE context
+    <img src="images/d4-argocd-detail/d4-argocd-detail-21-aks-context.png" width="600" />
+
+    eks-cluster-prod context with 3 pods deployed.
+
+    <img src="images/d4-argocd-detail/d4-argocd-detail-22-eks-context.png" width="600" />
+
+    gke-cluster-prod context with 3 pods deployed.
+
+    <img src="images/d4-argocd-detail/d4-argocd-detail-23-gke-context.png" width="600" />
 
 5.  Go to the Settings/Clusters tab.
 
-![alt text](image-3.png)
+    <img src="images/d4-argocd-detail/d4-argocd-detail-24-settings-clusters-tab.png" width="600" />
 
-5.  First login to argocd CLI:
+6.  To add clusters to the ArgoCD, we have to use the ArgoCD CLI tool. Hence, we have to first login to ArgoCD CLI:
+    ```
+    argocd login localhost:8080
+    ```
+    <img src="images/d4-argocd-detail/d4-argocd-detail-25-argocd-cli-login.png" width="600" />
 
-![alt text](image-7.png)
-
-![alt text](image-6.png)
-Use the following commands to add both the EKS and GKE clusters to ArgoCD:
+7.  Use the following commands to add both the EKS and GKE clusters to ArgoCD:
     ```
     argocd cluster add eks-cluster-prod
-    
-    argocd cluster add gke_enhanced-option-423814-n0_us-central1_gke-cluster-prod
+
+    argocd cluster add gke-cluster-prod
     ```
+    <img src="images/d4-argocd-detail/d4-argocd-detail-26-add-eks-cluster.png" width="600" /><br>
 
-    KIV Images to show add EKS and GKE.
-    <img src="images/d4-argocd-detail/d4-argocd-detail-21-add-eks-cluster.png" width="600" /><br>
-![alt text](image-4.png)
-![alt text](image-8.png)
+    <img src="images/d4-argocd-detail/d4-argocd-detail-27-add-gke-cluster.png" width="600" />
 
-    <img src="images/d4-argocd-detail/d4-argocd-detail-22-add-gke-cluster.png" width="600" />
-![alt text](image-5.png)
-![alt text](image-9.png)
+8.  Go to the ArgoCD GUI Landing Page and select Settings from the left panel and then select the Clusters tab. Verify the clusters have been added to ArgoCD:
 
-5.  Go to the ArgoCD GUI Landing Page and select Settings from the left panel and then select the Clusters tab. Verify the clusters have been added to ArgoCD:
+    <img src="images/d4-argocd-detail/d4-argocd-detail-28-settings-clusters-gui.png" width="600" />
 
-    KIV Image to show Settings/Clusters tab.
-    <img src="images/d4-argocd-detail/d4-argocd-detail-23-settings-clusters.png" width="600" />
-
-6.  Here is the list of applications deployed in the 3 clusters:
-
-    KIV Image to show 3 clusters on GUI.
-    <img src="images/d4-argocd-detail/d4-argocd-detail-24-show-all-clusters-gui.png" width="600" />
-![alt text](image-10.png)
-7.  Can also list the clusters using the command:
+9.  You can also list the clusters using the command line:
     ```
     argocd cluster list
     ```
-    KIV Image to show 3 clusters via command line.
-    <img src="images/d4-argocd-detail/d4-argocd-detail-25-show-all-clusters-cli.png" width="600" />
-![alt text](image-11.png)
-7.  Change the number of replicas in the base\deployment.yaml file from 3 to 6 and ArgoCD should be able to detect the change and synchronise all the clusters to show 6 pods per cluster.
+    <img src="images/d4-argocd-detail/d4-argocd-detail-29-show-all-clusters-cli.png" width="600" />
 
-    <img src="images/d4-argocd-detail/d4-argocd-detail-26-show-applications-after-sync.png" width="600" />
+10. After adding these clusters to ArgoCD, we need to create applications (one application per cluster) within ArgoCD to tell ArgoCD which folder stores the configuration repository so that it knows the folder to monitor for changes made.
+
+11. Within the ArgoCD GUI, click <img src="images/d4-argocd-detail/d4-argocd-detail-12-argocd-new-app.png" width="60" /> and enter the following details for EKS cluster:
+    -   GENERAL:
+        -   Application Name: pred-main-eks-prod
+        -   Project Name: default
+        -   SYNC POLICY: Automatic
+    -   SYNC OPTIONS
+        -   __AUTO-CREATE NAMESPACE__: Tick the checkbox
+    -   SOURCE
+        -   Repository URL: https://github.com/sunnymoon1314/ce5-group5-capstone
+        -   Path: pred-main/overlays/prod
+    -   DESTINATION
+        -   Cluster URL: <<<<<< TO UPDATE KIV
+        -   Namespace: prod
+    -   Kustomize
+        -   IMAGES
+            -   moonysun1314/ml-model
+            -   v1.0.0
+
+12. Create another application and enter the following details for GKE cluster:
+    -   GENERAL:
+        -   Application Name: pred-main-gke-prod
+        -   Project Name: default
+        -   SYNC POLICY: Automatic
+    -   SYNC OPTIONS
+        -   __AUTO-CREATE NAMESPACE__: Tick the checkbox
+    -   SOURCE
+        -   Repository URL: https://github.com/sunnymoon1314/ce5-group5-capstone
+        -   Path: pred-main/overlays/prod
+    -   DESTINATION
+        -   Cluster URL: <<<<<< TO UPDATE KIV
+        -   Namespace: prod
+    -   Kustomize
+        -   IMAGES
+            -   moonysun1314/ml-model
+            -   v1.0.0
+
+13. Up to this point, you have already setup ArgoCD to monitor the following folder(s) for changes:
+    -   pred-main/overlays/prod
+
+    Any changes made to the yaml files within this folder (as well as the base folder) will be detected by ArgoCD which will automatically synchronise the 3 applications you configured to match the new states/changes.
+
+14. For demonstration purpose, let us change the number of replicas in the base/deployment.yaml file from 3 to 5. Please change this while you are in the dev branch.
+
+    <img src="images/d4-argocd-detail/d4-argocd-detail-30-git-in-dev-branch.png" width="600" />
+
+    <img src="images/d4-argocd-detail/d4-argocd-detail-31-change-replica-3-to-5.png" width="600" />
+
+15. Git commit the changes made in step 14 and then create a pull request in GitHub GUI to merge with the main branch.
+
+    INSERT 3 SCREENSHOTS OF GITHUB PULL REQUEST KIV.
+    <img src="images/d4-argocd-detail/d4-argocd-detail-32-git-add-commit-push.png" width="600" />
+
+    <img src="images/d4-argocd-detail/d4-argocd-detail-33-github-action-pull-request-1.png" width="600" />
+
+    <img src="images/d4-argocd-detail/d4-argocd-detail-34-github-action-pull-request-2.png" width="600" />
+
+16. Observe the 3 ArgoCD applications. Please wait for up to 3 minutes for ArgoCD to detect the changes made in step 11.
+
+    INSERT SCREENSHOT TO SHOW ARGOCD SYNCHRONISING APPLICATION.
+    <img src="images/d4-argocd-detail/d4-argocd-detail-35-show-applications-after-sync.png" width="600" />
+
+    You can see ArgoCD is able to detect the change in the application configuration repository (i.e. pred-main/overlays/prod and also the parent folder at pred-main/base) and synchronise all the clusters to show 5 pods per cluster.
 
 Reference(s):
 -   [Set up multi-environment on Argo CD – Part 1](https://blog.nashtechglobal.com/practical-management-of-gitops-deployments-across-multiple-clusters-part-1)
 -   [Set up multi-environment on Argo CD – Part 2](https://blog.nashtechglobal.com/practical-management-of-gitops-deployments-across-multiple-clusters-part-2)
 </details>
 
-<details><summary><code style="color: red">ArgoCD Image Updater Usage Instructions (Work-In-Progress)</code></summary>
+<XXXdetails><summary><code style="color: red">ArgoCD Image Updater Usage Instructions (Work-In-Progress)</code></summary>
 
 21. In the preceding steps at 4 and 5, we have installed ArgoCD Image Updater (ArgoCD IU). Additional steps are required to configure the software so that it has the credentials to track any updates in the Image Registry (i.e. DockerHub). Here we will setup the credentials for the ArgoCD IU to access to public repositories only.
 
@@ -937,7 +989,7 @@ https://redhat-scholars.github.io/argocd-tutorial/argocd-tutorial/03-kustomize.h
 <img src="images/d4-argocd-detail-XX-kustomize-edit-set-image.png" width="600" />
 </details>
 
-<details><summary><code style="color: red">ArgoCD CLI Usage Instructions (Work-In-Progress)</code></summary>
+<XXXdetails><summary><code style="color: red">ArgoCD CLI Usage Instructions (Work-In-Progress)</code></summary>
 
 8. Login to ArgoCD via the CLI tool.
     ```

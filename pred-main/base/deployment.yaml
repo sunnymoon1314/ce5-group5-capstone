@@ -21,7 +21,7 @@ spec:
         # If you use Image Updater, this is the only line to compare with the
         # DockerHub if the version is revised.
         # https://stackoverflow.com/questions/37302776/what-is-the-meaning-of-imagepullbackoff-status-on-a-kubernetes-pod
-        - image: moonysun1314/ml-model:v1.0.0
+        - image: moonysun1314/ml-model:v1.0.1
           # image: nginx
           imagePullPolicy: Always
           # imagePullPolicy: Never
