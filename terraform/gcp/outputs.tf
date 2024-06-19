@@ -25,7 +25,9 @@ output "gke_cluster_master_version" {
 
 output "kubeconfig_command" {
   description = "Display the command that can be used to configure kubectl."
-  value = "gcloud container clusters get-credentials ${module.gke.name} --region ${var.zone} --project ${var.project_id}"
+  # 19.06.2024 Soon: Rectified the wrong paramaeter. Should use region instead of zone.
+  # value = "gcloud container clusters get-credentials ${module.gke.name} --region ${var.zone} --project ${var.project_id}"
+  value = "gcloud container clusters get-credentials ${module.gke.name} --region ${module.gke.region} --project ${var.project_id}"
 }
 
 # 08.06.2024 Soon: Commented this.
