@@ -7,7 +7,7 @@ resources:
 namespace: prod
 replicas:
 - name: pred-main
-  count: 4
+  count: 5
 
 # https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/patches/
 patches:
