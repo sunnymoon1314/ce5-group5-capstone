@@ -17,7 +17,7 @@ data "aws_availability_zones" "available" {
 locals {
   # 13.06.2024 Soon: Changed the cluster name to a fixed name.
   # cluster_name = "${var.k8s_cluster.name}-${random_string.suffix.result}"
-  cluster_name = "${var.k8s_cluster.name}"
+  cluster_name = var.k8s_cluster.name
 }
 
 resource "random_string" "suffix" {

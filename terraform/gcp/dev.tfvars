@@ -10,8 +10,9 @@ network = {
 }
 
 gke = {
-  name  = "gke-cluster-dev"
-  zones = ["us-east1-b"]
+  name     = "gke-cluster-dev"
+  regional = true
+  zones    = ["us-east1-b"]
 }
 
 node_pool = {
