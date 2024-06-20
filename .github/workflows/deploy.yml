@@ -76,16 +76,18 @@ jobs:
 
       - name: Update deployment.yaml
         run: |
-          cd pred-main
-          cd base
-          sed -i 's|image:.*|image: moonysun1314/ml-model:'${{ github.ref_name }}'|' deployment.yaml
+          echo ""
+          # 20.06.2024 Soon: Disabled these lines. Please update the configuration settings and git push manually. 
+          # cd pred-main
+          # cd base
+          # sed -i 's|image:.*|image: moonysun1314/ml-model:'${{ github.ref_name }}'|' deployment.yaml
           # sed -i 's|tag:.*|tag: '${{ github.ref_name }}'|' deployment.yaml
           # sed -i 's|name: helm-app-configmap.*|name: helm-app-configmap-'${{ github.ref_name }}'|' deployment.yaml
-          git config --global user.name 'sunnymoon1314'
-          git config --global user.email 'moonysun1314@gmail.com'
-          git add deployment.yaml
-          git commit -m "Updated image version to ${{ github.ref_name }} in deployment.yaml."
-          git push
+          # git config --global user.name 'sunnymoon1314'
+          # git config --global user.email 'moonysun1314@gmail.com'
+          # git add deployment.yaml
+          # git commit -m "Updated image version to ${{ github.ref_name }} in deployment.yaml."
+          # git push
 
   deploy:
     name: Set up infrastructures and Kubernetes using Terraform.
