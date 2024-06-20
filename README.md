@@ -22,15 +22,9 @@ Step-by-step instructions are provided at the end of each section for your ease 
 
 ## <img src="images/3d-ball-icon/yellow-3d-ball.png" width="35" /> C. Project Summary And Motivation
 
-```
-Machine Learning (ML), with its widespread adoption globally, has created a need for a systematic and efficient approach towards building ML systems, leading to a sudden rise in demand for ML engineers.
+Machine Learning (ML), with its widespread adoption globally, has created a need for a systematic and efficient approach towards building ML systems.
 
-These ML engineers, in turn, are applying established DevOps best practices to the emerging machine learning technologies. The major cloud vendors all have certifications targeting these practitioners, namely:
--   AWS Certified Machine Learning - Specialty
--   Microsoft Certified: Azure Data Scientist Associate
--   Google Certified: Professional Machine Learning Engineer
-```
-Hence, this project aims to showcase MLOps and to demonstrate how the workflow processes peculiar to ML projects can be automated.
+This project aims to showcase MLOps and to demonstrate how the workflow processes peculiar to ML projects can be automated.
 
 #### _Figure C1. Summary Of Presentation Items_
 Image Source: https://igboie.medium.com/kubernetes-ci-cd-with-github-github-actions-and-argo-cd-36b88b6bda64
